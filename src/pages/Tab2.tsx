@@ -1,6 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
 import './Tab2.css';
 
 const Tab2: React.FC = () => {
@@ -8,16 +7,36 @@ const Tab2: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 2</IonTitle>
+          <IonTitle>Educa +</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Tab 2</IonTitle>
+            <IonTitle size="large">Cursos</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Tab 2 page" />
+        <IonCard>
+          <img alt="Curso 1" src="https://prensa.uct.cl/wp-content/uploads/2014/10/csangre.jpg" />
+          <IonCardHeader>
+            <IonCardSubtitle>Estudiantes UC Temuco ingreso 2020</IonCardSubtitle>
+            <IonCardTitle>Perfil Tecnologico 2022</IonCardTitle>
+          </IonCardHeader>
+        </IonCard>
+        <IonCard>
+          <img alt="Curso 2" src="https://econtinua.uct.cl/wp-content/uploads/2022/09/dimensiones-personalizadas-720x500-px-6-3.jpeg" />
+          <IonCardHeader>
+            <IonCardSubtitle>Perfil docente UC Temuco</IonCardSubtitle>
+            <IonCardTitle>Perfil Docente 2022</IonCardTitle>
+          </IonCardHeader>
+        </IonCard>
+        <IonCard>
+          <img alt="Curso 3" src="https://impulso06.com/wp-content/uploads/2022/11/Las-Tic-en-Educacion.png" />
+          <IonCardHeader>
+            <IonCardSubtitle>Informe de resultados</IonCardSubtitle>
+            <IonCardTitle>Practicas con TIC</IonCardTitle>
+          </IonCardHeader>
+        </IonCard>
       </IonContent>
     </IonPage>
   );
