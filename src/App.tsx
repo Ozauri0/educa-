@@ -11,7 +11,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, person, menu, key, logoGooglePlaystore, logoGoogle } from 'ionicons/icons';
+import { ellipse, person, menu, key, logoGoogle } from 'ionicons/icons';
 
 
 import Cursos from './pages/Cursos';
@@ -70,10 +70,6 @@ const App: React.FC = () => (
           </Route>
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
-              <IonTabButton tab="Cuenta" href="/Cuenta">
-                <IonIcon aria-hidden="true" icon={key} />
-                <IonLabel>Cuenta</IonLabel>
-                </IonTabButton>
               <IonTabButton tab="Perfil" href="/Perfil">
                 <IonIcon aria-hidden="true" icon={person} />
                 <IonLabel>Perfil</IonLabel>

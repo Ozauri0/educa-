@@ -1,59 +1,45 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
-import './Inicio.css';
-const Tab1: React.FC = () => {
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonAvatar, IonItem, IonLabel,IonDatetime,IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
+import './Perfil.css';
+
+const Perfil: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Educa +</IonTitle>
+          <IonTitle>Perfil</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Educa +</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        <IonItem>
+          <IonAvatar slot="start">
+            <img alt="Educa +" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </IonAvatar>
+          <IonLabel>
+            <h2>Nombre</h2>
+            <h3>Apellido</h3>
+            <p>Correo</p>
+          </IonLabel>
+        </IonItem>
         <IonCard>
-          <img alt="Educa +" src="https://prensa.uct.cl/wp-content/uploads/2020/09/IMG_Educa-Blcakboard.png" />
           <IonCardHeader>
-            <IonCardSubtitle>Curso principantes Educa +</IonCardSubtitle>
-            <IonCardTitle>Bienvenido a Educa +</IonCardTitle>
+            <IonCardTitle>Ayudantias</IonCardTitle>
           </IonCardHeader>
-          <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
-          </IonCardContent>
-        </IonCard>
-        <IonCard href='/tab4'>
-          <img alt="Ayduantias" src="https://www.pedagogiapucv.cl/wp-content/uploads/2018/03/ayudantia2.jpg" />
-          <IonCardHeader>
-            <IonCardSubtitle>Revisa tus solicitudes de ayudantia</IonCardSubtitle>
-            <IonCardTitle>Solicitud Ayudantias</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
-          </IonCardContent>
-        </IonCard>
-        <IonCard>
-          <img alt="Clases" src="https://prensa.uct.cl/wp-content/uploads/2019/04/300_sociologia.jpg" />
-          <IonCardHeader>
-            <IonCardSubtitle>Revisa tu horario</IonCardSubtitle>
-            <IonCardTitle>Horario Clases</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
-          </IonCardContent>
+          <IonGrid>
+              <IonItem>
+                <IonBadge color="primary" slot="end">3</IonBadge>
+                <IonLabel>Ayudantias pendientes</IonLabel>
+              </IonItem>
+              <IonItem>
+                <IonBadge color="warning" slot="end">1</IonBadge>
+                <IonLabel>Ayudantias Perdidas</IonLabel>
+              </IonItem>
+          <IonButton color="primary" expand="block" href='/tab5'>Ver Ayudantias</IonButton>
+          </IonGrid>
         </IonCard>
       </IonContent>
     </IonPage>
   );
 };
 
-export default Tab1;
+export default Perfil;

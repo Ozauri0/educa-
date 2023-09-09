@@ -16,42 +16,19 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonCard>
-          <img alt="Educa +" src="https://prensa.uct.cl/wp-content/uploads/2020/09/IMG_Educa-Blcakboard.png" />
           <IonCardHeader>
-            <IonCardSubtitle>Curso principantes Educa +</IonCardSubtitle>
-            <IonCardTitle>Bienvenido a Educa +</IonCardTitle>
+            <IonCardTitle>Iniciar Sesion</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
+            <p>Para iniciar sesion en Educa +, debes ingresar tu correo institucional y tu contraseña.</p>
+            <p>Si no tienes una cuenta, puedes crear una en el boton de abajo.</p>
           </IonCardContent>
-        </IonCard>
-        <IonCard href='/tab4'>
-          <img alt="Ayduantias" src="https://www.pedagogiapucv.cl/wp-content/uploads/2018/03/ayudantia2.jpg" />
-          <IonCardHeader>
-            <IonCardSubtitle>Revisa tus solicitudes de ayudantia</IonCardSubtitle>
-            <IonCardTitle>Solicitud Ayudantias</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
-          </IonCardContent>
-        </IonCard>
-        <IonCard>
-          <img alt="Clases" src="https://prensa.uct.cl/wp-content/uploads/2019/04/300_sociologia.jpg" />
-          <IonCardHeader>
-            <IonCardSubtitle>Revisa tu horario</IonCardSubtitle>
-            <IonCardTitle>Horario Clases</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
-          </IonCardContent>
-        </IonCard>
-      </IonContent>
+          
+
+        </IonCard>  
+        
+        
+        </IonContent>
     </IonPage>
   );
 };

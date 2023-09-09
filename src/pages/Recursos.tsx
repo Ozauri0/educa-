@@ -66,7 +66,7 @@ const Tab3: React.FC = () => {
                             <IonBadge color="warning" slot="end">2</IonBadge>
                             <IonLabel>Ayudantias Perdidas</IonLabel>
                         </IonItem>
-                        <IonButton color="primary" expand="block" href='/tab4'>Solicitar ayudantia</IonButton>
+                        <IonButton color="primary" expand="block" href='/HAsesoria'>Solicitar ayudantia</IonButton>
                     </IonGrid>
                 </IonCard>
             </IonContent>

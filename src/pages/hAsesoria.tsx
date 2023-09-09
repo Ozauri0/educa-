@@ -1,77 +1,53 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonAvatar, IonItem, IonLabel, IonDatetime, IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
+import { IonContent, IonDatetime, IonItem, IonList, IonSelect, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonSelectOption, IonLabel } from '@ionic/react';
 import './hAsesoria.css';
 
-const Tab3: React.FC = () => {
+const hAsesoria: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Perfil</IonTitle>
+                    <IonTitle>Educa +</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <IonItem>
-                    <IonLabel> Ayudantias inscritas</IonLabel>
-                </IonItem>
-                <IonItem>
-                    <IonDatetime
-                        placeholder="Select Date"
-                        presentation="date"
-                        highlightedDates={[
-                            {
-                                date: '2023-09-07',
-                                textColor: '#09721b',
-                                backgroundColor: '#c8e5d0',
-                            },
-                            {
-                                date: '2023-09-08',
-                                textColor: '#09721b',
-                                backgroundColor: '#c8e5d0',
-                            },
-                            {
-                                date: '2023-09-09',
-                                textColor: '#09721b',
-                                backgroundColor: '#c8e5d0',
-                            },
-                            
-                        ]}
-                    ></IonDatetime>
-                </IonItem>
-                <IonItem>
-                    <IonLabel> Ayudantias Perdidas</IonLabel>
-                </IonItem>
-                <IonItem>
-                    <IonDatetime
-                        placeholder="Select Date"
-                        presentation="date"
-                        highlightedDates={[
-                            {
-                                date: '2023-09-01',
-                                textColor: '#09721b',
-                                backgroundColor: '#ffff00',
-                            },]}
-                    ></IonDatetime>
-                </IonItem>
                 <IonCard>
-                    <IonCardHeader>
-                        <IonCardTitle>Ayudantias</IonCardTitle>
-                    </IonCardHeader>
-                    <IonGrid>
-                        <IonItem>
-                            <IonBadge color="primary" slot="end">1</IonBadge>
-                            <IonLabel>Ayudantias pendientes</IonLabel>
-                        </IonItem>
-                        <IonItem>
-                            <IonBadge color="warning" slot="end">2</IonBadge>
-                            <IonLabel>Ayudantias Perdidas</IonLabel>
-                        </IonItem>
-                        <IonButton color="primary" expand="block" href='/tab4'>Solicitar ayudantia</IonButton>
-                    </IonGrid>
+                <img alt="Curso 1" src="https://prensa.uct.cl/wp-content/uploads/2014/10/csangre.jpg" />
+                <IonList>
+                    <IonItem>
+                        <IonSelect label='Curso' placeholder="Seleccione un curso">
+                            <IonSelectOption value="1">Curso 1</IonSelectOption>
+                            <IonSelectOption value="2">Curso 2</IonSelectOption>
+                            <IonSelectOption value="3">Curso 3</IonSelectOption>
+                            <IonSelectOption value="4">Curso 4</IonSelectOption>
+                            <IonSelectOption value="5">Curso 5</IonSelectOption>
+                        </IonSelect>
+                    </IonItem>
+                    <IonItem>
+                        <IonSelect label='Profesor' placeholder="Seleccione un Profesor">
+                            <IonSelectOption value="1">Profesor 1</IonSelectOption>
+                            <IonSelectOption value="2">Profesor 2</IonSelectOption>
+                            <IonSelectOption value="3">Profesor 3</IonSelectOption>
+                            <IonSelectOption value="4">Profesor 4</IonSelectOption>
+                        </IonSelect>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel>Fechas Disponibles</IonLabel>
+                    </IonItem>
+                    <IonItem><IonDatetime
+                    presentation='date-time'
+                    preferWheel = {true}
+                    min='2023-09-04'
+                    max='2023-09-08'
+                    dayValues='4,5,6,7'
+                    hourValues='12,15,20'
+                    minuteValues='0,15,30,45'
+                    ></IonDatetime></IonItem>
+                </IonList>
                 </IonCard>
             </IonContent>
-        </IonPage>
+        </IonPage >
     );
 };
 
-export default Tab3;
+export default hAsesoria;
