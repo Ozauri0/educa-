@@ -19,6 +19,7 @@ import Recursos from './pages/Recursos';
 import Perfil from './pages/Perfil';
 import Inicio from './pages/Inicio';
 import Cuenta from './pages/Cuenta';
+import Registro from './pages/Registro';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -55,14 +56,11 @@ const App: React.FC = () => (
           <Route exact path="/Inicio">
             <Inicio />
           </Route>
-          <Route exact path="/Cuenta">
-            <Cuenta />
-          </Route>
           <Route exact path="/Perfil">
             <Perfil />
           </Route>
           <Route exact path="/">
-            <Redirect to="/Inicio" />
+            <Redirect to="/Cuenta" />
           </Route>
           <Route exact path="/hAsesoria">
             <Redirect to="/hAsesoria" />
@@ -88,6 +86,13 @@ const App: React.FC = () => (
                 </IonTabButton>
           </IonTabBar>
       </IonTabs>
+      {/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
+      <Route exact path="/Cuenta">
+            <Cuenta />
+          </Route>
+      <Route exact path="/Registro">
+           <Registro />
+          </Route>
     </IonReactRouter>
   </IonApp>
 );

@@ -1,8 +1,8 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
-import './Cursos.css';
+import './Tab2.css';
 
-const Cursos: React.FC = () => {
+const Tab2: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -42,4 +42,4 @@ const Cursos: React.FC = () => {
   );
 };
 
-export default Cursos;
+export default Tab2;

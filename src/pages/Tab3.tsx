@@ -1,8 +1,8 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonAvatar, IonItem, IonLabel,IonDatetime,IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
-import './Perfil.css';
+import './Tab3.css';
 
-const Perfil: React.FC = () => {
+const Tab3: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -42,4 +42,4 @@ const Perfil: React.FC = () => {
   );
 };
 
-export default Perfil;
+export default Tab3;

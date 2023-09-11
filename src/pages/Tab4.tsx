@@ -1,8 +1,8 @@
 import React from 'react';
 import { IonContent, IonDatetime, IonItem, IonList, IonSelect, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonSelectOption, IonLabel } from '@ionic/react';
-import './hAsesoria.css';
+import './Tab4.css';
 
-const hAsesoria: React.FC = () => {
+const Tab4: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
@@ -50,4 +50,4 @@ const hAsesoria: React.FC = () => {
     );
 };
 
-export default hAsesoria;
+export default Tab4;
