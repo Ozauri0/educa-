@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonAvatar, IonItem, IonLabel, IonDatetime, IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
-import './Recursos.css';
+import './Tab3.css';
 
 const Tab3: React.FC = () => {
     return (
@@ -66,7 +66,7 @@ const Tab3: React.FC = () => {
                             <IonBadge color="warning" slot="end">2</IonBadge>
                             <IonLabel>Ayudantias Perdidas</IonLabel>
                         </IonItem>
-                        <IonButton color="primary" expand="block" href='/HAsesoria'>Solicitar ayudantia</IonButton>
+                        <IonButton color="primary" expand="block" href='/tab4'>Solicitar ayudantia</IonButton>
                     </IonGrid>
                 </IonCard>
             </IonContent>

@@ -13,14 +13,13 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, person, menu, key, logoGoogle } from 'ionicons/icons';
 
-import Registro from './pages/Registro';
-import Login from './pages/Login';
+
 import Cursos from './pages/Cursos';
 import Recursos from './pages/Recursos';
 import Perfil from './pages/Perfil';
 import Inicio from './pages/Inicio';
 import Cuenta from './pages/Cuenta';
-import Test from './pages/Test';
+import Registro from './pages/Registro';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -48,30 +47,20 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
       <IonRouterOutlet>
-          <Test />
-          <Route exact path="/auth/registro">
-            <Registro />
-          </Route>
-          <Route exact path="/auth/login">
-            <Login />
-          </Route>
-          <Route exact path="/cursos">
+          <Route exact path="/Cursos">
             <Cursos />
           </Route>
-          <Route exact path="/recursos">
+          <Route exact path="/Recursos">
             <Recursos />
           </Route>
-          <Route exact path="/inicio">
+          <Route exact path="/Inicio">
             <Inicio />
           </Route>
-          <Route exact path="/cuenta">
-            <Cuenta />
-          </Route>
-          <Route exact path="/perfil">
+          <Route exact path="/Perfil">
             <Perfil />
           </Route>
           <Route exact path="/">
-            <Redirect to="/inicio" />
+            <Redirect to="/Cuenta" />
           </Route>
           <Route exact path="/hAsesoria">
             <Redirect to="/hAsesoria" />
@@ -79,24 +68,31 @@ const App: React.FC = () => (
           </Route>
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
-              <IonTabButton tab="Perfil" href="/perfil">
+              <IonTabButton tab="Perfil" href="/Perfil">
                 <IonIcon aria-hidden="true" icon={person} />
                 <IonLabel>Perfil</IonLabel>
                 </IonTabButton>
-              <IonTabButton tab="Inicio" href="/inicio">
+              <IonTabButton tab="Inicio" href="/Inicio">
                 <IonIcon aria-hidden="true" icon={logoGoogle} />
                 <IonLabel>Menu</IonLabel>
                 </IonTabButton>
-              <IonTabButton tab="Cursos" href="/cursos">
+              <IonTabButton tab="Cursos" href="/Cursos">
                 <IonIcon aria-hidden="true" icon={ellipse} />
                 <IonLabel>Cursos</IonLabel>
                 </IonTabButton>
-              <IonTabButton tab="Recursos" href="/recursos">
+              <IonTabButton tab="Recursos" href="/Recursos">
                 <IonIcon aria-hidden="true" icon={menu} />
                 <IonLabel>Recursos</IonLabel>
                 </IonTabButton>
           </IonTabBar>
       </IonTabs>
+      {/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
+      <Route exact path="/Cuenta">
+            <Cuenta />
+          </Route>
+      <Route exact path="/Registro">
+           <Registro />
+          </Route>
     </IonReactRouter>
   </IonApp>
 );
