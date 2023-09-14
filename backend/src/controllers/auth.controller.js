@@ -10,6 +10,7 @@ export const getDocentes = async (req, res) => {
 		console.log(error);
 		res.status(500).json({ message: "Hola Mundo" });
 		console.log(error);
+		
 	}
 };
 export const getDocente = async (req, res) => {
