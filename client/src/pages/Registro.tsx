@@ -1,148 +1,142 @@
-import React, { useState } from 'react';
+import { useForm, SubmitHandler } from "react-hook-form";
+import React from "react";
 import {
-  IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonCard,IonCardContent,IonCardHeader,IonCardSubtitle,IonCardTitle,IonInput,IonButton,IonText,
-} from '@ionic/react';
-import './Registro.css';
+	IonPage,
+	IonCard,
+	IonCardContent,
+	IonInput,
+	IonLabel,
+	IonButton,
+	IonHeader,
+	IonTitle,
+	IonToolbar,
+	IonContent,
+	IonCardHeader,
+	IonCardTitle,
+} from "@ionic/react";
+import { registerRequest } from "../api/auth";
+import Rut from "rut.js";
+import "./Registro.css";
 
-import Rut from 'rut.js'; {/* Importar la librería para validar RUT, "npm install rut.js"*/}
+type Inputs = {
+	nombres: string;
+	apellidos: string;
+	rut: string;
+	telefono: string;
+	correo: string;
+	contrasena: string;
+};
 
 const Registro: React.FC = () => {
-  const [nombre, setNombre] = useState<string>('');
-  const [apellido, setApellido] = useState<string>('');
-  const [rut, setRut] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [telefono, setTelefono] = useState<string>('');
-  const [rutValido, setRutValido] = useState<boolean>(true);
-  const [emailValido, setEmailValido] = useState<boolean>(true);
-  const [passwordMatch, setPasswordMatch] = useState<boolean>(true);
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<Inputs>();
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
+		console.log(data);
+		registerRequest(data);
+	};
 
-  const handleRegistro = () => {
-    // Verificar si las contraseñas coinciden y que no estén vacías
-    if (password === confirmPassword && password !== '') {
-      // Verificar si el RUT es válido
-      if (Rut.validate(rut)) {
-        // Verificar si el correo es válido
-        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-        if (emailRegex.test(email)) {
-          // Todas las condiciones son verdaderas, enviar la información al servidor
-          fetch('http://localhost:4000/api/register', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              nombres: nombre,
-              apellidos: apellido,
-              rut: rut,
-              correo: email,
-              contrasena: password,
-              telefono: telefono
-            })
-          })
-          console.log('Registro exitoso');
-          setPasswordMatch(true); // Restablecer la coincidencia de contraseñas
-        } else {
-          setEmailValido(false); // Marcar el correo como inválido
-        }
-      } else {
-        setRutValido(false); // Marcar el RUT como inválido
-      }
-    } else {
-      setPasswordMatch(false);
-    }
-  };
+	console.log(watch("nombres"));
 
-  const validarRut = (inputRut: string) => {
-    if (Rut.validate(inputRut)) {
-      setRutValido(true);
-    } else {
-      setRutValido(false);
-    }
-  };
-
-  const validarEmail = (inputEmail: string) => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    if (emailRegex.test(inputEmail)) {
-      setEmailValido(true);
-    } else {
-      setEmailValido(false);
-    }
-  };
-
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Registro</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Registro</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonInput
-              value={nombre}
-              placeholder="Nombre"
-              onIonChange={(e) => 
-                setNombre(e.detail.value!)}
-            ></IonInput>
-            <IonInput
-              value={apellido}
-              placeholder="Apellido"
-              onIonChange={(e) => 
-                setApellido(e.detail.value!)
-              }
-            ></IonInput>
-            <IonInput
-              value={rut}
-              placeholder="RUT"
-              onIonChange={(e) => {
-                setRut(e.detail.value!);
-                validarRut(e.detail.value!);
-              }}
-              className={rutValido ? '' : 'invalid'}
-            ></IonInput>
-            {!rutValido && <IonText color="danger">RUT inválido</IonText>}
-            <IonInput
-              value={email}
-              placeholder="Correo Electrónico"
-              onIonChange={(e) => {
-                setEmail(e.detail.value!);
-                validarEmail(e.detail.value!);
-              }}
-              className={emailValido ? '' : 'invalid'}
-            ></IonInput>
-            {!emailValido && <IonText color="danger">Correo electrónico inválido</IonText>}
-            <IonInput
-              type="password"
-              value={password}
-              placeholder="Contraseña"
-              onIonChange={(e) => setPassword(e.detail.value!)}
-            ></IonInput>
-            <IonInput
-              type="password"
-              value={confirmPassword}
-              placeholder="Confirmar Contraseña"
-              onIonChange={(e) => setConfirmPassword(e.detail.value!)}
-              className={passwordMatch ? '' : 'invalid'}
-            ></IonInput>            
-            {!passwordMatch && <IonText color="danger">Las contraseñas no coinciden</IonText>}
-            <IonInput
-              value={telefono}
-              placeholder="Telefono"
-              onIonChange={(e) => 
-                setTelefono(e.detail.value!)}
-            ></IonInput>
-            <IonButton expand="full" onClick={handleRegistro}>
-              Registrarse
-            </IonButton>
-          </IonCardContent>
-        </IonCard>
-      </IonContent>
-    </IonPage>
-  );
+	return (
+		<IonPage>
+			<IonHeader>
+				<IonToolbar>
+					<IonTitle>Registro</IonTitle>
+				</IonToolbar>
+			</IonHeader>
+			<IonContent fullscreen>
+				<IonCard>
+					<IonCardHeader>
+						<IonCardTitle>Registro</IonCardTitle>
+					</IonCardHeader>
+					<IonCardContent>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<IonLabel>Nombre</IonLabel>
+							<IonInput
+								type="text"
+								placeholder="Ingrese su nombre"
+								{...register("nombres", {
+									required: { value: true, message: "Nombre requerido" },
+								})}
+							/>
+							<p className="register-error">{errors.nombres?.message}</p>
+							<IonLabel>Apellido</IonLabel>
+							<IonInput
+								type="text"
+								placeholder="Ingrese su apellido"
+								{...register("apellidos", {
+									required: {
+										value: true,
+										message: "Apellido requerido",
+									},
+								})}
+							/>
+							<p className="register-error">{errors.apellidos?.message}</p>
+							<IonLabel>RUT</IonLabel>
+							<IonInput
+								type="text"
+								placeholder="Ingrese su RUT"
+								{...register("rut", {
+									required: {
+										value: true,
+										message: "RUT requerido",
+									},
+									validate: (value) => Rut.validate(value) || "RUT inválido",
+								})}
+							/>
+							<p className="register-error">{errors.rut?.message}</p>
+							<IonLabel>Telefono</IonLabel>
+							<IonInput
+								type="text"
+								placeholder="Ingrese su teléfono"
+								{...register("telefono", {
+									required: {
+										value: true,
+										message: "Telefono requerido",
+									},
+								})}
+							/>
+							<p className="register-error">{errors.telefono?.message}</p>
+							<IonLabel>Correo</IonLabel>
+							<IonInput
+								type="email"
+								placeholder="Ingrese su correo"
+								{...register("correo", {
+									required: true,
+									pattern: {
+										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+										message: "Correo inválido", // JS only: <p>error message</p> TS only support string
+									},
+								})}
+							/>
+							<p className="register-error">{errors.correo?.message}</p>
+							<IonLabel>Contraseña</IonLabel>
+							<IonInput
+								type="password"
+								placeholder="Ingrese su contraseña"
+								{...register("contrasena", {
+									required: {
+										value: true,
+										message: "Contraseña requerida",
+									},
+									minLength: {
+										value: 6,
+										message: "Mínimo 6 caracteres", // JS only: <p>error message</p> TS only support string
+									},
+								})}
+							/>
+							<p className="register-error">{errors.contrasena?.message}</p>
+							<IonButton type="submit">Enviar</IonButton>
+						</form>
+					</IonCardContent>
+				</IonCard>
+			</IonContent>
+		</IonPage>
+	);
 };
 
 export default Registro;

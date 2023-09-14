@@ -1,8 +1,7 @@
-import {connect} from "../database/db.js";
+import { db } from "../database/db.js";
 
 export const getDocentes = async (req, res) => {
 	try {
-		const db = await connect();
 		const [result] = await db.query("SELECT * FROM docente");
 		console.log(result);
 		res.json(result);
@@ -15,7 +14,6 @@ export const getDocentes = async (req, res) => {
 export const getDocente = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const db = await connect();
 		const result = await db.query("SELECT * FROM docente WHERE id = ?", id);
 		console.log(result[0]);
 		res.json(result[0]);
@@ -28,15 +26,18 @@ export const getDocente = async (req, res) => {
 
 export const register = async (req, res) => {
 	try {
-		const { nombres, apellidos, rut, correo, contrasena, telefono } = req.body;
+		const { nombres, apellidos, rut, telefono, correo, contrasena } = req.body;
 
 		if (!nombres || !apellidos || !rut || !correo || !contrasena || !telefono) {
-			return res.status(400).json({ message: "Must fill every field" });
+			res.status(400).json({ message: "Must fill every field" });
 		}
 
-		const docente = { nombres, apellidos, rut, correo, contrasena, telefono };
-		const db = await connect();
-		const [mailExists] = await db.query("SELECT correo FROM docente WHERE correo = ?", [correo]);
+		const docente = { nombres, apellidos, rut, telefono, correo, contrasena };
+
+		const [mailExists] = await db.query(
+			"SELECT correo FROM docente WHERE correo = ?",
+			[correo]
+		);
 
 		if (mailExists.length > 0) {
 			console.log(mailExists);
@@ -44,12 +45,10 @@ export const register = async (req, res) => {
 		}
 
 		const result = await db.query("INSERT INTO docente SET ?", [docente]);
-		res.json(result);
-		console.log("Docente registrado");
-
+		res.status(200).json({ respuesta: result });
 	} catch (error) {
-		res.status(500).json({ message: "No se pudo realizar el registro" });
 		console.log(error);
+		return res.status(500).json({ message: "No se pudo realizar el registro" });
 	}
 };
 
@@ -59,14 +58,17 @@ export const login = async (req, res) => {
 		if (!correo || !contrasena) {
 			return res.status(400).json({ message: "Must fill every field" });
 		}
-		const db = await connect();
-		const [result] = await db.query("SELECT id FROM docente WHERE correo = ? AND contrasena = ?", [correo, contrasena]);
+		const [result] = await db.query(
+			"SELECT id FROM docente WHERE correo = ? AND contrasena = ?",
+			[correo, contrasena]
+		);
 		if (result.length != 1) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
+		console.log(result);
 		return res.status(200).json({ message: "Logged in" });
 	} catch (error) {
-		res.status(500).json({ message: "Internal server error" });
 		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
 	}
 };
