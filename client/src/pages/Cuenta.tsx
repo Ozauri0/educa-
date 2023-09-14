@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonInput, IonButton, IonRouterLink } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonInput, IonButton, IonRouterLink } from '@ionic/react';
 import './Inicio.css';
 
 const Cuenta: React.FC = () => {
-  const [usuario, setUsuario] = useState<string>('');
-  const [contraseña, setContraseña] = useState<string>('');
+  const [email, setUsuario] = useState<string>('');
+  const [password, setContraseña] = useState<string>('');
 
   const handleInicioSesion = () => {
     // Aquí puedes agregar la lógica para iniciar sesión utilizando los valores de usuario y contraseña
     // Por ejemplo, puedes enviar una solicitud de inicio de sesión al servidor.
+
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (emailRegex.test(email)) {
+
+      fetch('http://localhost:4000/api/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        correo: email,
+        contrasena: password 
+      })
+    })
+    console.log('Inicio de sesión exitoso');
+    
+    }
   };
 
   return (
@@ -33,20 +48,20 @@ const Cuenta: React.FC = () => {
             <p>Si no tienes una cuenta, puedes crear una en el siguiente enlace:</p>
             <IonRouterLink routerLink="/registro">Registrarse</IonRouterLink> {/* Enlace al formulario de registro */}
             <IonInput
-              value={usuario}
+              value={email}
               placeholder="Usuario"
               onIonChange={(e) => setUsuario(e.detail.value!)}
             ></IonInput>
             <IonInput
               type="password"
-              value={contraseña}
+              value={password}
               placeholder="Contraseña"
               onIonChange={(e) => setContraseña(e.detail.value!)}
             ></IonInput>
-            <IonButton expand="full" routerLink='/Inicio'>
+            <IonButton expand="full" onClick={handleInicioSesion}>
               Iniciar Sesión
             </IonButton>
-            <IonButton expand="full" routerLink="/registro">Registrarse</IonButton> {/* Botón de registro */}
+            <IonButton expand="full" routerLink='/Registro'>Registrarse</IonButton>
           </IonCardContent>
         </IonCard>
       </IonContent>
