@@ -29,7 +29,7 @@ export const register = async (req, res) => {
 		const { nombres, apellidos, rut, telefono, correo, contrasena } = req.body;
 
 		if (!nombres || !apellidos || !rut || !correo || !contrasena || !telefono) {
-			res.status(400).json({ message: "Must fill every field" });
+			return res.status(400).json({ message: "Must fill every field" });
 		}
 
 		const docente = { nombres, apellidos, rut, telefono, correo, contrasena };
@@ -44,8 +44,12 @@ export const register = async (req, res) => {
 			return res.status(400).json({ message: "Email already in use" });
 		}
 
-		const result = await db.query("INSERT INTO docente SET ?", [docente]);
-		res.status(200).json({ respuesta: result });
+		await db.query("INSERT INTO docente SET ?", [docente]);
+		const user = await db.query(
+			"SELECT * FROM docente WHERE correo = ?",
+			correo
+		);
+		return res.status(200).json({ data: user[0][0] });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: "No se pudo realizar el registro" });
@@ -65,8 +69,13 @@ export const login = async (req, res) => {
 		if (result.length != 1) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
-		console.log(result);
-		return res.status(200).json({ message: "Logged in" });
+
+		const user = await db.query(
+			"SELECT * FROM docente WHERE correo = ?",
+			correo
+		);
+		// console.log(user[0]);
+		return res.status(200).json({ message: "Logged in", data: user });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal server error" });

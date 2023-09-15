@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	IonPage,
 	IonCard,
@@ -15,6 +15,7 @@ import {
 	IonCardTitle,
 } from "@ionic/react";
 import { registerRequest } from "../api/auth";
+import { useAuth } from "../context/AuthContext";
 import Rut from "rut.js";
 import "./Registro.css";
 
@@ -34,12 +35,12 @@ const Registro: React.FC = () => {
 		watch,
 		formState: { errors },
 	} = useForm<Inputs>();
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log(data);
-		registerRequest(data);
-	};
 
-	console.log(watch("nombres"));
+	const { signup, isAuthenticated } = useAuth();
+
+	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+		signup(data);
+	};
 
 	return (
 		<IonPage>
