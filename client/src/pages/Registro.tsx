@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import {
-  IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonCard,IonCardContent,IonCardHeader,IonCardSubtitle,IonCardTitle,IonInput,IonButton,IonText,
+  IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonCard,IonCardContent,IonCardHeader,IonCardTitle,IonInput,IonButton,IonText,
 } from '@ionic/react';
 import './Registro.css';
-
 import Rut from 'rut.js'; {/* Importar la librería para validar RUT, "npm install rut.js"*/}
 
 const Registro: React.FC = () => {
@@ -18,7 +17,7 @@ const Registro: React.FC = () => {
   const [emailValido, setEmailValido] = useState<boolean>(true);
   const [passwordMatch, setPasswordMatch] = useState<boolean>(true);
 
-  const handleRegistro = () => {
+  const handleRegistro = async () => {
     // Verificar si las contraseñas coinciden y que no estén vacías
     if (password === confirmPassword && password !== '') {
       // Verificar si el RUT es válido
@@ -27,7 +26,7 @@ const Registro: React.FC = () => {
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         if (emailRegex.test(email)) {
           // Todas las condiciones son verdaderas, enviar la información al servidor
-          fetch('http://localhost:4000/api/register', {
+          const res = await fetch('http://localhost:4000/api/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -39,7 +38,8 @@ const Registro: React.FC = () => {
               telefono: telefono
             })
           })
-          console.log('Registro exitoso');
+          const data = await res.json();
+          console.log(data);
           setPasswordMatch(true); // Restablecer la coincidencia de contraseñas
         } else {
           setEmailValido(false); // Marcar el correo como inválido
@@ -85,15 +85,12 @@ const Registro: React.FC = () => {
             <IonInput
               value={nombre}
               placeholder="Nombre"
-              onIonChange={(e) => 
-                setNombre(e.detail.value!)}
+              onIonChange={(e) => setNombre(e.detail.value!)}
             ></IonInput>
             <IonInput
               value={apellido}
               placeholder="Apellido"
-              onIonChange={(e) => 
-                setApellido(e.detail.value!)
-              }
+              onIonChange={(e) => setApellido(e.detail.value!)}
             ></IonInput>
             <IonInput
               value={rut}
@@ -132,8 +129,8 @@ const Registro: React.FC = () => {
             <IonInput
               value={telefono}
               placeholder="Telefono"
-              onIonChange={(e) => 
-                setTelefono(e.detail.value!)}
+              onIonChange={(e) => setTelefono(e.detail.value!)}
+
             ></IonInput>
             <IonButton expand="full" onClick={handleRegistro}>
               Registrarse

@@ -1,4 +1,4 @@
-@api = http://localhost:4000/api/register
+@api = http://localhost:4000/api/login/zzz
 ###
 GET {{api}}
 
@@ -10,7 +10,7 @@ Content-Type: application/json
     "nombres": "Juan",
     "apellidos": "Perez",
     "rut": "12345678-9",
-    "correo": "asdos@live.cl",
+    "correo": "asasdasdfdcvbos@live.cl",
     "contrasena": "123456",
     "telefono": "123456789"
 }
@@ -18,8 +18,10 @@ Content-Type: application/json
 ###
 POST {{api}}
 Content-Type: application/json
-
+ 
 {
-    "correo": "nikobarros@live.cl",
-    "contrasena": "nikobarros"
+    "correo": "nikobarros@live.cl"
 }
+
+###
+POST {{api}}

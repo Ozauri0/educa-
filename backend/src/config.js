@@ -1,7 +1,10 @@
-export const config = {
-	host: "127.0.0.1",
-	user: "root",
-	password: "nbarros",
-	database: "educa+",
+import dotenv from 'dotenv';
+dotenv.config();
+
+const config = {
+	host: process.env.HOST,
+	user: process.env.USER,
+	password: process.env.PASSWORD,
+	database: process.env.DATABASE,
 }
 export default config;

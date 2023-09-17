@@ -6,23 +6,20 @@ const Cuenta: React.FC = () => {
   const [email, setUsuario] = useState<string>('');
   const [password, setContraseña] = useState<string>('');
 
-  const handleInicioSesion = () => {
+  const handleInicioSesion = async () => {
     // Aquí puedes agregar la lógica para iniciar sesión utilizando los valores de usuario y contraseña
     // Por ejemplo, puedes enviar una solicitud de inicio de sesión al servidor.
 
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (emailRegex.test(email)) {
-
-      fetch('http://localhost:4000/api/login', {
+      const result = await fetch('http://localhost:4000/api/login', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         correo: email,
         contrasena: password 
       })
-    })
-    console.log('Inicio de sesión exitoso');
-    
+      })
     }
   };
 
