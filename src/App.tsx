@@ -20,6 +20,7 @@ import Perfil from './pages/Perfil';
 import Inicio from './pages/Inicio';
 import Cuenta from './pages/Cuenta';
 import Registro from './pages/Registro';
+import SeleccionHorario from './pages/SeleccionHorario';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -62,9 +63,9 @@ const App: React.FC = () => (
           <Route exact path="/">
             <Redirect to="/Cuenta" />
           </Route>
-          <Route exact path="/hAsesoria">
-            <Redirect to="/hAsesoria" />
-            <Recursos />
+          <Route exact path="/SeleccionHorario">
+            <Redirect to="/SeleccionHorario" />
+            <SeleccionHorario />
           </Route>
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
