@@ -72,6 +72,7 @@ export const login = async (req, res) => {
 			to: correo,
 			subject: "Prueba Login",
 			html: "<h1>Has iniciado sesion</h1>",});
+		return
 	} catch (error) {
 		res.status(500).json({ message: "No se ha podido iniciar Sesion" });
 		console.log(error);
