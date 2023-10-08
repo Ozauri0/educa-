@@ -34,7 +34,7 @@ const Perfil: React.FC = () => {
                 <IonBadge color="warning" slot="end">1</IonBadge>
                 <IonLabel>Ayudantias Perdidas</IonLabel>
               </IonItem>
-          <IonButton color="primary" expand="block" href='/tab5'>Ver Ayudantias</IonButton>
+          <IonButton color="primary" expand="block" href='/Recursos'>Ver Ayudantias</IonButton>
           </IonGrid>
         </IonCard>
       </IonContent>

@@ -39,11 +39,11 @@ const Tab1: React.FC = () => {
             <p>Principal2</p>
           </IonCardContent>
         </IonCard>
-        <IonCard>
+        <IonCard href='/Foro'>
           <img alt="Clases" src="https://prensa.uct.cl/wp-content/uploads/2019/04/300_sociologia.jpg" />
           <IonCardHeader>
-            <IonCardSubtitle>Revisa tu horario</IonCardSubtitle>
-            <IonCardTitle>Horario Clases</IonCardTitle>
+            <IonCardSubtitle>Puedes visitar el foro!</IonCardSubtitle>
+            <IonCardTitle>Foro educa +</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <p>Principal</p>

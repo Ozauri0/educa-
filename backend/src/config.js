@@ -1,18 +1,10 @@
-import { config } from "dotenv";
+import dotenv from 'dotenv';
+dotenv.config();
 
-config();
-
-export default {
-	host: process.env.HOST || "localhost",
-	database: process.env.DATABASE || "",
-	user: process.env.USER || "root",
-	password: process.env.PASSWORD || "",
-};
-
-// export const config = {
-// 	host: "127.0.0.1",
-// 	user: "root",
-// 	password: "",
-// 	database: "educa+",
-// };
-// export default config;
+const config = {
+	host: process.env.HOST,
+	user: process.env.USER,
+	password: process.env.PASSWORD,
+	database: process.env.DATABASE,
+}
+export default config;

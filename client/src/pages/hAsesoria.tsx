@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonDatetime, IonItem, IonList, IonSelect, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonSelectOption, IonLabel } from '@ionic/react';
+import { IonContent, IonDatetime, IonItem, IonList, IonSelect, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonSelectOption, IonLabel } from '@ionic/react';
 import './hAsesoria.css';
 
 const hAsesoria: React.FC = () => {

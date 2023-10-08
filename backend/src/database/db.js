@@ -1,5 +1,8 @@
 import { createPool } from "mysql2/promise.js";
 import config from "../config.js";
+import 'dotenv/config';
+import { configDotenv } from "dotenv";
+configDotenv();
 
 export const db = createPool(config);
 
