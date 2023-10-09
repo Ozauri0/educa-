@@ -66,7 +66,7 @@ const Recursos: React.FC = () => {
                             <IonBadge color="warning" slot="end">2</IonBadge>
                             <IonLabel>Ayudantias Perdidas</IonLabel>
                         </IonItem>
-                        <IonButton color="primary" expand="block" href='/hAsesoria'>Solicitar ayudantia</IonButton>
+                        <IonButton color="primary" expand="block" href='/Asesoria'>Solicitar ayudantia</IonButton>
                     </IonGrid>
                 </IonCard>
             </IonContent>

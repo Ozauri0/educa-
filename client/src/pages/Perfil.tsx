@@ -20,6 +20,9 @@ const Perfil: React.FC = () => {
             <h3>Apellido</h3>
             <p>Correo</p>
           </IonLabel>
+          <IonLabel slot="end">
+            <IonButton color="primary" expand="block" href='/Cuenta'>Cerrar sesion</IonButton>
+          </IonLabel>
         </IonItem>
         <IonCard>
           <IonCardHeader>
