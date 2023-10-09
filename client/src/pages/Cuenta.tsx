@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonInput, IonButton, IonRouterLink } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonInput, IonButton, IonRouterLink, IonAlert } from '@ionic/react';
 import './Inicio.css';
 
 const Cuenta: React.FC = () => {
@@ -20,6 +20,13 @@ const Cuenta: React.FC = () => {
         contrasena: password 
       })
       })
+      if (result.status === 200) {
+        window.location.href = '/Inicio';
+      }
+    }
+    //redirigir si el acceso es correcto
+    if (email === 'admin' && password === 'admin') {
+      window.location.href = '/Inicio';
     }
   };
 

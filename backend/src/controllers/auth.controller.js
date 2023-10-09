@@ -14,6 +14,21 @@ export const getDocentes = async (req, res) => {
 		
 	}
 };
+
+export const getForo = async (req, res) => {
+	try {
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM foro");
+		console.log(result);
+		res.json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Hola Mundo" });
+		console.log(error);
+		
+	}
+};
+
 export const getDocente = async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -67,11 +82,26 @@ export const login = async (req, res) => {
 		}
 		res.status(200).json({ message: "Has iniciado Sesion" });
 		console.log("logged in");
+		const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
+		const nombre = datos[0][0].nombres;
+		const apellido = datos[0][0].apellidos;
+		console.log(nombre);
+		console.log(apellido);
+		const fecha = new Date().toLocaleString();
 		const mail = await transporter.sendMail({
 			from: process.env.EMAIL,
 			to: correo,
-			subject: "Prueba Login",
-			html: "<h1>Has iniciado sesion</h1>",});
+			subject: "Nuevo inicio de sesion en tu cuenta",
+			html: `<p>Hola ${nombre} ${apellido}.</p>
+			<p>Acabas de iniciar sesion en tu cuenta de Educa+</p>
+			<ul>
+				<li>Tu cuenta: ${correo}</li>
+				<li>Fecha: ${fecha}</li>
+        	</ul>
+			<p>Si fuiste tu, entonces no necesitas hacer nada.</p>
+			<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`
+					
+			,});
 		return
 	} catch (error) {
 		res.status(500).json({ message: "No se ha podido iniciar Sesion" });
