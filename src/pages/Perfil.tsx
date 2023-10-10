@@ -3,11 +3,21 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonAvatar, IonItem
 import './Perfil.css';
 
 const Perfil: React.FC = () => {
+  const handleLogout = () => {
+    // Redirigir al usuario al inicio de sesión
+    window.location.href = '/Cuenta';
+  };
   return (
+    
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Perfil</IonTitle>
+        <a href="/Inicio" style={{ textDecoration: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img alt="Logo" src="https://i.imgur.com/EyZIJxu.png/" style={{ maxWidth: '40px', height: 'auto', marginLeft:'10px', marginRight: '-3px' }} />
+        <IonTitle>Educa+</IonTitle>
+        </div>
+        </a>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -37,6 +47,24 @@ const Perfil: React.FC = () => {
           <IonButton color="primary" expand="block" href='/Recursos'>Ver Ayudantias</IonButton>
           </IonGrid>
         </IonCard>
+        <IonGrid>
+          <IonItem button onClick={() => window.open('https://www.uct.cl/')}>
+            <IonLabel>Institución</IonLabel>
+          </IonItem>
+          <IonItem button>
+            <IonLabel>Mensajes</IonLabel>
+            <IonBadge color="primary" slot="end">3</IonBadge>
+          </IonItem>
+          <IonItem button href="/Cursos">
+            <IonLabel>Cursos</IonLabel>
+          </IonItem>
+        </IonGrid>
+        <IonGrid>
+          {/* Otras opciones de perfil aquí */}
+          <IonButton expand="full" color="danger" onClick={handleLogout}>
+            Cerrar Sesión
+          </IonButton>
+          </IonGrid>
       </IonContent>
     </IonPage>
   );

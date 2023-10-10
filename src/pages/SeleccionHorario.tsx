@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonSelect,
-  IonSelectOption,
-  IonItem,
-  IonLabel,
-  IonButton,
+import {IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonSelect,IonSelectOption,IonItem,IonLabel,IonButton,
 } from '@ionic/react';
 
 const SeleccionHorarios: React.FC = () => {
