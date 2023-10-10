@@ -1,15 +1,18 @@
 import {
 	register,
 	login,
+	sendEmail,
 	getDocentes,
 	getDocente,
+	getForo,
+	ensureToken,
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
+import jwt from "jsonwebtoken";
 import transporter from "../helpers/mailer.cjs";
 
 const router = Router();
  
-
 router.post("/login/:email/code", async function (req, res) {
 
 	const { email } = req.params
@@ -25,12 +28,14 @@ router.post("/login/:email/code", async function (req, res) {
 });
 
 
-router.get("/", getDocentes);
+router.get("/",ensureToken, getDocentes);
+
+router.get("/foro", getForo);
 
 router.get("/docente/:id", getDocente);
 
 router.post("/register", register);
 
-router.post("/login", login);
+router.post("/login", login, sendEmail);
 
 export default router;

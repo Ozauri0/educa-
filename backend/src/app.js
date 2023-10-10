@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import jwt from "jsonwebtoken";
 import authRoutes from "./routes/auth.routes.js";
 import dotenv from "dotenv";
 

@@ -1,5 +1,6 @@
 import {connect} from "../database/db.js";
 import transporter from "../helpers/mailer.cjs";
+import jwt from "jsonwebtoken";
 
 export const getDocentes = async (req, res) => {
 	try {
@@ -14,6 +15,21 @@ export const getDocentes = async (req, res) => {
 		
 	}
 };
+
+export const getForo = async (req, res) => {
+	try {
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM foro");
+		console.log(result);
+		res.json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Hola Mundo" });
+		console.log(error);
+		
+	}
+};
+
 export const getDocente = async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -54,7 +70,7 @@ export const register = async (req, res) => {
 	}
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
 	try {
 		const { correo, contrasena } = req.body;
 		if (!correo || !contrasena) {
@@ -65,16 +81,56 @@ export const login = async (req, res) => {
 		if (result.length != 1) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
-		res.status(200).json({ message: "Has iniciado Sesion" });
+		
+		const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
+
+		const user = datos[0][0].id;
+		const token = jwt.sign({ user }, 'my_secret_token');
+
 		console.log("logged in");
-		const mail = await transporter.sendMail({
-			from: process.env.EMAIL,
-			to: correo,
-			subject: "Prueba Login",
-			html: "<h1>Has iniciado sesion</h1>",});
+		res.status(200).json({ message: "Has iniciado Sesion", token });
+		next();
 	} catch (error) {
 		res.status(500).json({ message: "No se ha podido iniciar Sesion" });
 		console.log(error);
 	}
 };
 
+export const ensureToken = (req, res, next) => {
+	const bearerHeader = req.headers["authorization"];
+	console.log(bearerHeader);
+	if (typeof bearerHeader !== "undefined") {
+		const bearerToken = bearerHeader.split(" ")[1];
+		req.token = bearerToken;
+		next();
+	} else {
+		res.sendStatus(403);
+	}
+};
+
+export const sendEmail = async (req, res) => {
+		const {correo} = req.body;
+
+		const db = await connect();
+		const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
+		
+		const nombre = datos[0][0].nombres;
+		const apellido = datos[0][0].apellidos;	
+
+		const fecha = new Date().toLocaleString();
+		
+		const mail = await transporter.sendMail({
+			from: process.env.EMAIL,
+			to: correo,
+			subject: "Nuevo inicio de sesion en tu cuenta",
+			html: `<p>Hola ${nombre} ${apellido}.</p>
+			<p>Acabas de iniciar sesion en tu cuenta de Educa+</p>
+			<ul>
+				<li>Tu cuenta: ${correo}</li>
+				<li>Fecha: ${fecha}</li>
+        	</ul>
+			<p>Si fuiste tu, entonces no necesitas hacer nada.</p>
+			<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`	
+			,});
+		return
+};
