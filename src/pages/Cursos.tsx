@@ -7,7 +7,12 @@ const Cursos: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Educa +</IonTitle>
+        <a href="/Inicio" style={{ textDecoration: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img alt="Logo" src="https://i.imgur.com/EyZIJxu.png/" style={{ maxWidth: '40px', height: 'auto', marginLeft:'10px', marginRight: '-3px' }} />
+        <IonTitle>Educa+</IonTitle>
+        </div>
+        </a>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

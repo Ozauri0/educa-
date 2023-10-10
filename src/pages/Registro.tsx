@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import {
-  IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonCard,IonCardContent,IonCardHeader,IonCardSubtitle,IonCardTitle,IonInput,IonButton,IonText,
+  IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonCard,IonCardContent,IonCardHeader,IonCardTitle,IonInput,IonButton,IonText,
 } from '@ionic/react';
 import './Registro.css';
 import Rut from 'rut.js'; {/* Importar la librería para validar RUT, "npm install rut.js"*/}
 
 const Registro: React.FC = () => {
   const [nombre, setNombre] = useState<string>('');
+  const [apellido, setApellido] = useState<string>('');
   const [rut, setRut] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [telefono, setTelefono] = useState<string>('');
   const [rutValido, setRutValido] = useState<boolean>(true);
   const [emailValido, setEmailValido] = useState<boolean>(true);
   const [passwordMatch, setPasswordMatch] = useState<boolean>(true);
 
-  const handleRegistro = () => {
+  const handleRegistro = async () => {
     // Verificar si las contraseñas coinciden y que no estén vacías
     if (password === confirmPassword && password !== '') {
       // Verificar si el RUT es válido
@@ -23,12 +25,21 @@ const Registro: React.FC = () => {
         // Verificar si el correo es válido
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         if (emailRegex.test(email)) {
-          // Todas las condiciones son verdaderas, enviar la información
-          console.log('Registro exitoso:');
-          console.log('Nombre:', nombre);
-          console.log('RUT:', rut);
-          console.log('Correo Electrónico:', email);
-          console.log('Contraseña:', password);
+          // Todas las condiciones son verdaderas, enviar la información al servidor
+          const res = await fetch('http://localhost:4000/api/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              nombres: nombre,
+              apellidos: apellido,
+              rut: rut,
+              correo: email,
+              contrasena: password,
+              telefono: telefono
+            })
+          })
+          const data = await res.json();
+          console.log(data);
           setPasswordMatch(true); // Restablecer la coincidencia de contraseñas
         } else {
           setEmailValido(false); // Marcar el correo como inválido
@@ -77,6 +88,11 @@ const Registro: React.FC = () => {
               onIonChange={(e) => setNombre(e.detail.value!)}
             ></IonInput>
             <IonInput
+              value={apellido}
+              placeholder="Apellido"
+              onIonChange={(e) => setApellido(e.detail.value!)}
+            ></IonInput>
+            <IonInput
               value={rut}
               placeholder="RUT"
               onIonChange={(e) => {
@@ -108,8 +124,14 @@ const Registro: React.FC = () => {
               placeholder="Confirmar Contraseña"
               onIonChange={(e) => setConfirmPassword(e.detail.value!)}
               className={passwordMatch ? '' : 'invalid'}
-            ></IonInput>
+            ></IonInput>            
             {!passwordMatch && <IonText color="danger">Las contraseñas no coinciden</IonText>}
+            <IonInput
+              value={telefono}
+              placeholder="Telefono"
+              onIonChange={(e) => setTelefono(e.detail.value!)}
+
+            ></IonInput>
             <IonButton expand="full" onClick={handleRegistro}>
               Registrarse
             </IonButton>
