@@ -3,6 +3,7 @@ import {
 	login,
 	getDocentes,
 	getDocente,
+	getForo,
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
 import transporter from "../helpers/mailer.cjs";
@@ -26,6 +27,8 @@ router.post("/login/:email/code", async function (req, res) {
 
 
 router.get("/", getDocentes);
+
+router.get("/foro", getForo);
 
 router.get("/docente/:id", getDocente);
 
