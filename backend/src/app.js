@@ -1,8 +1,9 @@
+import authRoutes from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 import express from "express";
+import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
-import authRoutes from "./routes/auth.routes.js";
-import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -15,10 +16,12 @@ app.set("port", 4000);
 app.use(
 	cors({
 		origin: "http://localhost:8100",
+		credentials: true,
 	})
 );
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use("/api/", authRoutes);

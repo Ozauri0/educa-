@@ -1,4 +1,5 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
 import React from "react";
 import {
 	IonContent,
@@ -15,26 +16,18 @@ import {
 	IonLabel,
 } from "@ionic/react";
 import "./Inicio.css";
-import { loginRequest } from "../api/auth";
-type Inputs = {
-	correo: string;
-	contrasena: string;
-};
 
-const Login: React.FC = () => {
+const Login = () => {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
-	} = useForm<Inputs>();
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log(data);
-		loginRequest(data);
-	};
+	} = useForm();
+	const { signin } = useAuth();
 
-	console.log(watch("correo"));
-	console.log(watch("contrasena"));
+	const onSubmit = handleSubmit((data) => {
+		signin(data);
+	});
 
 	return (
 		<IonPage>
