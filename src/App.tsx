@@ -62,6 +62,9 @@ const App: React.FC = () => (
           <Route exact path="/Calendario">
             <Calendario />
           </Route>
+          <Route exact path="/Calendario">
+            <Calendario />
+          </Route>
           <Route exact path="/hAsesoria">
             <Redirect to="/hAsesoria" />
           </Route>

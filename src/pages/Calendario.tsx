@@ -1,47 +1,34 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonDatetime, IonItem, IonLabel } from '@ionic/react';
-import './Recursos.css';
+import React, { useEffect } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import './Calendario.css';
 
 const Calendario: React.FC = () => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-        <a href="/Inicio" style={{ textDecoration: 'none' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-        <img alt="Logo" src="https://i.imgur.com/EyZIJxu.png/" style={{ maxWidth: '40px', height: 'auto', marginLeft:'10px', marginRight: '-3px' }} />
-        <IonTitle>Educa+</IonTitle>
-        </div>
-        </a>
+          <a href="/Inicio" style={{ textDecoration: 'none' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img alt="Logo" src="https://i.imgur.com/EyZIJxu.png/" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+              <IonTitle>Educa+</IonTitle>
+            </div>
+          </a>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-text-center ion-padding" fullscreen>
-        <IonItem className="ion-text-center">
-          <IonLabel className="ion-text-center"> <b>Horarios de clase</b></IonLabel>
-        </IonItem>
-        <IonItem>
-          <IonDatetime
-            placeholder="Select Date"
-            presentation="date"
-            highlightedDates={[
-              {
-                date: '2023-09-07',
-                textColor: '#09721b',
-                backgroundColor: '#c8e5d0',
-              },
-              {
-                date: '2023-09-08',
-                textColor: '#09721b',
-                backgroundColor: '#c8e5d0',
-              },
-              {
-                date: '2023-09-09',
-                textColor: '#09721b',
-                backgroundColor: '#c8e5d0',
-              },
-            ]}
-          ></IonDatetime>
-        </IonItem>
+        <div
+          className="calendly-inline-widget"
+          data-url="https://calendly.com/christian_uct/asesoria"
+          style={{ width: '100%', height: '100%' }}
+        />
       </IonContent>
     </IonPage>
   );
