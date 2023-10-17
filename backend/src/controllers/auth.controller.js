@@ -85,6 +85,11 @@ export const login = async (req, res) => {
 		const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
 		const nombre = datos[0][0].nombres;
 		const apellido = datos[0][0].apellidos;
+<<<<<<< HEAD
+=======
+		console.log(nombre);
+		console.log(apellido);
+>>>>>>> NicolasC
 		const fecha = new Date().toLocaleString();
 		const mail = await transporter.sendMail({
 			from: process.env.EMAIL,

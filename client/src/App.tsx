@@ -22,7 +22,10 @@ import Cuenta from './pages/Cuenta';
 import Registro from './pages/Registro';
 import Foro from './pages/Foro';
 import Asesoria from './pages/Asesoria';
+<<<<<<< HEAD
 import Editar from './pages/Editar';
+=======
+>>>>>>> NicolasC
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
