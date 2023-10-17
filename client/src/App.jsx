@@ -23,7 +23,7 @@ import Foro from "./pages/Foro";
 import Asesoria from "./pages/Asesoria";
 import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./ProtectedRoute";
+import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -95,12 +95,14 @@ const App = () => (
 				<Route exact path="/Cuenta">
 					<Cuenta />
 				</Route>
-				<Route exact path="/Registro">
-					<Registro />
-				</Route>
-				<Route exact path="/Login">
-					<Login />
-				</Route>
+				<ProtectedLogin>
+					<Route exact path="/Registro">
+						<Registro />
+					</Route>
+					<Route exact path="/Login">
+						<Login />
+					</Route>
+				</ProtectedLogin>
 			</IonReactRouter>
 		</AuthProvider>
 	</IonApp>
