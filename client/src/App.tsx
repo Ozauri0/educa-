@@ -11,7 +11,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, person, logoGoogle } from 'ionicons/icons';
+import { calendar, ellipse, person, logoGoogle,home,journal } from 'ionicons/icons';
 
 
 import Cursos from './pages/Cursos';
@@ -23,6 +23,7 @@ import Registro from './pages/Registro';
 import Foro from './pages/Foro';
 import Asesoria from './pages/Asesoria';
 import Editar from './pages/Editar';
+import Calendario from './pages/Calendario';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -69,6 +70,9 @@ const App: React.FC = () => (
           <Route exact path="/">
             <Redirect to="/Cuenta" />
           </Route>
+          <Route exact path="/Calendario">
+            <Calendario />
+          </Route>
           <Route exact path="/Asesoria">
             <Asesoria />
           </Route>
@@ -77,17 +81,21 @@ const App: React.FC = () => (
            </Route>
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
-              <IonTabButton tab="Perfil" href="/Perfil">
-                <IonIcon aria-hidden="true" icon={person} />
-                <IonLabel>Perfil</IonLabel>
-                </IonTabButton>
-              <IonTabButton tab="Inicio" href="/Inicio">
-                <IonIcon aria-hidden="true" icon={logoGoogle} />
+          <IonTabButton tab="Inicio" href="/Inicio">
+                <IonIcon aria-hidden="true" icon={home} />
                 <IonLabel>Menu</IonLabel>
                 </IonTabButton>
               <IonTabButton tab="Cursos" href="/Cursos">
-                <IonIcon aria-hidden="true" icon={ellipse} />
+                <IonIcon aria-hidden="true" icon={journal} />
                 <IonLabel>Cursos</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="Calendario" href="/Calendario">
+                <IonIcon aria-hidden="true" icon={calendar} />
+                <IonLabel>Calendario</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="Perfil" href="/Perfil">
+                <IonIcon aria-hidden="true" icon={person} />
+                <IonLabel>Perfil</IonLabel>
                 </IonTabButton>
           </IonTabBar>
       </IonTabs>
