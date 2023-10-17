@@ -1,5 +1,6 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonAvatar, IonItem, IonLabel,IonDatetime,IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
+import { IonContent,IonIcon, IonHeader, IonPage, IonTitle, IonToolbar,IonAvatar, IonItem, IonLabel,IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
+import  {menu} from 'ionicons/icons';
 import './Perfil.css';
 
 const Perfil: React.FC = () => {
@@ -8,6 +9,11 @@ const Perfil: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Perfil</IonTitle>
+          <IonButtons slot="end">
+            <IonButton href='/Editar'>
+              <IonIcon slot="icon-only" icon={menu} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

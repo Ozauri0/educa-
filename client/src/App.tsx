@@ -22,6 +22,7 @@ import Cuenta from './pages/Cuenta';
 import Registro from './pages/Registro';
 import Foro from './pages/Foro';
 import Asesoria from './pages/Asesoria';
+import Editar from './pages/Editar';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -70,6 +71,9 @@ const App: React.FC = () => (
           <Route exact path="/Asesoria">
             <Asesoria />
           </Route>
+          <Route exact path="/Editar">
+            <Editar />
+           </Route>
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
               <IonTabButton tab="Perfil" href="/Perfil">
