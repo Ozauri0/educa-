@@ -24,16 +24,13 @@ const Cuenta: React.FC = () => {
       if (result.status === 200) {
         window.location.href = '/Inicio';
       }
-<<<<<<< HEAD
       else {
         alert('Usuario o contraseña incorrectos');
       }
-=======
     }
     //redirigir si el acceso es correcto
     if (email === 'admin' && password === 'admin') {
       window.location.href = '/Inicio';
->>>>>>> NicolasC
     }
     //redirigir si el acceso es correcto
     if (email === 'admin' && password === 'admin') {
