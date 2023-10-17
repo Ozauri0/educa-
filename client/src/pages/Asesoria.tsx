@@ -1,8 +1,8 @@
 import React from 'react';
-import { IonContent, IonDatetime, IonItem, IonList, IonSelect, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonSelectOption, IonLabel } from '@ionic/react';
-import './hAsesoria.css';
+import { IonContent, IonDatetime, IonItem, IonList, IonSelect, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonSelectOption, IonLabel } from '@ionic/react';
+import './Asesoria.css';
 
-const hAsesoria: React.FC = () => {
+const Asesoria: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
@@ -37,8 +37,8 @@ const hAsesoria: React.FC = () => {
                     <IonItem><IonDatetime
                     presentation='date-time'
                     preferWheel = {true}
-                    min='2023-09-04'
-                    max='2023-09-08'
+                    min='2023-10-04'
+                    max='2023-10-08'
                     dayValues='4,5,6,7'
                     hourValues='12,15,20'
                     minuteValues='0,15,30,45'
@@ -50,4 +50,4 @@ const hAsesoria: React.FC = () => {
     );
 };
 
-export default hAsesoria;
+export default Asesoria;

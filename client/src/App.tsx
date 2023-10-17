@@ -11,7 +11,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, person, menu, key, logoGoogle } from 'ionicons/icons';
+import { ellipse, person, logoGoogle } from 'ionicons/icons';
 
 
 import Cursos from './pages/Cursos';
@@ -20,6 +20,10 @@ import Perfil from './pages/Perfil';
 import Inicio from './pages/Inicio';
 import Cuenta from './pages/Cuenta';
 import Registro from './pages/Registro';
+import Foro from './pages/Foro';
+import Asesoria from './pages/Asesoria';
+import Editar from './pages/Editar';
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -51,7 +55,7 @@ const App: React.FC = () => (
             <Cursos />
           </Route>
           <Route exact path="/Recursos">
-            <Recursos />
+            <Recursos/>
           </Route>
           <Route exact path="/Inicio">
             <Inicio />
@@ -59,13 +63,18 @@ const App: React.FC = () => (
           <Route exact path="/Perfil">
             <Perfil />
           </Route>
+          <Route exact path="/Foro">
+            <Foro />
+          </Route>
           <Route exact path="/">
             <Redirect to="/Cuenta" />
           </Route>
-          <Route exact path="/hAsesoria">
-            <Redirect to="/hAsesoria" />
-            <Recursos />
+          <Route exact path="/Asesoria">
+            <Asesoria />
           </Route>
+          <Route exact path="/Editar">
+            <Editar />
+           </Route>
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
               <IonTabButton tab="Perfil" href="/Perfil">
@@ -79,10 +88,6 @@ const App: React.FC = () => (
               <IonTabButton tab="Cursos" href="/Cursos">
                 <IonIcon aria-hidden="true" icon={ellipse} />
                 <IonLabel>Cursos</IonLabel>
-                </IonTabButton>
-              <IonTabButton tab="Recursos" href="/Recursos">
-                <IonIcon aria-hidden="true" icon={menu} />
-                <IonLabel>Recursos</IonLabel>
                 </IonTabButton>
           </IonTabBar>
       </IonTabs>

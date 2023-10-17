@@ -2,7 +2,7 @@ import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonAvatar, IonItem, IonLabel, IonDatetime, IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
 import './Recursos.css';
 
-const Tab3: React.FC = () => {
+const Recursos: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
@@ -66,7 +66,7 @@ const Tab3: React.FC = () => {
                             <IonBadge color="warning" slot="end">2</IonBadge>
                             <IonLabel>Ayudantias Perdidas</IonLabel>
                         </IonItem>
-                        <IonButton color="primary" expand="block" href='/HAsesoria'>Solicitar ayudantia</IonButton>
+                        <IonButton color="primary" expand="block" href='/Asesoria'>Solicitar ayudantia</IonButton>
                     </IonGrid>
                 </IonCard>
             </IonContent>
@@ -74,4 +74,4 @@ const Tab3: React.FC = () => {
     );
 };
 
-export default Tab3;
+export default Recursos;

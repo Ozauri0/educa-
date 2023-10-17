@@ -1,5 +1,6 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonAvatar, IonItem, IonLabel,IonDatetime,IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
+import { IonContent,IonIcon, IonHeader, IonPage, IonTitle, IonToolbar,IonAvatar, IonItem, IonLabel,IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
+import  {menu} from 'ionicons/icons';
 import './Perfil.css';
 
 const Perfil: React.FC = () => {
@@ -8,6 +9,11 @@ const Perfil: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Perfil</IonTitle>
+          <IonButtons slot="end">
+            <IonButton href='/Editar'>
+              <IonIcon slot="icon-only" icon={menu} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -19,6 +25,9 @@ const Perfil: React.FC = () => {
             <h2>Nombre</h2>
             <h3>Apellido</h3>
             <p>Correo</p>
+          </IonLabel>
+          <IonLabel slot="end">
+            <IonButton color="primary" expand="block" href='/Cuenta'>Cerrar sesion</IonButton>
           </IonLabel>
         </IonItem>
         <IonCard>
@@ -34,7 +43,7 @@ const Perfil: React.FC = () => {
                 <IonBadge color="warning" slot="end">1</IonBadge>
                 <IonLabel>Ayudantias Perdidas</IonLabel>
               </IonItem>
-          <IonButton color="primary" expand="block" href='/tab5'>Ver Ayudantias</IonButton>
+          <IonButton color="primary" expand="block" href='/Recursos'>Ver Ayudantias</IonButton>
           </IonGrid>
         </IonCard>
       </IonContent>

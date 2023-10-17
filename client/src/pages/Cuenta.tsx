@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonInput, IonButton, IonRouterLink } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonInput, IonButton, IonRouterLink, IonAlert } from '@ionic/react';
 import './Inicio.css';
 
 const Cuenta: React.FC = () => {
   const [email, setUsuario] = useState<string>('');
   const [password, setContraseña] = useState<string>('');
+  const [formCompleted, setFormCompleted] = useState<boolean>(false);
 
   const handleInicioSesion = async () => {
     // Aquí puedes agregar la lógica para iniciar sesión utilizando los valores de usuario y contraseña
@@ -20,7 +21,31 @@ const Cuenta: React.FC = () => {
         contrasena: password 
       })
       })
+      if (result.status === 200) {
+        window.location.href = '/Inicio';
+      }
+      else {
+        alert('Usuario o contraseña incorrectos');
+      }
     }
+    //redirigir si el acceso es correcto
+    if (email === 'admin' && password === 'admin') {
+      window.location.href = '/Inicio';
+    }
+    //redirigir si el acceso es correcto
+    if (email === 'admin' && password === 'admin') {
+      window.location.href = '/Inicio';
+    }
+  };
+
+  const handleInputChange = (e: any) => {
+    setUsuario(e.target.value);
+    setFormCompleted(e.target.value !== '' && password !== '');
+  };
+
+  const handlePasswordChange = (e: any) => {
+    setContraseña(e.target.value);
+    setFormCompleted(email !== '' && e.target.value !== '');
   };
 
   return (
@@ -47,15 +72,15 @@ const Cuenta: React.FC = () => {
             <IonInput
               value={email}
               placeholder="Usuario"
-              onIonChange={(e) => setUsuario(e.detail.value!)}
+              onIonChange={handleInputChange}
             ></IonInput>
             <IonInput
               type="password"
               value={password}
               placeholder="Contraseña"
-              onIonChange={(e) => setContraseña(e.detail.value!)}
+              onIonChange={handlePasswordChange}
             ></IonInput>
-            <IonButton expand="full" onClick={handleInicioSesion}>
+            <IonButton expand="full" onClick={handleInicioSesion} disabled={!formCompleted}>
               Iniciar Sesión
             </IonButton>
             <IonButton expand="full" routerLink='/Registro'>Registrarse</IonButton>
