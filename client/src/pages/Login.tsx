@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import React from "react";
 import {
@@ -16,24 +16,34 @@ import {
 	IonLabel,
 } from "@ionic/react";
 import "./Inicio.css";
+import { User } from "../types";
 
-const Login = () => {
+interface FormData {
+	correo: string;
+	contrasena: string;
+}
+
+const Login: React.FC = () => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm();
+	} = useForm<FormData>();
 	const { signin } = useAuth();
 
-	const onSubmit = handleSubmit((data) => {
-		signin(data);
-	});
+	const onSubmit: SubmitHandler<FormData> = (data) => {
+		const user: User = {
+			correo: data.correo, // Usar el correo del formulario
+			contrasena: data.contrasena, // Usar la contraseña del formulario
+		};
+		signin(user);
+	};
 
 	return (
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Registro</IonTitle>
+					<IonTitle>Login</IonTitle>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
@@ -51,7 +61,7 @@ const Login = () => {
 									required: true,
 									pattern: {
 										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-										message: "Correo inválido", // JS only: <p>error message</p> TS only support string
+										message: "Correo inválido",
 									},
 								})}
 							/>
@@ -67,7 +77,7 @@ const Login = () => {
 									},
 									minLength: {
 										value: 6,
-										message: "Mínimo 6 caracteres", // JS only: <p>error message</p> TS only support string
+										message: "Mínimo 6 caracteres",
 									},
 								})}
 							/>

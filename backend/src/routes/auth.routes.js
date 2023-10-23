@@ -5,6 +5,7 @@ import {
 	getDocente,
 	getForo,
 	verifyToken,
+	logout,
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
 import transporter from "../helpers/mailer.cjs";
@@ -34,5 +35,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 router.get("/verify", verifyToken);
+
+router.post("/logout", verifyToken, logout);
 
 export default router;

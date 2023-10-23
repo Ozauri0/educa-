@@ -1,11 +1,24 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
+import React, {
+	useState,
+	createContext,
+	useContext,
+	useEffect,
+	ReactNode,
+} from "react";
 import { loginRequest } from "../api/auth";
 import { verifyTokenRequest } from "../api/auth";
+import { User, AuthContextType } from "../types";
 import Cookies from "js-cookie";
 
-export const AuthContext = createContext();
+interface AuthProviderProps {
+	children: ReactNode;
+}
 
-export const useAuth = () => {
+export const AuthContext = createContext<AuthContextType | undefined>(
+	undefined
+);
+
+export const useAuth = (): AuthContextType => {
 	const context = useContext(AuthContext);
 	if (!context) {
 		throw new Error("useAuth must be used within an AuthProvider");
@@ -13,16 +26,14 @@ export const useAuth = () => {
 	return context;
 };
 
-// eslint-disable-next-line react/prop-types
-export const AuthProvider = ({ children }) => {
-	const [currentUser, setCurrentUser] = useState(null);
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [loading, setLoading] = useState(true);
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+	const [currentUser, setCurrentUser] = useState<User | null>(null);
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 
-	const signin = async (user) => {
+	const signin = async (user: User) => {
 		try {
 			const res = await loginRequest(user);
-			console.log("Signin response:", res);
 			setCurrentUser(res.data);
 			setIsAuthenticated(true);
 		} catch (error) {
@@ -47,8 +58,8 @@ export const AuthProvider = ({ children }) => {
 			}
 
 			try {
-				const res = await verifyTokenRequest(cookies.token);
-				console.log(res);
+				const res = await verifyTokenRequest();
+				console.log("Respuesta de verifyTokenRequest:", res);
 				if (!res.data) return setIsAuthenticated(false);
 				setIsAuthenticated(true);
 				setCurrentUser(res.data);
@@ -69,5 +80,3 @@ export const AuthProvider = ({ children }) => {
 		</AuthContext.Provider>
 	);
 };
-
-export default AuthContext;

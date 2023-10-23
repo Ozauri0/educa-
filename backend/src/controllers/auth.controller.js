@@ -80,13 +80,13 @@ export const login = async (req, res) => {
 		}
 		const db = await connect();
 		const [result] = await db.query(
-			"SELECT id FROM docente WHERE correo = ? AND contrasena = ?",
+			"SELECT * FROM docente WHERE correo = ? AND contrasena = ?",
 			[correo, contrasena]
 		);
+		console.log("Logged in as: ", result[0]);
 		if (result.length != 1) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
-		console.log("Logged in as: ", result[0].id);
 
 		const token = await createAccessToken({
 			result,
@@ -96,7 +96,7 @@ export const login = async (req, res) => {
 			sameSite: "none",
 			secure: true,
 		});
-		res.status(200).json({ message: "Has iniciado Sesion", token: token });
+		res.status(200).json(result[0]);
 
 		// const datos = await db.query(
 		// 	"SELECT nombres, apellidos FROM docente WHERE correo = ?",
@@ -138,13 +138,14 @@ export const verifyToken = async (req, res) => {
 			return res.status(401).json({ message: "Unauthorized" });
 		}
 		const db = await connect();
-		const userFound = await db.query("SELECT * FROM docente WHERE id = ?", [
-			user.id,
+		console.log("User id:", user.result[0].id);
+		const [userFound] = await db.query("SELECT * FROM docente WHERE id = ?", [
+			user.result[0].id,
 		]);
 		if (!userFound) {
 			return res.status(401).json({ message: "No user found" });
 		}
-		return res.status(200).json({ message: "Authorized" });
+		return res.status(200).json(userFound[0]); // Aquí devolvemos los datos del usuario
 	});
 };
 

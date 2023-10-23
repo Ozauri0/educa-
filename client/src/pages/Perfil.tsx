@@ -16,8 +16,19 @@ import {
 	IonCardHeader,
 } from "@ionic/react";
 import "./Perfil.css";
+import { useAuth } from "../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 const Perfil: React.FC = () => {
+	const { currentUser, logout } = useAuth();
+	const history = useHistory();
+	console.log(currentUser);
+
+	const handleLogout = () => {
+		logout();
+		history.push("/login");
+	};
+
 	return (
 		<IonPage>
 			<IonHeader>
@@ -34,12 +45,26 @@ const Perfil: React.FC = () => {
 						/>
 					</IonAvatar>
 					<IonLabel>
-						<h2>Nombre</h2>
-						<h3>Apellido</h3>
-						<p>Correo</p>
+						{!currentUser ? (
+							<>
+								<h2>Nombre</h2>
+								<h3>Apellido</h3>
+								<p>Correo</p>
+							</>
+						) : (
+							<>
+								<h2>{currentUser.nombres}</h2>
+								<h3>{currentUser.apellidos}</h3>
+								<p>{currentUser.correo}</p>
+								<p>Otra info:</p>
+								<p>RUT: {currentUser.rut}</p>
+								<p>Teléfono: {currentUser.telefono}</p>
+								<p>Contraseña: {currentUser.contrasena}</p>
+							</>
+						)}
 					</IonLabel>
 					<IonLabel slot="end">
-						<IonButton color="primary" expand="block" href="/Cuenta">
+						<IonButton color="primary" expand="block" onClick={handleLogout}>
 							Cerrar sesion
 						</IonButton>
 					</IonLabel>

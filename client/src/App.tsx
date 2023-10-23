@@ -52,29 +52,39 @@ const App = () => (
 			<IonReactRouter>
 				<IonTabs>
 					<IonRouterOutlet>
-						<ProtectedRoute>
-							<Route exact path="/Cursos">
+						<Route exact path="/Cursos">
+							<ProtectedRoute>
 								<Cursos />
-							</Route>
-							<Route exact path="/Recursos">
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Recursos">
+							<ProtectedRoute>
 								<Recursos />
-							</Route>
-							<Route exact path="/Inicio">
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Inicio">
+							<ProtectedRoute>
 								<Inicio />
-							</Route>
-							<Route exact path="/Perfil">
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Perfil">
+							<ProtectedRoute>
 								<Perfil />
-							</Route>
-							<Route exact path="/Foro">
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Foro">
+							<ProtectedRoute>
 								<Foro />
-							</Route>
-							<Route exact path="/">
-								<Redirect to="/Cuenta" />
-							</Route>
-							<Route exact path="/Asesoria">
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/">
+							<Redirect to="/Cuenta" />
+						</Route>
+						<Route exact path="/Asesoria">
+							<ProtectedRoute>
 								<Asesoria />
-							</Route>
-						</ProtectedRoute>
+							</ProtectedRoute>
+						</Route>
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">
 						<IonTabButton tab="Perfil" href="/Perfil">
@@ -95,14 +105,16 @@ const App = () => (
 				<Route exact path="/Cuenta">
 					<Cuenta />
 				</Route>
-				<ProtectedLogin>
-					<Route exact path="/Registro">
+				<Route exact path="/Registro">
+					<ProtectedLogin>
 						<Registro />
-					</Route>
-					<Route exact path="/Login">
+					</ProtectedLogin>
+				</Route>
+				<Route exact path="/Login">
+					<ProtectedLogin>
 						<Login />
-					</Route>
-				</ProtectedLogin>
+					</ProtectedLogin>
+				</Route>
 			</IonReactRouter>
 		</AuthProvider>
 	</IonApp>
