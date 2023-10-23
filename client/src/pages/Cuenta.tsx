@@ -23,14 +23,11 @@ const Cuenta: React.FC = () => {
       })
       if (result.status === 200) {
         window.location.href = '/Inicio';
+        //ademas de redirigir, guardar el token en el local storage para luego visualizarlo en el perfil
       }
       else {
         alert('Usuario o contraseña incorrectos');
       }
-    }
-    //redirigir si el acceso es correcto
-    if (email === 'admin' && password === 'admin') {
-      window.location.href = '/Inicio';
     }
     //redirigir si el acceso es correcto
     if (email === 'admin' && password === 'admin') {

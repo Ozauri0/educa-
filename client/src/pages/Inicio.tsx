@@ -25,11 +25,11 @@ const Tab1: React.FC = () => {
             <p>aqui podras encontrar cursos para poder utilizar educa+ de forma correcta</p>
           </IonCardContent>
         </IonCard>
-        <IonCard href='/Asesoria'>
+        <IonCard href='/Calendario'>
           <img alt="Ayduantias" src="https://www.pedagogiapucv.cl/wp-content/uploads/2018/03/ayudantia2.jpg" />
           <IonCardHeader>
-            <IonCardSubtitle>Revisa tus solicitudes de ayudantia</IonCardSubtitle>
-            <IonCardTitle>Solicitud Ayudantias</IonCardTitle>
+            <IonCardSubtitle>Puedes solicitar una ayudantia mucho mas facil ahora</IonCardSubtitle>
+            <IonCardTitle>Solicita una Ayudantia</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <p>Solicita ayudantias utiles para tus cursos!</p>

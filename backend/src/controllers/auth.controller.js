@@ -15,7 +15,7 @@ export const getDocentes = async (req, res) => {
 	}
 };
 
-export const getForo = async (req, res) => {
+export const getForumPosts = async (req, res) => {
 	try {
 		const db = await connect();
 		const [result] = await db.query("SELECT * FROM foro");
@@ -23,9 +23,7 @@ export const getForo = async (req, res) => {
 		res.json(result);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ message: "Hola Mundo" });
-		console.log(error);
-		
+		res.status(500).json({ message: "Internal server error" });
 	}
 };
 
