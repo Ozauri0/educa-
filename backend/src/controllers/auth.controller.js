@@ -16,7 +16,7 @@ export const getDocentes = async (req, res) => {
 	}
 };
 
-export const getForo = async (req, res) => {
+export const getForumPosts = async (req, res) => {
 	try {
 		const db = await connect();
 		const [result] = await db.query("SELECT * FROM foro");
@@ -24,8 +24,12 @@ export const getForo = async (req, res) => {
 		res.json(result);
 	} catch (error) {
 		console.log(error);
+<<<<<<< HEAD
 		res.status(500).json({ message: "Hola Mundo" });
 		console.log(error);
+=======
+		res.status(500).json({ message: "Internal server error" });
+>>>>>>> NicolasC
 	}
 };
 
@@ -87,6 +91,7 @@ export const login = async (req, res) => {
 		if (result.length != 1) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
+<<<<<<< HEAD
 
 		const token = await createAccessToken({
 			result,
@@ -121,6 +126,29 @@ export const login = async (req, res) => {
 		// 	<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`,
 		// });
 		// return;
+=======
+		res.status(200).json({ message: "Has iniciado Sesion" });
+		console.log("logged in");
+		const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
+		const nombre = datos[0][0].nombres;
+		const apellido = datos[0][0].apellidos;
+		const fecha = new Date().toLocaleString();
+		const mail = await transporter.sendMail({
+			from: process.env.EMAIL,
+			to: correo,
+			subject: "Nuevo inicio de sesion en tu cuenta",
+			html: `<p>Hola ${nombre} ${apellido}.</p>
+			<p>Acabas de iniciar sesion en tu cuenta de Educa+</p>
+			<ul>
+				<li>Tu cuenta: ${correo}</li>
+				<li>Fecha: ${fecha}</li>
+        	</ul>
+			<p>Si fuiste tu, entonces no necesitas hacer nada.</p>
+			<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`
+					
+			,});
+		return
+>>>>>>> NicolasC
 	} catch (error) {
 		res.status(500).json({ message: "No se ha podido iniciar Sesion" });
 		console.log(error);

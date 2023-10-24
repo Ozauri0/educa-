@@ -1,6 +1,7 @@
 import React from "react";
 import {
 	IonContent,
+	IonIcon,
 	IonHeader,
 	IonPage,
 	IonTitle,
@@ -12,9 +13,11 @@ import {
 	IonCard,
 	IonBadge,
 	IonButton,
+	IonButtons,
 	IonCardTitle,
 	IonCardHeader,
 } from "@ionic/react";
+import { menu } from "ionicons/icons";
 import "./Perfil.css";
 import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
@@ -34,6 +37,11 @@ const Perfil: React.FC = () => {
 			<IonHeader>
 				<IonToolbar>
 					<IonTitle>Perfil</IonTitle>
+					<IonButtons slot="end">
+						<IonButton href="/Editar">
+							<IonIcon slot="icon-only" icon={menu} />
+						</IonButton>
+					</IonButtons>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>

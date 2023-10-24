@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
+import React from "react";
 import {
 	IonContent,
 	IonHeader,
@@ -14,33 +16,27 @@ import {
 	IonRouterLink,
 } from "@ionic/react";
 import "./Inicio.css";
+import { User } from "../types";
+
+interface FormData {
+	correo: string;
+	contrasena: string;
+}
 
 const Cuenta: React.FC = () => {
-	const [email, setUsuario] = useState<string>("");
-	const [password, setContraseña] = useState<string>("");
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<FormData>();
+	const { signin } = useAuth();
 
-	const handleInicioSesion = async () => {
-		// Aquí puedes agregar la lógica para iniciar sesión utilizando los valores de usuario y contraseña
-		// Por ejemplo, puedes enviar una solicitud de inicio de sesión al servidor.
-
-		const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-		if (emailRegex.test(email)) {
-			const result = await fetch("http://localhost:4000/api/login", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					correo: email,
-					contrasena: password,
-				}),
-			});
-			if (result.status === 200) {
-				window.location.href = "/Inicio";
-			}
-		}
-		//redirigir si el acceso es correcto
-		if (email === "admin" && password === "admin") {
-			window.location.href = "/Inicio";
-		}
+	const onSubmit: SubmitHandler<FormData> = (data) => {
+		const user: User = {
+			correo: data.correo, // Usar el correo del formulario
+			contrasena: data.contrasena, // Usar la contraseña del formulario
+		};
+		signin(user);
 	};
 
 	return (
@@ -61,32 +57,51 @@ const Cuenta: React.FC = () => {
 						<IonCardTitle>Iniciar Sesión</IonCardTitle>
 					</IonCardHeader>
 					<IonCardContent>
-						<p>
-							Para iniciar sesión en Educa +, debes ingresar tu correo
-							institucional y tu contraseña.
-						</p>
-						<p>
-							Si no tienes una cuenta, puedes crear una en el siguiente enlace:
-						</p>
-						<IonRouterLink routerLink="/registro">Registrarse</IonRouterLink>{" "}
-						{/* Enlace al formulario de registro */}
-						<IonInput
-							value={email}
-							placeholder="Usuario"
-							onIonChange={(e) => setUsuario(e.detail.value!)}
-						></IonInput>
-						<IonInput
-							type="password"
-							value={password}
-							placeholder="Contraseña"
-							onIonChange={(e) => setContraseña(e.detail.value!)}
-						></IonInput>
-						<IonButton expand="full" onClick={handleInicioSesion}>
-							Iniciar Sesión
-						</IonButton>
-						<IonButton expand="full" routerLink="/Registro">
-							Registrarse
-						</IonButton>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<p>
+								Para iniciar sesión en Educa +, debes ingresar tu correo
+								institucional y tu contraseña.
+							</p>
+							<p>
+								Si no tienes una cuenta, puedes crear una en el siguiente
+								enlace:
+							</p>
+							<IonRouterLink routerLink="/registro">Registrarse</IonRouterLink>{" "}
+							{/* Enlace al formulario de registro */}
+							<IonInput
+								type="email"
+								placeholder="Ingrese su correo"
+								{...register("correo", {
+									required: true,
+									pattern: {
+										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+										message: "Correo inválido",
+									},
+								})}
+							/>
+							<p className="register-error">{errors.correo?.message}</p>
+							<IonInput
+								type="password"
+								placeholder="Ingrese su contraseña"
+								{...register("contrasena", {
+									required: {
+										value: true,
+										message: "Contraseña requerida",
+									},
+									minLength: {
+										value: 6,
+										message: "Mínimo 6 caracteres",
+									},
+								})}
+							/>
+							<p className="register-error">{errors.contrasena?.message}</p>
+							<IonButton type="submit" expand="full">
+								Iniciar Sesión
+							</IonButton>
+							<IonButton expand="full" routerLink="/Registro">
+								Registrarse
+							</IonButton>
+						</form>
 					</IonCardContent>
 				</IonCard>
 			</IonContent>

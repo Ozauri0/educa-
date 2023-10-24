@@ -11,7 +11,14 @@ import {
 	setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, person, logoGoogle } from "ionicons/icons";
+import {
+	calendar,
+	ellipse,
+	person,
+	logoGoogle,
+	home,
+	journal,
+} from "ionicons/icons";
 
 import Cursos from "./pages/Cursos";
 import Recursos from "./pages/Recursos";
@@ -24,6 +31,8 @@ import Asesoria from "./pages/Asesoria";
 import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
+import Editar from "./pages/Editar";
+import Calendario from "./pages/Calendario";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -77,27 +86,38 @@ const App = () => (
 								<Foro />
 							</ProtectedRoute>
 						</Route>
-						<Route exact path="/">
-							<Redirect to="/Cuenta" />
+						<Route exact path="/Calendario">
+							<ProtectedRoute>
+								<Calendario />
+							</ProtectedRoute>
 						</Route>
 						<Route exact path="/Asesoria">
 							<ProtectedRoute>
 								<Asesoria />
 							</ProtectedRoute>
 						</Route>
+						<Route exact path="/Editar">
+							<ProtectedRoute>
+								<Editar />
+							</ProtectedRoute>
+						</Route>
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">
-						<IonTabButton tab="Perfil" href="/Perfil">
-							<IonIcon aria-hidden="true" icon={person} />
-							<IonLabel>Perfil</IonLabel>
-						</IonTabButton>
 						<IonTabButton tab="Inicio" href="/Inicio">
-							<IonIcon aria-hidden="true" icon={logoGoogle} />
+							<IonIcon aria-hidden="true" icon={home} />
 							<IonLabel>Menu</IonLabel>
 						</IonTabButton>
 						<IonTabButton tab="Cursos" href="/Cursos">
-							<IonIcon aria-hidden="true" icon={ellipse} />
+							<IonIcon aria-hidden="true" icon={journal} />
 							<IonLabel>Cursos</IonLabel>
+						</IonTabButton>
+						<IonTabButton tab="Calendario" href="/Calendario">
+							<IonIcon aria-hidden="true" icon={calendar} />
+							<IonLabel>Asesoria</IonLabel>
+						</IonTabButton>
+						<IonTabButton tab="Perfil" href="/Perfil">
+							<IonIcon aria-hidden="true" icon={person} />
+							<IonLabel>Perfil</IonLabel>
 						</IonTabButton>
 					</IonTabBar>
 				</IonTabs>
@@ -110,9 +130,9 @@ const App = () => (
 						<Registro />
 					</ProtectedLogin>
 				</Route>
-				<Route exact path="/Login">
+				<Route exact path="/Cuenta">
 					<ProtectedLogin>
-						<Login />
+						<Cuenta />
 					</ProtectedLogin>
 				</Route>
 			</IonReactRouter>

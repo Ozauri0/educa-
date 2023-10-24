@@ -3,7 +3,7 @@ import {
 	login,
 	getDocentes,
 	getDocente,
-	getForo,
+	getForumPosts,
 	verifyToken,
 	logout,
 } from "../controllers/auth.controller.js";
@@ -26,7 +26,7 @@ router.post("/login/:email/code", async function (req, res) {
 
 router.get("/", getDocentes);
 
-router.get("/foro", getForo);
+router.get("/foro", getForumPosts);
 
 router.get("/docente/:id", getDocente);
 
