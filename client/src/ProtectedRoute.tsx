@@ -18,7 +18,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 		return <h2>Loading...</h2>;
 	}
 	if (!loading && !isAuthenticated) {
-		return <Redirect to={{ pathname: "/Login", state: { replace: true } }} />;
+		return <Redirect to={{ pathname: "/Cuenta", state: { replace: true } }} />;
 	}
 	return <>{children}</>;
 }

@@ -28,7 +28,6 @@ import Cuenta from "./pages/Cuenta";
 import Registro from "./pages/Registro";
 import Foro from "./pages/Foro";
 import Asesoria from "./pages/Asesoria";
-import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
 import Editar from "./pages/Editar";
@@ -122,9 +121,6 @@ const App = () => (
 					</IonTabBar>
 				</IonTabs>
 				{/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
-				<Route exact path="/Cuenta">
-					<Cuenta />
-				</Route>
 				<Route exact path="/Registro">
 					<ProtectedLogin>
 						<Registro />
