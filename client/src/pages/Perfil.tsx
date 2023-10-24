@@ -4,6 +4,7 @@ import  {menu} from 'ionicons/icons';
 import './Perfil.css';
 
 const Perfil: React.FC = () => {
+  
   return (
     <IonPage>
       <IonHeader>
