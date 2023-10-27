@@ -1,24 +1,8 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import {
-	IonApp,
-	IonIcon,
-	IonLabel,
-	IonRouterOutlet,
-	IonTabBar,
-	IonTabButton,
-	IonTabs,
-	setupIonicReact,
-} from "@ionic/react";
+import { IonApp,IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import {
-	calendar,
-	ellipse,
-	person,
-	logoGoogle,
-	home,
-	journal,
-} from "ionicons/icons";
+import { calendar, person, home, journal } from "ionicons/icons";
 
 import Cursos from "./pages/Cursos";
 import Recursos from "./pages/Recursos";
@@ -28,10 +12,13 @@ import Cuenta from "./pages/Cuenta";
 import Registro from "./pages/Registro";
 import Foro from "./pages/Foro";
 import Asesoria from "./pages/Asesoria";
-import { AuthProvider } from "./context/AuthContext";
-import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
+import Notif from "./pages/Notif";
 import Editar from "./pages/Editar";
 import Calendario from "./pages/Calendario";
+
+import { AuthProvider } from "./context/AuthContext";
+import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
+import SocketComponent from './components/SocketComponent';
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -100,6 +87,11 @@ const App = () => (
 								<Editar />
 							</ProtectedRoute>
 						</Route>
+						<Route exact path="/Notif">
+							<ProtectedRoute>
+								<Notif />
+							</ProtectedRoute>
+						</Route>
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">
 						<IonTabButton tab="Inicio" href="/Inicio">
@@ -117,6 +109,10 @@ const App = () => (
 						<IonTabButton tab="Perfil" href="/Perfil">
 							<IonIcon aria-hidden="true" icon={person} />
 							<IonLabel>Perfil</IonLabel>
+						</IonTabButton>
+						<IonTabButton tab="Notif" href="/Notif">
+							<IonIcon aria-hidden="true" icon={person} />
+							<IonLabel>Notificaciones</IonLabel>
 						</IonTabButton>
 					</IonTabBar>
 				</IonTabs>
