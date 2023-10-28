@@ -8,7 +8,6 @@ import {
 	IonCard,
 	IonCardContent,
 	IonCardHeader,
-	IonCardSubtitle,
 	IonCardTitle,
 	IonInput,
 	IonButton,
@@ -49,7 +48,7 @@ const Registro: React.FC = () => {
 							nombres: nombre,
 							apellidos: apellido,
 							rut: rut,
-							telefono: telefono,
+							telefono: telefono, // Added telefono state to the request body
 							correo: email,
 							contrasena: password,
 						}),

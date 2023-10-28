@@ -22,33 +22,27 @@ const Tab1: React.FC = () => {
             <IonCardTitle>Bienvenido a Educa +</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
+            <p>aqui podras encontrar cursos para poder utilizar educa+ de forma correcta</p>
           </IonCardContent>
         </IonCard>
-        <IonCard href='/tab4'>
+        <IonCard href='/Calendario'>
           <img alt="Ayduantias" src="https://www.pedagogiapucv.cl/wp-content/uploads/2018/03/ayudantia2.jpg" />
           <IonCardHeader>
-            <IonCardSubtitle>Revisa tus solicitudes de ayudantia</IonCardSubtitle>
-            <IonCardTitle>Solicitud Ayudantias</IonCardTitle>
+            <IonCardSubtitle>Puedes solicitar una ayudantia mucho mas facil ahora</IonCardSubtitle>
+            <IonCardTitle>Solicita una Ayudantia</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
+            <p>Solicita ayudantias utiles para tus cursos!</p>
           </IonCardContent>
         </IonCard>
-        <IonCard>
+        <IonCard href='/Foro'>
           <img alt="Clases" src="https://prensa.uct.cl/wp-content/uploads/2019/04/300_sociologia.jpg" />
           <IonCardHeader>
-            <IonCardSubtitle>Revisa tu horario</IonCardSubtitle>
-            <IonCardTitle>Horario Clases</IonCardTitle>
+            <IonCardSubtitle>Puedes visitar el foro!</IonCardSubtitle>
+            <IonCardTitle>Foro educa +</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
+            <p>Bienvenido al foro principal de educa+!</p>
           </IonCardContent>
         </IonCard>
       </IonContent>

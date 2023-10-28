@@ -1,16 +1,24 @@
-import React, { useState, createContext, useContext, ReactNode } from "react";
-import { registerRequest } from "../api/auth";
-import { LoggedInUser } from "../schemas/AuthSchema";
+import React, {
+	useState,
+	createContext,
+	useContext,
+	useEffect,
+	ReactNode,
+} from "react";
+import { loginRequest } from "../api/auth";
+import { verifyTokenRequest } from "../api/auth";
+import { User, AuthContextType } from "../types";
+import Cookies from "js-cookie";
 
-interface AuthContextProps {
-	signup: (user: object) => void;
-	currentUser: LoggedInUser | null;
-	isAuthenticated: boolean;
+interface AuthProviderProps {
+	children: ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextProps | null>(null);
+export const AuthContext = createContext<AuthContextType | undefined>(
+	undefined
+);
 
-export const useAuth: any = () => {
+export const useAuth = (): AuthContextType => {
 	const context = useContext(AuthContext);
 	if (!context) {
 		throw new Error("useAuth must be used within an AuthProvider");
@@ -18,14 +26,14 @@ export const useAuth: any = () => {
 	return context;
 };
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const [currentUser, setCurrentUser] = useState<LoggedInUser | null>(null);
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+	const [currentUser, setCurrentUser] = useState<User | null>(null);
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 
-	const signup = async (user: object) => {
+	const signin = async (user: User) => {
 		try {
-			const res = await registerRequest(user);
-			console.log("RES:", res);
+			const res = await loginRequest(user);
 			setCurrentUser(res.data);
 			setIsAuthenticated(true);
 		} catch (error) {
@@ -33,13 +41,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
+	const logout = () => {
+		Cookies.remove("token");
+		setCurrentUser(null);
+		setIsAuthenticated(false);
+	};
+
+	useEffect(() => {
+		const checkLogin = async () => {
+			const cookies = Cookies.get();
+
+			if (!cookies.token) {
+				setIsAuthenticated(false);
+				setLoading(false);
+				return setCurrentUser(null);
+			}
+
+			try {
+				const res = await verifyTokenRequest();
+				console.log("Respuesta de verifyTokenRequest:", res);
+				if (!res.data) return setIsAuthenticated(false);
+				setIsAuthenticated(true);
+				setCurrentUser(res.data);
+				setLoading(false);
+			} catch (error) {
+				setIsAuthenticated(false);
+				setLoading(false);
+			}
+		};
+		checkLogin();
+	}, []);
+
 	return (
 		<AuthContext.Provider
-			value={{
-				signup,
-				currentUser,
-				isAuthenticated,
-			}}
+			value={{ currentUser, isAuthenticated, signin, logout, loading }}
 		>
 			{children}
 		</AuthContext.Provider>
