@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.example.app',
-  appName: 'educa+',
+  appId: 'com.miproyecto.miapp',
+  appName: 'Educa+',
   webDir: 'build',
   server: {
     androidScheme: 'https'

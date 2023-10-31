@@ -1,7 +1,14 @@
-import axios from 'axios'
+import axios from "axios";
+import { User } from "../types";
 
-const API = 'http://localhost:4000/api'
+const instance = axios.create({
+  baseURL: "http://localhost:4000",
+  withCredentials: true,
+});
 
-export const registerRequest = (user: object) => axios.post(`${API}/register`, user)
-export const loginRequest = (user: object) => axios.post(`${API}/login`, user)
+export const registerRequest = async (user: User) =>
+  instance.post(`/api/register`, user);
 
+export const loginRequest = async (user: User) => instance.post(`/api/login`, user);
+
+export const verifyTokenRequest = async () => instance.get(`/api/verify`);

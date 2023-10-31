@@ -1,20 +1,15 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
+import ChatbotLauncher from './ChatbotButton';
+import Header from './Header';
 import './Cursos.css';
 
 const Cursos: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-        <a href="/Inicio" style={{ textDecoration: 'none' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-        <img alt="Logo" src="https://i.imgur.com/EyZIJxu.png/" style={{ maxWidth: '40px', height: 'auto', marginLeft:'10px', marginRight: '-3px' }} />
-        <IonTitle>Educa+</IonTitle>
-        </div>
-        </a>
-        </IonToolbar>
-      </IonHeader>
+      <IonToolbar>
+        <Header title='Cursos' />
+      </IonToolbar>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
@@ -40,10 +35,14 @@ const Cursos: React.FC = () => {
           <IonCardHeader>
             <IonCardSubtitle>Informe de resultados</IonCardSubtitle>
             <IonCardTitle>Practicas con TIC</IonCardTitle>
+            
           </IonCardHeader>
         </IonCard>
+        <ChatbotLauncher />
       </IonContent>
+      
     </IonPage>
+    
   );
 };
 

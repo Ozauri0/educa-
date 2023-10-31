@@ -1,6 +1,7 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonAvatar, IonItem, IonLabel,IonDatetime,IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
 import './Perfil.css';
+import Header from './Header';
 
 const Perfil: React.FC = () => {
   const handleLogout = () => {
@@ -10,17 +11,10 @@ const Perfil: React.FC = () => {
   return (
     
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-        <a href="/Inicio" style={{ textDecoration: 'none' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-        <img alt="Logo" src="https://i.imgur.com/EyZIJxu.png/" style={{ maxWidth: '40px', height: 'auto', marginLeft:'10px', marginRight: '-3px' }} />
-        <IonTitle>Educa+</IonTitle>
-        </div>
-        </a>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
+      <IonToolbar>
+        <Header title='Perfil' />
+      </IonToolbar>
+      <IonContent >
         <IonItem>
           <IonAvatar slot="start">
             <img alt="Educa +" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -45,6 +39,7 @@ const Perfil: React.FC = () => {
                 <IonLabel>Ayudantias Perdidas</IonLabel>
               </IonItem>
           <IonButton color="primary" expand="block" href='/Recursos'>Ver Ayudantias</IonButton>
+          <IonButton color="danger" expand="block" href='/Admin'>Panel Administración</IonButton>
           </IonGrid>
         </IonCard>
         <IonGrid>

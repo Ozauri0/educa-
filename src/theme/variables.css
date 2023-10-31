@@ -10,7 +10,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #3171e0;
   --ion-color-primary-tint: #4c8dff;
-
+  
   /** secondary **/
   --ion-color-secondary: #3dc2ff;
   --ion-color-secondary-rgb: 61, 194, 255;
@@ -153,7 +153,7 @@ http://ionicframework.com/docs/theming/ */
    */
 
   .ios body {
-    --ion-background-color: #ffffff;
+    --ion-background-color: #000000;
     --ion-background-color-rgb: 0,0,0;
 
     --ion-text-color: #ffffff;
@@ -213,10 +213,10 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-step-400: #717171;
     --ion-color-step-450: #7d7d7d;
     --ion-color-step-500: #898989;
-    --ion-color-step-550: #949494;
+    --ion-color-step-550: #ffffff;
     --ion-color-step-600: #ffffff; /* Texto "correo" */
-    --ion-color-step-650: #acacac;
-    --ion-color-step-700: #b8b8b8;
+    --ion-color-step-650: #ffffff;
+    --ion-color-step-700: #ffffff;
     --ion-color-step-750: #c4c4c4;
     --ion-color-step-800: #d0d0d0;
     --ion-color-step-850: #dbdbdb;
@@ -230,5 +230,8 @@ http://ionicframework.com/docs/theming/ */
     --ion-tab-bar-background: #3473b5; /* Barra inferior */
 
     --ion-card-background: #6b6b6b; /* Fondo de las tarjetas */
+  }
+  .educa-plus-title {
+    color: #fff; /* Color blanco */
   }
 }
