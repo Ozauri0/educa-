@@ -70,8 +70,9 @@ export const register = async (req, res) => {
 	}
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
 	try {
+		const { correo, contrasena } = req.body;
 		if (!correo || !contrasena) {
 			return res.status(400).json({ message: "Must fill every field" });
 		}
@@ -87,12 +88,11 @@ export const login = async (req, res, next) => {
 		
 		const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
 
-		const user = datos[0][0].id;
-		const token = jwt.sign({ user }, 'my_secret_token');
+		// const user = datos[0][0].id;
+		// const token = jwt.sign({ user }, 'my_secret_token');
 
-		console.log("logged in");
-		res.status(200).json({ message: "Has iniciado Sesion", token });
-		next();
+		// console.log("logged in");
+		// res.status(200).json({ message: "Has iniciado Sesion", token });
 		const token = await createAccessToken({
 			result,
 		});
@@ -129,17 +129,17 @@ export const login = async (req, res, next) => {
 	}
 };
 
-export const ensureToken = (req, res, next) => {
-	const bearerHeader = req.headers["authorization"];
-	console.log(bearerHeader);
-	if (typeof bearerHeader !== "undefined") {
-		const bearerToken = bearerHeader.split(" ")[1];
-		req.token = bearerToken;
-		next();
-	} else {
-		res.sendStatus(403);
-	}
-};
+// export const ensureToken = (req, res, next) => {
+// 	const bearerHeader = req.headers["authorization"];
+// 	console.log(bearerHeader);
+// 	if (typeof bearerHeader !== "undefined") {
+// 		const bearerToken = bearerHeader.split(" ")[1];
+// 		req.token = bearerToken;
+// 		next();
+// 	} else {
+// 		res.sendStatus(403);
+// 	}
+// };
 
 export const sendEmail = async (req, res) => {
 		const {correo} = req.body;
@@ -193,3 +193,16 @@ export const logout = async (req, res) => {
 	res.clearCookie("token");
 	res.status(200).json({ message: "Has cerrado sesion" });
 };
+
+export const getNotificaciones = async (req, res) => {
+	try {
+		const { correo } = req.body;
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM notificaciones WHERE usuario = ?", [correo]);
+		res.status(200).json([result]);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+		console.log(error);
+	}
+}

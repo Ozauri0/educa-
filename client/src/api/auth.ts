@@ -12,3 +12,5 @@ export const registerRequest = async (user: User) =>
 export const loginRequest = async (user: User) => instance.post(`/api/login`, user);
 
 export const verifyTokenRequest = async () => instance.get(`/api/verify`);
+
+export const getNotifRequest = async (usuario: JSON) => instance.post(`/api/notificaciones`, usuario);

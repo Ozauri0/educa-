@@ -1,38 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Notif.css';
 import { IonInput } from '@ionic/react';
-import SocketComponent from '../components/SocketComponent';
-// import UserComponent from '../components/UserComponent';
-import axios from 'axios';
-
-const socket = io('http://localhost:5000');
-
+// import SocketComponent from '../components/SocketComponent';
+import { useAuth } from '../context/AuthContext';
+import { socket } from '../service/socket';
 
 const NotificationComponent: React.FC = () => {
-  const notify = () => {
-    toast.success("user" + ' te envio un mensaje', {position: toast.POSITION.TOP_CENTER});
-  };
+  const { currentUser } = useAuth();
+  
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<string[]>([]);
 
-  const sendMessage = () => {
-    socket.emit('chat message', message);
-    setMessage('');
+  const notify = () => {
+    if (currentUser) {
+      toast.success(currentUser.nombres + ' ' + currentUser.apellidos + ' te envio un mensaje', {position: toast.POSITION.TOP_CENTER});
+      return;
+    }
   };
-  
+
+  const emitMessage = () => {
+    socket.emit('chat message', {
+      user: currentUser?.correo,
+      mensaje: message
+    });
+  };
+  // const sendNotification = () => {
+  //   if (currentUser)
+  //     socket.emit('notificacion', currentUser.nombres + ' ' + currentUser.apellidos + ' te envio un mensaje', {position: toast.POSITION.TOP_CENTER});
+  //     return;
+  // };
+
   useEffect(() => {
     socket.on('chat message', (msg) => {
       setMessages([...messages, msg]);
     });
+    socket.on('notificacion', (msg) => {
+      
+      notify();
+    });
+
   }, [messages]);
 
   return (
     <div>
       <ToastContainer />
-      <SocketComponent />
+      {/* <SocketComponent /> */}
       {/* <UserComponent /> */}
  
         <ul>
@@ -45,11 +60,9 @@ const NotificationComponent: React.FC = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
               />
-        <button onClick={() => {sendMessage(); notify();}}>Enviar</button>   
+        <button onClick={() => {emitMessage();}}>Enviar</button>   
         </div>
   );
 };
 // 
 export default NotificationComponent;
-
-

@@ -1,8 +1,8 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { IonApp,IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from "@ionic/react";
+import { IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { calendar, person, home, journal } from "ionicons/icons";
+import { calendar, person, home, journal, alertCircle } from "ionicons/icons";
 
 import Cursos from "./pages/Cursos";
 import Recursos from "./pages/Recursos";
@@ -15,10 +15,12 @@ import Asesoria from "./pages/Asesoria";
 import Notif from "./pages/Notif";
 import Editar from "./pages/Editar";
 import Calendario from "./pages/Calendario";
+import Notificaciones from "./pages/Notificaciones";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
 import SocketComponent from './components/SocketComponent';
+import { QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -40,13 +42,20 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 setupIonicReact();
+const queryClient = new QueryClient();
 
 const App = () => (
+	<QueryClientProvider client={queryClient}>
 	<IonApp>
 		<AuthProvider>
 			<IonReactRouter>
 				<IonTabs>
 					<IonRouterOutlet>
+					<Route exact path="/Notificaciones">
+							<ProtectedRoute>
+								<Notificaciones />
+							</ProtectedRoute>
+						</Route>
 						<Route exact path="/Cursos">
 							<ProtectedRoute>
 								<Cursos />
@@ -87,13 +96,12 @@ const App = () => (
 								<Editar />
 							</ProtectedRoute>
 						</Route>
-						<Route exact path="/Notif">
-							<ProtectedRoute>
-								<Notif />
-							</ProtectedRoute>
-						</Route>
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">
+						<IonTabButton tab="Notif" href="/Notificaciones">
+							<IonIcon aria-hidden="true" icon={alertCircle} />
+							<IonLabel>Notificaciones</IonLabel>
+						</IonTabButton>
 						<IonTabButton tab="Inicio" href="/Inicio">
 							<IonIcon aria-hidden="true" icon={home} />
 							<IonLabel>Menu</IonLabel>
@@ -110,10 +118,7 @@ const App = () => (
 							<IonIcon aria-hidden="true" icon={person} />
 							<IonLabel>Perfil</IonLabel>
 						</IonTabButton>
-						<IonTabButton tab="Notif" href="/Notif">
-							<IonIcon aria-hidden="true" icon={person} />
-							<IonLabel>Notificaciones</IonLabel>
-						</IonTabButton>
+						
 					</IonTabBar>
 				</IonTabs>
 				{/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
@@ -130,6 +135,7 @@ const App = () => (
 			</IonReactRouter>
 		</AuthProvider>
 	</IonApp>
+	</QueryClientProvider>
 );
 
 export default App;

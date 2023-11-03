@@ -4,15 +4,14 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
-import http from "http"; // Importa la biblioteca HTTP de Node.js
-import { Server } from "socket.io"; // Importa la biblioteca Socket.io
+import http from "http";
+import { Server } from "socket.io";
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app); // Crea un servidor HTTP
+const server = http.createServer(app);
 
-// Inicializa Socket.io pasándole el servidor HTTP
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:8100",
@@ -20,23 +19,22 @@ const io = new Server(server, {
   },
 });
 
-// Maneja conexiones de Socket.io
 io.on("connection", (socket) => {
   console.log("Cliente conectado a Socket.io");
 
   socket.on('chat message', (message) => {
-    io.emit('chat message', message); // Enviar el mensaje a todos los clientes
+    io.emit('chat message', message);
   });
 
-  // Maneja eventos de notificación desde el cliente
   socket.on("notificacion", (data) => {
     console.log("Notificación recibida desde el cliente:", data);
-    // Aquí puedes procesar la notificación y retransmitirla a otros clientes si es necesario.
+    // para enviar un mensaje a todos los clientes conectados
+    io.emit("notificacion", data);
   });
 
-  // Maneja la desconexión del cliente
   socket.on("disconnect", () => {
     console.log("Cliente desconectado de Socket.io");
+     
   });
 });
 

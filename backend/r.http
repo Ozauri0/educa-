@@ -1,5 +1,4 @@
-@api = http://localhost:4000/api/login/zzz
-###
+@api = http://localhost:4000/api/notificaciones
 GET {{api}}
 
 ###

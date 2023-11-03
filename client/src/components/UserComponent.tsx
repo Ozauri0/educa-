@@ -3,7 +3,7 @@
 // import { JwtPayload, jwtDecode } from "jwt-decode";
 // import { partialUtil } from 'zod/lib/helpers/partialUtil';
 
-// function UserComponent() {
+function UserComponent() {
   
 //   const [userData, setUserData] = useState({});
 //   const [token, setToken] = useState<string>('');
@@ -48,6 +48,6 @@
 //       {/* Otros campos del usuario */}
 //     </div>
 //   );
-// }
+}
 
-// export default UserComponent;
+export default UserComponent;
