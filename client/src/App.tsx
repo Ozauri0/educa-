@@ -1,6 +1,15 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from "@ionic/react";
+import {
+	IonApp,
+	IonIcon,
+	IonLabel,
+	IonRouterOutlet,
+	IonTabBar,
+	IonTabButton,
+	IonTabs,
+	setupIonicReact,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { calendar, person, home, journal, alertCircle } from "ionicons/icons";
 
@@ -19,8 +28,8 @@ import Notificaciones from "./pages/Notificaciones";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
-import SocketComponent from './components/SocketComponent';
-import { QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import SocketComponent from "./components/SocketComponent";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -46,95 +55,94 @@ const queryClient = new QueryClient();
 
 const App = () => (
 	<QueryClientProvider client={queryClient}>
-	<IonApp>
-		<AuthProvider>
-			<IonReactRouter>
-				<IonTabs>
-					<IonRouterOutlet>
-					<Route exact path="/Notificaciones">
-							<ProtectedRoute>
-								<Notificaciones />
-							</ProtectedRoute>
-						</Route>
-						<Route exact path="/Cursos">
-							<ProtectedRoute>
-								<Cursos />
-							</ProtectedRoute>
-						</Route>
-						<Route exact path="/Recursos">
-							<ProtectedRoute>
-								<Recursos />
-							</ProtectedRoute>
-						</Route>
-						<Route exact path="/Inicio">
-							<ProtectedRoute>
-								<Inicio />
-							</ProtectedRoute>
-						</Route>
-						<Route exact path="/Perfil">
-							<ProtectedRoute>
-								<Perfil />
-							</ProtectedRoute>
-						</Route>
-						<Route exact path="/Foro">
-							<ProtectedRoute>
-								<Foro />
-							</ProtectedRoute>
-						</Route>
-						<Route exact path="/Calendario">
-							<ProtectedRoute>
-								<Calendario />
-							</ProtectedRoute>
-						</Route>
-						<Route exact path="/Asesoria">
-							<ProtectedRoute>
-								<Asesoria />
-							</ProtectedRoute>
-						</Route>
-						<Route exact path="/Editar">
-							<ProtectedRoute>
-								<Editar />
-							</ProtectedRoute>
-						</Route>
-					</IonRouterOutlet>
-					<IonTabBar slot="bottom">
-						<IonTabButton tab="Notif" href="/Notificaciones">
-							<IonIcon aria-hidden="true" icon={alertCircle} />
-							<IonLabel>Notificaciones</IonLabel>
-						</IonTabButton>
-						<IonTabButton tab="Inicio" href="/Inicio">
-							<IonIcon aria-hidden="true" icon={home} />
-							<IonLabel>Menu</IonLabel>
-						</IonTabButton>
-						<IonTabButton tab="Cursos" href="/Cursos">
-							<IonIcon aria-hidden="true" icon={journal} />
-							<IonLabel>Cursos</IonLabel>
-						</IonTabButton>
-						<IonTabButton tab="Calendario" href="/Calendario">
-							<IonIcon aria-hidden="true" icon={calendar} />
-							<IonLabel>Asesoria</IonLabel>
-						</IonTabButton>
-						<IonTabButton tab="Perfil" href="/Perfil">
-							<IonIcon aria-hidden="true" icon={person} />
-							<IonLabel>Perfil</IonLabel>
-						</IonTabButton>
-						
-					</IonTabBar>
-				</IonTabs>
-				{/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
-				<Route exact path="/Registro">
-					<ProtectedLogin>
-						<Registro />
-					</ProtectedLogin>
-				</Route>
-				<Route exact path="/Cuenta">
-					<ProtectedLogin>
-						<Cuenta />
-					</ProtectedLogin>
-				</Route>
-			</IonReactRouter>
-		</AuthProvider>
-	</IonApp>
+		<IonApp>
+			<AuthProvider>
+				<IonReactRouter>
+					<IonTabs>
+						<IonRouterOutlet>
+							<Route exact path="/Notificaciones">
+								<ProtectedRoute>
+									<Notificaciones />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Cursos">
+								<ProtectedRoute>
+									<Cursos />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Recursos">
+								<ProtectedRoute>
+									<Recursos />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Inicio">
+								<ProtectedRoute>
+									<Inicio />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Perfil">
+								<ProtectedRoute>
+									<Perfil />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Foro">
+								<ProtectedRoute>
+									<Foro />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Calendario">
+								<ProtectedRoute>
+									<Calendario />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Asesoria">
+								<ProtectedRoute>
+									<Asesoria />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Editar">
+								<ProtectedRoute>
+									<Editar />
+								</ProtectedRoute>
+							</Route>
+						</IonRouterOutlet>
+						<IonTabBar slot="bottom">
+							<IonTabButton tab="Notificaciones" href="/Notificaciones">
+								<IonIcon aria-hidden="true" icon={alertCircle} />
+								<IonLabel>Notificaciones</IonLabel>
+							</IonTabButton>
+							<IonTabButton tab="Inicio" href="/Inicio">
+								<IonIcon aria-hidden="true" icon={home} />
+								<IonLabel>Menu</IonLabel>
+							</IonTabButton>
+							<IonTabButton tab="Cursos" href="/Cursos">
+								<IonIcon aria-hidden="true" icon={journal} />
+								<IonLabel>Cursos</IonLabel>
+							</IonTabButton>
+							<IonTabButton tab="Calendario" href="/Calendario">
+								<IonIcon aria-hidden="true" icon={calendar} />
+								<IonLabel>Asesoria</IonLabel>
+							</IonTabButton>
+							<IonTabButton tab="Perfil" href="/Perfil">
+								<IonIcon aria-hidden="true" icon={person} />
+								<IonLabel>Perfil</IonLabel>
+							</IonTabButton>
+						</IonTabBar>
+					</IonTabs>
+					{/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
+					<Route exact path="/Registro">
+						<ProtectedLogin>
+							<Registro />
+						</ProtectedLogin>
+					</Route>
+					<Route exact path="/Cuenta">
+						<ProtectedLogin>
+							<Cuenta />
+						</ProtectedLogin>
+					</Route>
+				</IonReactRouter>
+			</AuthProvider>
+		</IonApp>
 	</QueryClientProvider>
 );
 

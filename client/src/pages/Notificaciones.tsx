@@ -1,110 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
-import './Notif.css';
-import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
-
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
-import { getNotifRequest } from '../api/auth';
-
-// const retrievePosts = async (dato: string) => {
-//   const response = await axios.post(
-//     "https://localhost:4000/notificaciones",
-//     { correo: dato }
-//   );
-//   return response.data;
-// };
-
-
-// const retrievePosts = async (dato: any) => {
-//   const response = await fetch('http://localhost:4000/api/notificaciones', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       },
-//     body: JSON.stringify({
-//       correo: dato,
-//       }),
-//     })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       console.log(data);
-//       });
-//       return response;
-// };
+import React, { useState, useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import "./Notif.css";
+import { useAuth } from "../context/AuthContext";
+import { Notificacion } from "../types";
+import { getNotifRequest } from "../api/auth";
+import { IonContent, IonItem, IonPage } from "@ionic/react";
 
 const NotificacionesComponent: React.FC = () => {
-  const { currentUser } = useAuth();
-  const [posts, setPosts] = useState<any[]>([]);
-  useEffect(() => {
-    async function adgjadg(dato : any) {
-      const response = await fetch('http://localhost:4000/api/notificaciones', {
-        method: 'POST',
-        headers: {          'Content-Type': 'application/json',          },
-        body: JSON.stringify({          correo: dato,          }),        })
-        .then((res) =>{res.json();})
-        .then((data) => {
-          console.log(data);
-          });
-          return response;
+	const { currentUser } = useAuth();
+	const [notificaciones, setNotificaciones] = useState<Notificacion[]>([]);
 
-    }
-    setPosts(adgjadg(currentUser?.correo));
-  }, [currentUser]);
-  
-  
-  return (
-    <div>
-      {
+	useEffect(() => {
+		async function getNotifications() {
+			if (currentUser) {
+				try {
+					const response = await getNotifRequest({
+						correo: currentUser.correo,
+					}); // Llama a la función con el correo del usuario actual
+					const data = response.data;
+					setNotificaciones(data); // Actualiza el estado con los datos recibidos
+				} catch (error) {
+					console.error(error);
+				}
+			}
+		}
+		getNotifications();
+	}, [currentUser]);
 
-      }
-    </div>
-  );
+	return (
+		<IonPage>
+			<IonContent fullscreen>
+				{notificaciones.map((notificacion: Notificacion) => (
+					<IonItem key={notificacion.id}>
+						<div>
+							<h1>Por: {notificacion.usuario}</h1>
+							<p>Mensaje: {notificacion.mensaje}</p>
+							<p>De: {notificacion.de}</p>
+							<p>Fecha {notificacion.fecha}</p>
+						</div>
+					</IonItem>
+				))}
+			</IonContent>
+		</IonPage>
+	);
 };
-  // useEffect(() => {
-  //   async function adgjadg() {
-  //     const requestOptions = {
-  //       method: 'POST',
-  //       headers: {'Content-Type': 'application/json' },
-  //       body: JSON.stringify({usuario: currentUser?.correo})
-  //     };  
-  //     const response = await fetch('https://localhost:4000/api/notificaciones', requestOptions)
-  //     const data = await response.json();
-  //     setPosts(data);
-  //   }
-  // }, []);
-
-  
-  // const response : any = fetch('http://localhost:4000/api/notificaciones', {
-  //   method: 'POST',
-  //   headers: {'Content-Type': 'application/json' },
-  //   body: JSON.stringify({correo: currentUser?.correo,})
-  //   })
-  //   .then((res) => res.json())
-  //   .then((response) => {
-  //     console.log(response);
-  //     });
-//  posts.map((post: any) => (
-//         <div key={post.id}>
-//           <h1>{post.usuario}</h1>
-//           <p>{post.descripcion}</p>
-//         </div>
-//       )) 
-      
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
-     
-// return (
-//   {posts.map((post: any) => (
-//     <div>
-//       <h1>{post.titulo}</h1>
-//       <p>{post.descripcion}</p>
-//     </div>
-//   ))}
-//   );
 export default NotificacionesComponent;

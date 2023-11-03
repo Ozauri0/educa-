@@ -85,8 +85,11 @@ export const login = async (req, res) => {
 		if (result.length != 1) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
-		
-		const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
+
+		const datos = await db.query(
+			"SELECT nombres, apellidos FROM docente WHERE correo = ?",
+			[correo]
+		);
 
 		// const user = datos[0][0].id;
 		// const token = jwt.sign({ user }, 'my_secret_token');
@@ -142,30 +145,33 @@ export const login = async (req, res) => {
 // };
 
 export const sendEmail = async (req, res) => {
-		const {correo} = req.body;
+	const { correo } = req.body;
 
-		const db = await connect();
-		const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
-		
-		const nombre = datos[0][0].nombres;
-		const apellido = datos[0][0].apellidos;	
+	const db = await connect();
+	const datos = await db.query(
+		"SELECT nombres, apellidos FROM docente WHERE correo = ?",
+		[correo]
+	);
 
-		const fecha = new Date().toLocaleString();
-		
-		const mail = await transporter.sendMail({
-			from: process.env.EMAIL,
-			to: correo,
-			subject: "Nuevo inicio de sesion en tu cuenta",
-			html: `<p>Hola ${nombre} ${apellido}.</p>
+	const nombre = datos[0][0].nombres;
+	const apellido = datos[0][0].apellidos;
+
+	const fecha = new Date().toLocaleString();
+
+	const mail = await transporter.sendMail({
+		from: process.env.EMAIL,
+		to: correo,
+		subject: "Nuevo inicio de sesion en tu cuenta",
+		html: `<p>Hola ${nombre} ${apellido}.</p>
 			<p>Acabas de iniciar sesion en tu cuenta de Educa+</p>
 			<ul>
 				<li>Tu cuenta: ${correo}</li>
 				<li>Fecha: ${fecha}</li>
         	</ul>
 			<p>Si fuiste tu, entonces no necesitas hacer nada.</p>
-			<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`	
-			,});
-		return
+			<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`,
+	});
+	return;
 };
 export const verifyToken = async (req, res) => {
 	const { token } = req.cookies;
@@ -195,14 +201,17 @@ export const logout = async (req, res) => {
 };
 
 export const getNotificaciones = async (req, res) => {
+	const { correo } = req.body;
 	try {
-		const { correo } = req.body;
 		const db = await connect();
-		const [result] = await db.query("SELECT * FROM notificaciones WHERE usuario = ?", [correo]);
-		res.status(200).json([result]);
+		console.log("Correo", correo);
+		const [result] = await db.query(
+			"SELECT * FROM notificaciones WHERE usuario = ?",
+			[correo]
+		);
+		res.status(200).json(result);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal server error" });
-		console.log(error);
 	}
-}
+};

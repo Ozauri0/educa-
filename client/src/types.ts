@@ -4,8 +4,8 @@ export interface User {
 	apellidos?: string;
 	rut?: string;
 	telefono?: string;
-	correo: string;
-	contrasena: string;
+	correo?: string;
+	contrasena?: string;
 }
 
 export interface AuthContextType {
@@ -14,4 +14,12 @@ export interface AuthContextType {
   signin: (user: User) => void;
   logout: () => void;
   loading: boolean;
+}
+
+export type Notificacion = {
+	id: number;
+	mensaje: string;
+	usuario: string;
+	de: string;
+	fecha: string;
 }
