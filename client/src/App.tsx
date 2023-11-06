@@ -84,6 +84,12 @@ const App = () => (
 								<Asesoria />
 							</ProtectedRoute>
 						</Route>
+            <Route exact path="/ForoNuevo">
+              <ForoNuevo />
+            </Route>
+            <Route path="/ForoPost/:postId" component={ForoPost}>
+              <ForoPost />
+            </Route>
 						<Route exact path="/Editar">
 							<ProtectedRoute>
 								<Editar />
@@ -132,11 +138,6 @@ const App = () => (
 			</IonReactRouter>
 		</AuthProvider>
 	</IonApp>
-          <Route exact path="/ForoNuevo">
-            <ForoNuevo />
-          <Route path="/ForoPost/:postId" component={ForoPost}>
-            <ForoPost />
-          </Route>
 );
 
 export default App;
