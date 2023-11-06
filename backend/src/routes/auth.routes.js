@@ -7,13 +7,12 @@ import {
 	getForumPosts,
 	verifyToken,
 	logout,
-	getNotificaciones
+	getNotificaciones,
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
 
 const router = Router();
 
-// router.get("/",ensureToken, getDocentes);
 router.get("/", getDocentes);
 
 router.get("/foro", getForumPosts);

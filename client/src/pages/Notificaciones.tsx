@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import "./Notif.css";
+import "./Notificaciones.css";
 import { useAuth } from "../context/AuthContext";
 import { Notificacion } from "../types";
 import { getNotifRequest } from "../api/auth";
@@ -33,10 +33,9 @@ const NotificacionesComponent: React.FC = () => {
 				{notificaciones.map((notificacion: Notificacion) => (
 					<IonItem key={notificacion.id}>
 						<div>
-							<h1>Por: {notificacion.usuario}</h1>
-							<p>Mensaje: {notificacion.mensaje}</p>
-							<p>De: {notificacion.de}</p>
-							<p>Fecha {notificacion.fecha}</p>
+							<h1>Para: {notificacion.usuario}</h1>
+              <p>De: {notificacion.de}</p><p>Fecha: {notificacion.fecha}</p>
+							<p> {notificacion.accion} {notificacion.mensaje}</p>
 						</div>
 					</IonItem>
 				))}

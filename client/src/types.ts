@@ -22,4 +22,5 @@ export type Notificacion = {
 	usuario: string;
 	de: string;
 	fecha: string;
+	accion: string;
 }

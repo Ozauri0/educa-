@@ -215,3 +215,20 @@ export const getNotificaciones = async (req, res) => {
 		res.status(500).json({ message: "Internal server error" });
 	}
 };
+
+export const insNotificacion = async (req, res) => {
+	
+	console.log(req.body);
+	const { usuario, mensaje } = req.body;
+	try {
+		const db = await connect();
+		const result = await db.query(
+			"INSERT INTO notificaciones (usuario, de, accion, mensaje) VALUES (?, ?, ?)",
+			[usuario, mensaje, fecha]
+		);
+		res.status(200).json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+};

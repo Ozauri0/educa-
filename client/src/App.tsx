@@ -21,15 +21,13 @@ import Cuenta from "./pages/Cuenta";
 import Registro from "./pages/Registro";
 import Foro from "./pages/Foro";
 import Asesoria from "./pages/Asesoria";
-import Notif from "./pages/Notif";
 import Editar from "./pages/Editar";
 import Calendario from "./pages/Calendario";
+import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
-import SocketComponent from "./components/SocketComponent";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -51,15 +49,18 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 setupIonicReact();
-const queryClient = new QueryClient();
 
 const App = () => (
-	<QueryClientProvider client={queryClient}>
 		<IonApp>
 			<AuthProvider>
 				<IonReactRouter>
 					<IonTabs>
 						<IonRouterOutlet>
+							<Route exact path="/Notif">
+								<ProtectedRoute>
+									<Notif />
+								</ProtectedRoute>
+							</Route>
 							<Route exact path="/Notificaciones">
 								<ProtectedRoute>
 									<Notificaciones />
@@ -143,7 +144,6 @@ const App = () => (
 				</IonReactRouter>
 			</AuthProvider>
 		</IonApp>
-	</QueryClientProvider>
 );
 
 export default App;
