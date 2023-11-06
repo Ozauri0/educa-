@@ -11,6 +11,7 @@ const app = express();
 // Settings
 app.set("port", 4000);
 
+
 // Middlewares
 app.use(
 	cors({
@@ -19,6 +20,7 @@ app.use(
 );
 app.use(morgan("dev"));
 app.use(express.json());
+
 
 // Routes
 app.use("/api/", authRoutes);

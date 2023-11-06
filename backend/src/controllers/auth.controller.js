@@ -10,24 +10,45 @@ export const getDocentes = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Hola Mundo" });
-		console.log(error);
-		
 	}
 };
 
-export const getForo = async (req, res) => {
+export const getForum = async (req,res) => {
 	try {
 		const db = await connect();
-		const [result] = await db.query("SELECT * FROM foro");
-		console.log(result);
+		const [result] = await db.query("SELECT * FROM foro ORDER BY id DESC;");
 		res.json(result);
 	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: "Hola Mundo" });
-		console.log(error);
-		
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
 	}
 };
+
+export const npost = async (req,res) => {
+	try {
+		const {titulo, descripcion, instancia_form_id} = req.body;
+		const db = await connect();
+		const [result] = await db.query("INSERT INTO foro (titulo, descripcion, instancia_form_id) VALUES (?,?,?)", [titulo, descripcion, instancia_form_id]);
+		res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+
+export const getPost = async (req,res) => {
+	try {
+		const postId = req.params.id;
+		console.log(postId);
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM foro WHERE id = ?", postId);
+		res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+
 
 export const getDocente = async (req, res) => {
 	try {

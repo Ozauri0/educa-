@@ -3,13 +3,14 @@ import {
 	login,
 	getDocentes,
 	getDocente,
-	getForo,
+	getForum,
+	getPost,
+	npost,
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
 import transporter from "../helpers/mailer.cjs";
 
 const router = Router();
- 
 
 router.post("/login/:email/code", async function (req, res) {
 
@@ -28,11 +29,15 @@ router.post("/login/:email/code", async function (req, res) {
 
 router.get("/", getDocentes);
 
-router.get("/foro", getForo);
+router.get("/foro", getForum);
+
+router.get("/ForoPost/:id", getPost);
 
 router.get("/docente/:id", getDocente);
 
 router.post("/register", register);
+
+router.post("/foronuevo", npost);
 
 router.post("/login", login);
 

@@ -24,6 +24,8 @@ import Foro from './pages/Foro';
 import Asesoria from './pages/Asesoria';
 import Editar from './pages/Editar';
 import Calendario from './pages/Calendario';
+import ForoPost from './pages/ForoPost';
+import ForoNuevo from './pages/ForoNuevo';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -69,6 +71,12 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/">
             <Redirect to="/Cuenta" />
+          </Route>
+          <Route path="/ForoPost/:postId" component={ForoPost}>
+            <ForoPost />
+          </Route>
+          <Route exact path="/ForoNuevo">
+            <ForoNuevo />
           </Route>
           <Route exact path="/Calendario">
             <Calendario />
