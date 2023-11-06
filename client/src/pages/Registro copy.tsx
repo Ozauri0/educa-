@@ -14,6 +14,7 @@ import {
 	IonText,
 } from "@ionic/react";
 import "./Registro.css";
+
 import Rut from "rut.js";
 {
 	/* Importar la librería para validar RUT, "npm install rut.js"*/
@@ -40,20 +41,19 @@ const Registro: React.FC = () => {
 				const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 				if (emailRegex.test(email)) {
 					// Todas las condiciones son verdaderas, enviar la información al servidor
-					const res = await fetch("http://localhost:4000/api/register", {
+					await fetch("http://localhost:4000/api/register", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({
 							nombres: nombre,
 							apellidos: apellido,
 							rut: rut,
+							telefono: telefono, // Added telefono state to the request body
 							correo: email,
 							contrasena: password,
-							telefono: telefono,
 						}),
 					});
-					const data = await res.json();
-					console.log(data);
+					console.log("Registro exitoso");
 					setPasswordMatch(true); // Restablecer la coincidencia de contraseñas
 				} else {
 					setEmailValido(false); // Marcar el correo como inválido
@@ -117,6 +117,11 @@ const Registro: React.FC = () => {
 						></IonInput>
 						{!rutValido && <IonText color="danger">RUT inválido</IonText>}
 						<IonInput
+							value={telefono}
+							placeholder="Telefono"
+							onIonChange={(e) => setTelefono(e.detail.value!)}
+						></IonInput>
+						<IonInput
 							value={email}
 							placeholder="Correo Electrónico"
 							onIonChange={(e) => {
@@ -135,20 +140,15 @@ const Registro: React.FC = () => {
 							onIonChange={(e) => setPassword(e.detail.value!)}
 						></IonInput>
 						<IonInput
+							onIonChange={(e) => setConfirmPassword(e.detail.value!)}
+							className={passwordMatch ? "" : "invalid"}
 							type="password"
 							value={confirmPassword}
 							placeholder="Confirmar Contraseña"
-							onIonChange={(e) => setConfirmPassword(e.detail.value!)}
-							className={passwordMatch ? "" : "invalid"}
 						></IonInput>
 						{!passwordMatch && (
 							<IonText color="danger">Las contraseñas no coinciden</IonText>
 						)}
-						<IonInput
-							value={telefono}
-							placeholder="Telefono"
-							onIonChange={(e) => setTelefono(e.detail.value!)}
-						></IonInput>
 						<IonButton expand="full" onClick={handleRegistro}>
 							Registrarse
 						</IonButton>
