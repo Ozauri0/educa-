@@ -7,6 +7,7 @@ import {
 	verifyToken,
 	getNotificaciones,
 	getForum,
+	getPost,
 	npost,
 	logout,
 } from "../controllers/auth.controller.js";
