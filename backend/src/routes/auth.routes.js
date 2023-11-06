@@ -1,11 +1,14 @@
 import {
 	register,
 	login,
+	sendEmail,
 	getDocentes,
 	getDocente,
 	verifyToken,
+	getNotificaciones,
 	getForum,
 	npost,
+	logout,
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
 
@@ -28,5 +31,7 @@ router.post("/login", login);
 router.get("/verify", verifyToken);
 
 router.post("/logout", verifyToken, logout);
+
+router.post("/notificaciones", getNotificaciones);
 
 export default router;

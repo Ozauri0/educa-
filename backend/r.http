@@ -1,27 +1,15 @@
-@api = http://localhost:4000/api/login/zzz
-###
+@api = http://localhost:4000/api/notificaciones
 GET {{api}}
 
-###
 POST {{api}}
 Content-Type: application/json
 
 {
-    "nombres": "Juan",
-    "apellidos": "Perez",
-    "rut": "12345678-9",
-    "correo": "asasdasdfdcvbos@live.cl",
-    "contrasena": "123456",
-    "telefono": "123456789"
+    "id": 1,
+    "titulo": "titulo",
+    "descripcion": "descripcion",
+    "fecha": "fecha",
+    "hora": "hora",
+    "estado": "estado",
+    "id_usuario": 1
 }
-
-###
-POST {{api}}
-Content-Type: application/json
- 
-{
-    "correo": "nikobarros@live.cl"
-}
-
-###
-POST {{api}}

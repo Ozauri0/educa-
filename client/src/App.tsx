@@ -1,8 +1,17 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { IonApp,IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from "@ionic/react";
+import {
+	IonApp,
+	IonIcon,
+	IonLabel,
+	IonRouterOutlet,
+	IonTabBar,
+	IonTabButton,
+	IonTabs,
+	setupIonicReact,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { calendar, person, home, journal } from "ionicons/icons";
+import { calendar, person, home, journal, alertCircle } from "ionicons/icons";
 
 import Cursos from "./pages/Cursos";
 import Recursos from "./pages/Recursos";
@@ -12,15 +21,15 @@ import Cuenta from "./pages/Cuenta";
 import Registro from "./pages/Registro";
 import Foro from "./pages/Foro";
 import Asesoria from "./pages/Asesoria";
-import Notif from "./pages/Notif";
 import Editar from "./pages/Editar";
 import Calendario from "./pages/Calendario";
+import Notif from "./pages/Notif";
+import Notificaciones from "./pages/Notificaciones";
 
 import ForoPost from './pages/ForoPost';
 import ForoNuevo from './pages/ForoNuevo';
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
-import SocketComponent from './components/SocketComponent';
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";

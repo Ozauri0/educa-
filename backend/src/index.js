@@ -1,5 +1,4 @@
 import app from "./app.js";
-import { Server } from "socket.io";
 
 const main = () => {
 	app.listen(app.get("port"));

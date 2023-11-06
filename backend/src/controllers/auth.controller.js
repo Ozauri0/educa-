@@ -95,9 +95,8 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-	const { correo, contrasena } = req.body;
-
 	try {
+		const { correo, contrasena } = req.body;
 		if (!correo || !contrasena) {
 			return res.status(400).json({ message: "Must fill every field" });
 		}
@@ -110,6 +109,17 @@ export const login = async (req, res) => {
 		if (result.length != 1) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
+
+		const datos = await db.query(
+			"SELECT nombres, apellidos FROM docente WHERE correo = ?",
+			[correo]
+		);
+
+		// const user = datos[0][0].id;
+		// const token = jwt.sign({ user }, 'my_secret_token');
+
+		// console.log("logged in");
+		// res.status(200).json({ message: "Has iniciado Sesion", token });
 		const token = await createAccessToken({
 			result,
 		});
@@ -146,6 +156,47 @@ export const login = async (req, res) => {
 	}
 };
 
+// export const ensureToken = (req, res, next) => {
+// 	const bearerHeader = req.headers["authorization"];
+// 	console.log(bearerHeader);
+// 	if (typeof bearerHeader !== "undefined") {
+// 		const bearerToken = bearerHeader.split(" ")[1];
+// 		req.token = bearerToken;
+// 		next();
+// 	} else {
+// 		res.sendStatus(403);
+// 	}
+// };
+
+export const sendEmail = async (req, res) => {
+	const { correo } = req.body;
+
+	const db = await connect();
+	const datos = await db.query(
+		"SELECT nombres, apellidos FROM docente WHERE correo = ?",
+		[correo]
+	);
+
+	const nombre = datos[0][0].nombres;
+	const apellido = datos[0][0].apellidos;
+
+	const fecha = new Date().toLocaleString();
+
+	const mail = await transporter.sendMail({
+		from: process.env.EMAIL,
+		to: correo,
+		subject: "Nuevo inicio de sesion en tu cuenta",
+		html: `<p>Hola ${nombre} ${apellido}.</p>
+			<p>Acabas de iniciar sesion en tu cuenta de Educa+</p>
+			<ul>
+				<li>Tu cuenta: ${correo}</li>
+				<li>Fecha: ${fecha}</li>
+        	</ul>
+			<p>Si fuiste tu, entonces no necesitas hacer nada.</p>
+			<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`,
+	});
+	return;
+};
 export const verifyToken = async (req, res) => {
 	const { token } = req.cookies;
 	if (!token) {
@@ -171,4 +222,37 @@ export const verifyToken = async (req, res) => {
 export const logout = async (req, res) => {
 	res.clearCookie("token");
 	res.status(200).json({ message: "Has cerrado sesion" });
+};
+
+export const getNotificaciones = async (req, res) => {
+	const { correo } = req.body;
+	try {
+		const db = await connect();
+		console.log("Correo", correo);
+		const [result] = await db.query(
+			"SELECT * FROM notificaciones WHERE usuario = ?",
+			[correo]
+		);
+		res.status(200).json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+};
+
+export const insNotificacion = async (req, res) => {
+	
+	console.log(req.body);
+	const { usuario, mensaje } = req.body;
+	try {
+		const db = await connect();
+		const result = await db.query(
+			"INSERT INTO notificaciones (usuario, de, accion, mensaje) VALUES (?, ?, ?)",
+			[usuario, mensaje, fecha]
+		);
+		res.status(200).json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
 };

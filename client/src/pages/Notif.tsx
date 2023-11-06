@@ -1,40 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Notif.css';
-import { IonInput } from '@ionic/react';
-import SocketComponent from '../components/SocketComponent';
-// import UserComponent from '../components/UserComponent';
-import axios from 'axios';
-
-const socket = io('http://localhost:5000');
-
+import { useAuth } from '../context/AuthContext';
+import { socket } from '../service/socket';
 
 const NotificationComponent: React.FC = () => {
-  const notify = () => {
-    toast.success("user" + ' te envio un mensaje', {position: toast.POSITION.TOP_CENTER});
-  };
+  const { currentUser } = useAuth();
+  
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<string[]>([]);
 
-  const sendMessage = () => {
-    socket.emit('chat message', message);
+  const notify = (msg : string, msg2 : string, msg3 : string) => {
+
+    toast.success(currentUser?.nombres + ' ' + currentUser?.apellidos + ' te envio un mensaje: ' + msg3, {position: toast.POSITION.TOP_CENTER});
+      
+  };
+
+  const emitNotif = (tipo : string) => {
+    if (tipo === "chat") {
+      socket.emit('chat message', currentUser?.correo, "Te envio un mensaje:", message);
+    }
+    if (tipo === "foro") {
+      socket.emit('foro message', currentUser?.correo, "Te envio un mensaje:", message);
+    }
     setMessage('');
   };
-  
+
   useEffect(() => {
-    socket.on('chat message', (msg) => {
-      setMessages([...messages, msg]);
+    socket.on("chat message", (msg1, msg2, msg3) => {
+      setMessages([...messages, msg3]);
     });
+    socket.on('notificacion', (msg1, msg2, msg3) => {
+      notify(msg1, msg2, msg3);
+    })
   }, [messages]);
 
   return (
     <div>
-      <ToastContainer />
-      <SocketComponent />
-      {/* <UserComponent /> */}
- 
+      <ToastContainer /> 
         <ul>
           {messages.map((msg, index) => (
             <li key={index}>{msg}</li>
@@ -45,11 +48,8 @@ const NotificationComponent: React.FC = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
               />
-        <button onClick={() => {sendMessage(); notify();}}>Enviar</button>   
+        <button onClick={() => {emitNotif("chat")}}>Enviar</button>   
         </div>
   );
 };
-// 
 export default NotificationComponent;
-
-
