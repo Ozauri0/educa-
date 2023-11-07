@@ -13,27 +13,31 @@ const NotificationComponent: React.FC = () => {
   const notify = (msg : string, msg2 : string, msg3 : string) => {
 
     toast.success(currentUser?.nombres + ' ' + currentUser?.apellidos + ' te envio un mensaje: ' + msg3, {position: toast.POSITION.TOP_CENTER});
-      
+    return;
   };
 
   const emitNotif = (tipo : string) => {
     if (tipo === "chat") {
-      socket.emit('chat message', currentUser?.correo, "Te envio un mensaje:", message);
+      socket.emit('foro message', currentUser?.correo, "Te envio un mensaje:", message);
+      socket.emit('notificacion', currentUser?.correo, "Te envio un mensaje:", message);
     }
     if (tipo === "foro") {
-      socket.emit('foro message', currentUser?.correo, "Te envio un mensaje:", message);
+      socket.emit('new foro', currentUser?.correo, "Creo el siguiente foro:", message);
     }
     setMessage('');
   };
 
   useEffect(() => {
-    socket.on("chat message", (msg1, msg2, msg3) => {
+    socket.on("foro message", (msg1, msg2, msg3) => {
       setMessages([...messages, msg3]);
     });
+  }, [messages]);
+
+  useEffect(() => {
     socket.on('notificacion', (msg1, msg2, msg3) => {
       notify(msg1, msg2, msg3);
-    })
-  }, [messages]);
+    });
+  }, []);
 
   return (
     <div>

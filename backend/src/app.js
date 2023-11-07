@@ -24,21 +24,18 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log("SOCKETIO ON");
 
-  socket.on("chat message", (correo, accion, mensaje) => {
-    console.log("Mensaje recibido desde el cliente:", correo);
-    io.emit("chat message", correo, accion, mensaje);
-    insNotificacion(correo, accion, mensaje);
-    io.emit("notificacion", correo, accion, mensaje);
-  }); 
   socket.on("foro message", (correo, accion, mensaje) => {
+    console.log("Mensaje recibido desde el cliente:", correo);
     io.emit("foro message", correo, accion, mensaje);
     insNotificacion(correo, accion, mensaje);
-    io.emit("notificacion", correo, accion, mensaje);
+    
+  }); 
+  socket.on("new foro", (correo, accion, mensaje) => {
+    io.emit("new foro", correo, accion, mensaje);
+    insNotificacion(correo, accion, mensaje);
   });
   socket.on("notificacion", (correo, accion, mensaje) => {
     console.log("Notificación recibida desde el cliente:", correo);
-    console.log(correo);
-    console.log(correo);
     io.emit("notificacion", correo, accion, mensaje);
   });
   socket.on("disconnect", () => {
