@@ -1,7 +1,6 @@
 import {
 	register,
 	login,
-	sendEmail,
 	getDocentes,
 	getDocente,
 	verifyToken,
@@ -10,12 +9,18 @@ import {
 	getPost,
 	npost,
 	logout,
+	getPostComments,
+	ncomment,
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
 
 const router = Router();
 
 router.get("/", getDocentes);
+
+router.get("/comentarios/:id", getPostComments);
+
+router.post("/ncomentario", ncomment);
 
 router.get("/foro", getForum);
 

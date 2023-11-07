@@ -51,6 +51,30 @@ export const getPost = async (req,res) => {
 	}
 }
 
+export const ncomment = async (req,res) => {
+	try {
+		const {nombre_usuario, comentario, id_post} = req.body;
+		const db = await connect();
+		const [result] = await db.query("INSERT INTO comentarios (nombre_usuario, comentario, id_post) VALUES (?,?,?)", [nombre_usuario, comentario, id_post]);
+		res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+
+export const getPostComments = async (req,res) => {
+	try {
+		const postId = req.params.id;
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM comentarios WHERE id_post = ?", postId);
+		res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+
 
 export const getDocente = async (req, res) => {
 	try {

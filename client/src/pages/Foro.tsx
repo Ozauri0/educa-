@@ -35,7 +35,7 @@ function Foro() {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Bienvenido al Foro</IonTitle>
-          <IonButton slot="end" href="/ForoNuevo">
+          <IonButton routerDirection='forward' slot="end" href="/ForoNuevo">
             <IonIcon slot="icon-only" icon={add} />
           </IonButton>
         </IonToolbar>

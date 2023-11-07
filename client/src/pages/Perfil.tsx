@@ -67,7 +67,6 @@ const Perfil: React.FC = () => {
 								<p>Otra info:</p>
 								<p>RUT: {currentUser.rut}</p>
 								<p>Teléfono: {currentUser.telefono}</p>
-								<p>Contraseña: {currentUser.contrasena}</p>
 							</>
 						)}
 					</IonLabel>
