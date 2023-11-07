@@ -5,19 +5,19 @@ import Header from './Header';
 import { title } from 'process';
 
 const Admin: React.FC = () => {
-  // Función para redirigir a la página de Google (esto es solo un ejemplo)
+
   const Registro = () => {
     window.location.href = '/Registro';
   }
 
-  // Función para administrar cursos (agrega tu lógica aquí)
+  // Función para administrar cursos 
   const manageCourses = () => {
-    // Agrega la lógica para administrar cursos
+    //lógica para administrar cursos
   }
 
-  // Función para eliminar usuarios (agrega tu lógica aquí)
+  // Función para eliminar usuarios
   const deleteUser = () => {
-    // Agrega la lógica para eliminar usuarios
+    //lógica para eliminar usuarios
   }
 
   return (
@@ -33,7 +33,7 @@ const Admin: React.FC = () => {
             <IonButton color="success" expand="block" href='/Registro'>Registrar usuario</IonButton>
             </IonCol>
             <IonCol size="6">
-            <IonButton color="danger" expand="block" href='/Recursos'>Eliminar usuario</IonButton>
+            <IonButton color="danger" expand="block" href='/Eliminar'>Eliminar usuario</IonButton>
             </IonCol>
           </IonRow>
           <IonRow>

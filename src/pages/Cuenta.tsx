@@ -1,20 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import React from "react";
-import {
-	IonContent,
-	IonHeader,
-	IonPage,
-	IonTitle,
-	IonToolbar,
-	IonCard,
-	IonCardContent,
-	IonCardHeader,
-	IonCardTitle,
-	IonInput,
-	IonButton,
-	IonRouterLink,
-} from "@ionic/react";
+import {IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonCard,IonCardContent,IonCardHeader,IonCardTitle,IonInput,IonButton,IonRouterLink,} from "@ionic/react";
 import "./Inicio.css";
 import { User } from "../types";
 
@@ -43,13 +30,13 @@ const Cuenta: React.FC = () => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Educa +</IonTitle>
+					<IonTitle>Educa+</IonTitle>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
 					<IonToolbar>
-						<IonTitle size="large">Educa +</IonTitle>
+						<IonTitle size="large">Educa+</IonTitle>
 					</IonToolbar>
 				</IonHeader>
 				<IonCard>
@@ -97,9 +84,6 @@ const Cuenta: React.FC = () => {
 							<p className="register-error">{errors.contrasena?.message}</p>
 							<IonButton type="submit" expand="full">
 								Iniciar Sesión
-							</IonButton>
-							<IonButton expand="full" routerLink="/Registro">
-								Registrarse
 							</IonButton>
 						</form>
 					</IonCardContent>

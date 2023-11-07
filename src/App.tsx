@@ -15,6 +15,11 @@ import Calendario from "./pages/Calendario";
 import Chatbotbutton from "./pages/ChatbotButton";
 import Header from "./pages/Header";
 import Admin from "./pages/Admin";
+import Eliminar from "./pages/Eliminar";
+import ForoPost from './pages/ForoPost';
+import ForoNuevo from './pages/ForoNuevo';
+import Notif from "./pages/Notif";
+import Notificaciones from "./pages/Notificaciones";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
@@ -72,6 +77,16 @@ const App = () => (
 								<Foro />
 							</ProtectedRoute>
 						</Route>
+						<Route path="/ForoPost/:postId" component={ForoPost}>
+							<ProtectedRoute>
+								<ForoPost />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/ForoNuevo">
+							<ProtectedRoute>
+								<ForoNuevo />
+							</ProtectedRoute>
+						</Route>
 						<Route exact path="/Calendario">
 							<ProtectedRoute>
 								<Calendario />
@@ -85,6 +100,21 @@ const App = () => (
             <Route exact path="/Admin">
 							<ProtectedRoute>
 								<Admin />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Notif">
+								<ProtectedRoute>
+									<Notif />
+								</ProtectedRoute>
+							</Route>
+							<Route exact path="/Notificaciones">
+								<ProtectedRoute>
+									<Notificaciones />
+								</ProtectedRoute>
+							</Route>
+						<Route exact path="/Eliminar">
+							<ProtectedRoute>
+								<Eliminar />
 							</ProtectedRoute>
 						</Route>
 					</IonRouterOutlet>
