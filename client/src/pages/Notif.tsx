@@ -28,7 +28,7 @@ const NotificationComponent: React.FC = () => {
   };
 
   useEffect(() => {
-    socket.on("chat message", (msg1, msg2, msg3) => {
+    socket.on("foro message", (msg1, msg2, msg3) => {
       setMessages([...messages, msg3]);
     });
   }, [messages]);

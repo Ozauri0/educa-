@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
 
   socket.on("foro message", (correo, accion, mensaje) => {
     console.log("Mensaje recibido desde el cliente:", correo);
-    io.emit("chat message", correo, accion, mensaje);
+    io.emit("foro message", correo, accion, mensaje);
     insNotificacion(correo, accion, mensaje);
     
   }); 
