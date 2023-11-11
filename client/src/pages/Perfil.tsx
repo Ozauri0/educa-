@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	IonContent,
 	IonIcon,
@@ -16,16 +16,41 @@ import {
 	IonButtons,
 	IonCardTitle,
 	IonCardHeader,
+	IonCardContent,
+	IonList,
 } from "@ionic/react";
 import { menu } from "ionicons/icons";
 import "./Perfil.css";
 import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
+import { get } from "http";
 
 const Perfil: React.FC = () => {
 	const { currentUser, logout } = useAuth();
 	const history = useHistory();
-	console.log(currentUser);
+	const [horarios, setHorarios] = useState([]);
+
+	const getHorarios = () => {
+		fetch("http://localhost:4000/api/horario/" + currentUser?.id)
+			.then((response) => response.json())
+			.then((data) => {
+				// Obtener el día actual
+
+				const today = new Date().toLocaleDateString("es-CL", { weekday: "long" });
+
+				console.log(today);
+
+				// Filtrar la data para obtener solo los horarios del día actual
+				const horariosDelDiaActual = data.filter((horario: any) => horario.dia === today);
+				// Guardar la data filtrada en el estado
+				setHorarios(horariosDelDiaActual);
+			});
+	}
+
+	useEffect(() => {
+		getHorarios();
+	}
+		, []);
 
 	const handleLogout = () => {
 		logout();
@@ -76,6 +101,24 @@ const Perfil: React.FC = () => {
 						</IonButton>
 					</IonLabel>
 				</IonItem>
+				<IonCard>
+					<IonCardHeader>
+						<IonCardTitle>Horarios</IonCardTitle>
+					</IonCardHeader>
+					<IonCardContent>
+					<IonList>
+						{horarios.map((item: any) => (
+								<IonItem key={item.id}>
+									<IonLabel>
+										<h2>{item.dia}</h2>
+										<h3>{item.hora}</h3>
+										<p>{item.curso}</p>
+									</IonLabel>
+								</IonItem>
+						))}
+					</IonList>
+					</IonCardContent>
+				</IonCard>
 				<IonCard>
 					<IonCardHeader>
 						<IonCardTitle>Ayudantias</IonCardTitle>

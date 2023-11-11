@@ -98,7 +98,6 @@ function ForoPost() {
                         </IonCard>
                     </IonItem>
                 ))}
-                <IonItem>
                     <IonCard>
                         <IonCardHeader>
                             <IonCardTitle color="light">Comentarios</IonCardTitle>
@@ -123,8 +122,6 @@ function ForoPost() {
                             </IonList>
                         </IonCardContent>
                     </IonCard>
-                </IonItem>
-                <IonItem>
                     <IonCard>
                         <IonCardHeader>
                             <IonCardTitle>Nuevo Comentario</IonCardTitle>
@@ -136,7 +133,6 @@ function ForoPost() {
                             <IonButton expand='block' onClick={handleNuevoComentario}>Publicar</IonButton>
                         </IonCardContent>
                     </IonCard>
-                </IonItem>
             </IonContent >
         </IonPage >
     );
