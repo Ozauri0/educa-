@@ -11,6 +11,8 @@ import {
 	logout,
 	getPostComments,
 	ncomment,
+	getHorario
+
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
 
@@ -21,6 +23,8 @@ router.get("/", getDocentes);
 router.get("/comentarios/:id", getPostComments);
 
 router.post("/ncomentario", ncomment);
+
+router.get("/horario/:id", getHorario);
 
 router.get("/foro", getForum);
 
