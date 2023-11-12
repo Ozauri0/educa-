@@ -18,7 +18,7 @@ import {
 import "./Inicio.css";
 import { User } from "../types";
 
-interface FormData {
+type FormData = {
 	correo: string;
 	contrasena: string;
 }

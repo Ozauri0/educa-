@@ -9,7 +9,6 @@ import {
   IonList,
   IonNote,
   IonPage,
-  IonText,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
@@ -25,7 +24,7 @@ function Foro() {
   useEffect(() => {
     fetch('http://localhost:4000/api/foro')
       .then(response => response.json())
-      .then(data => 
+      .then(data =>
         setDatosForo(data.slice(0, 10)));
 
   }, []);

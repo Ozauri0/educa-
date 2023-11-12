@@ -3,6 +3,75 @@ import transporter from "../helpers/mailer.cjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
 
+export async function getInscripciones(req, res) {
+	try {
+		const db = await connect();
+		console.log(req.params)
+		const id_docente = req.params.id;
+		const [result] = await db.query('SELECT * FROM inscripciones WHERE id_docente = ?',
+		[id_docente]);
+		res.json(result)
+	} catch (error) {
+		console.error(error);
+    throw error;
+	}
+}
+
+export async function registerInscripcion(req, res) {
+	try {
+		const db = await connect();
+		const { id_curso, id_docente } = req.body;
+
+		// Verificar si ya está inscrito
+		const existingInscripcion = await db.query(
+			"SELECT * FROM inscripciones WHERE id_curso = ? AND id_docente = ?",
+			[id_curso, id_docente]
+		);
+
+		if (existingInscripcion[0].length > 0) {
+			// Ya está inscrito, realizar la desinscripción eliminando la entrada existente
+			const [result] = await db.query("DELETE FROM inscripciones WHERE id_curso = ? AND id_docente = ?", [id_curso, id_docente]);
+			console.log("Desinscripción realizada!");
+			res.json(result);
+	} else {
+			// Si no está inscrito, realizar la inserción
+			const [result] = await db.query("INSERT INTO inscripciones (id_curso, id_docente) VALUES (?,?)", [id_curso, id_docente]);
+			console.log("Inscripción realizada!");
+			res.json(result);
+	}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Error en la inscripcion" });
+	}
+}
+
+export async function getCursos(req, res) {
+	try {
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM cursos");
+		return res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+
+export const registerCurso = async (req, res) => {
+	try {
+		const { nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino } = req.body;
+		const db = await connect();
+		const [result] = await db.query(
+			"INSERT INTO cursos (nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino) VALUES (?,?,?,?,?)",
+			[nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino]
+		);
+		console.log("Curso registrado!")
+		res.json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Error en el registro de curso" });
+	}
+}
+
 export const getDocentes = async (req, res) => {
 	try {
 		const db = await connect();

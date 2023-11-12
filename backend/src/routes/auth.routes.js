@@ -11,6 +11,10 @@ import {
 	logout,
 	getPostComments,
 	ncomment,
+	registerCurso,
+	getCursos,
+	registerInscripcion,
+	getInscripciones
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
 
@@ -39,5 +43,13 @@ router.get("/verify", verifyToken);
 router.post("/logout", verifyToken, logout);
 
 router.post("/notificaciones", getNotificaciones);
+
+router.post("/curso", registerCurso)
+
+router.get("/curso", getCursos)
+
+router.post("/inscripcion", registerInscripcion)
+
+router.get("/inscripcion/:id", getInscripciones)
 
 export default router;

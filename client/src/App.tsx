@@ -49,6 +49,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import CursoNuevo from "./pages/CursoNuevo";
 
 setupIonicReact();
 
@@ -58,6 +59,9 @@ const App = () => (
 			<IonReactRouter>
 				<IonTabs>
 					<IonRouterOutlet>
+						<Route exact path="/CursoNuevo">
+							<CursoNuevo />
+						</Route>
 						<Route exact path="/Cursos">
 							<ProtectedRoute>
 								<Cursos />
@@ -93,12 +97,12 @@ const App = () => (
 								<Asesoria />
 							</ProtectedRoute>
 						</Route>
-            <Route exact path="/ForoNuevo">
-              <ForoNuevo />
-            </Route>
-            <Route path="/ForoPost/:postId" component={ForoPost}>
-              <ForoPost />
-            </Route>
+						<Route exact path="/ForoNuevo">
+							<ForoNuevo />
+						</Route>
+						<Route path="/ForoPost/:postId" component={ForoPost}>
+							<ForoPost />
+						</Route>
 						<Route exact path="/Editar">
 							<ProtectedRoute>
 								<Editar />
