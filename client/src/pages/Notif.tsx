@@ -11,7 +11,6 @@ const NotificationComponent: React.FC = () => {
   const [messages, setMessages] = useState<string[]>([]);
 
   const notify = (msg : string, msg2 : string, msg3 : string) => {
-
     toast.success(currentUser?.nombres + ' ' + currentUser?.apellidos + ' te envio un mensaje: ' + msg3, {position: toast.POSITION.TOP_CENTER});
       
   };
@@ -30,10 +29,13 @@ const NotificationComponent: React.FC = () => {
     socket.on("chat message", (msg1, msg2, msg3) => {
       setMessages([...messages, msg3]);
     });
+  }, [messages]);
+ 
+  useEffect(() => {
     socket.on('notificacion', (msg1, msg2, msg3) => {
       notify(msg1, msg2, msg3);
-    })
-  }, [messages]);
+    });
+  }, []);
 
   return (
     <div>

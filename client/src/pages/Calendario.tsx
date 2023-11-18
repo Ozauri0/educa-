@@ -24,11 +24,7 @@ const Calendario: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-text-center ion-padding" fullscreen>
-        <div
-          className="calendly-inline-widget"
-          data-url="https://calendly.com/christian_uct/asesoria"
-          style={{ width: '100%', height: '100%' }}
-        />
+        <div className="calendly-inline-widget" data-url="https://calendly.com/christian_uct/asesoria" style={{ width: '100%', height: '100%' }}/>
       </IonContent>
     </IonPage>
   );

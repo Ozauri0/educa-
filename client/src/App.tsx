@@ -26,6 +26,8 @@ import Calendario from "./pages/Calendario";
 import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
 
+import SocketContainer from "./components/SocketContainer";
+
 import ForoPost from './pages/ForoPost';
 import ForoNuevo from './pages/ForoNuevo';
 import { AuthProvider } from "./context/AuthContext";
@@ -54,7 +56,7 @@ setupIonicReact();
 
 const App = () => (
 	<IonApp>
-		<AuthProvider>
+		<AuthProvider><SocketContainer>
 			<IonReactRouter>
 				<IonTabs>
 					<IonRouterOutlet>
@@ -93,12 +95,15 @@ const App = () => (
 								<Asesoria />
 							</ProtectedRoute>
 						</Route>
-            <Route exact path="/ForoNuevo">
-              <ForoNuevo />
-            </Route>
-            <Route path="/ForoPost/:postId" component={ForoPost}>
-              <ForoPost />
-            </Route>
+						<Route exact path="/ForoNuevo">
+							<ForoNuevo />
+						</Route>
+						<Route exact path="/ForoNuevo">
+							<ForoNuevo />
+						</Route>
+						<Route path="/ForoPost/:postId" component={ForoPost}>
+							<ForoPost />
+						</Route>
 						<Route exact path="/Editar">
 							<ProtectedRoute>
 								<Editar />
@@ -107,6 +112,11 @@ const App = () => (
 						<Route exact path="/Notif">
 							<ProtectedRoute>
 								<Notif />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Notificaciones">
+							<ProtectedRoute>
+								<Notificaciones />
 							</ProtectedRoute>
 						</Route>
 					</IonRouterOutlet>
@@ -127,7 +137,7 @@ const App = () => (
 							<IonIcon aria-hidden="true" icon={person} />
 							<IonLabel>Perfil</IonLabel>
 						</IonTabButton>
-						<IonTabButton tab="Notif" href="/Notif">
+						<IonTabButton tab="Notificaciones" href="/Notificaciones">
 							<IonIcon aria-hidden="true" icon={person} />
 							<IonLabel>Notificaciones</IonLabel>
 						</IonTabButton>
@@ -144,9 +154,10 @@ const App = () => (
 						<Cuenta />
 					</ProtectedLogin>
 				</Route>
-			</IonReactRouter>
+			</IonReactRouter></SocketContainer>
 		</AuthProvider>
 	</IonApp>
+	
 );
 
 export default App;

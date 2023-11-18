@@ -13,3 +13,7 @@ export const loginRequest = async (user: User) => instance.post(`/api/login`, us
 export const verifyTokenRequest = async () => instance.get(`/api/verify`);
 
 export const getNotifRequest = async (usuario: User) => instance.post(`/api/notificaciones`, usuario);
+
+export const getForo = async (usuario: User) => instance.post(`/api/notificaciones2`, usuario);
+
+export const getForoCom = async (usuario: User) => instance.get(`/api/notificaciones3/id: ${usuario.id}`);
