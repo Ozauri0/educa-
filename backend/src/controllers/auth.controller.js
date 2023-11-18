@@ -39,6 +39,18 @@ export const npost = async (req,res) => {
 	}
 }
 
+export const getHorario = async (req,res) => {
+	try {
+		const db = await connect();
+		const id_docente = req.params.id;
+		const [result] = await db.query("SELECT * FROM horarios_clase WHERE id_docente = ?", id_docente);
+		res.json(result);
+	}catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Error DB"});
+	}
+}
+
 export const getPost = async (req,res) => {
 	try {
 		const postId = req.params.id;

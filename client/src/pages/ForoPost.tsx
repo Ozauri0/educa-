@@ -178,7 +178,10 @@ function ForoPost() {
                             </IonList>
                         </IonCardContent>
                     </IonCard>
+<<<<<<< HEAD
                 <IonItem>
+=======
+>>>>>>> 315e6883069546a0a1f527500adf507a502ccf30
                     <IonCard>
                         <IonCardHeader>
                             <IonCardTitle>Nuevo Comentario</IonCardTitle>
@@ -190,7 +193,6 @@ function ForoPost() {
                             <IonButton expand='block' onClick={() => {emitNotif("chat")}}>Publicar</IonButton>
                         </IonCardContent>
                     </IonCard>
-                </IonItem>
             </IonContent >
         </IonPage >
         </SocketContainer>

@@ -137,10 +137,13 @@ const App = () => (
 							<IonIcon aria-hidden="true" icon={person} />
 							<IonLabel>Perfil</IonLabel>
 						</IonTabButton>
+<<<<<<< HEAD
 						<IonTabButton tab="Notificaciones" href="/Notificaciones">
 							<IonIcon aria-hidden="true" icon={person} />
 							<IonLabel>Notificaciones</IonLabel>
 						</IonTabButton>
+=======
+>>>>>>> 315e6883069546a0a1f527500adf507a502ccf30
 					</IonTabBar>
 				</IonTabs>
 				{/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
