@@ -137,7 +137,7 @@ export const login = async (req, res) => {
 		const dbcontrasena = await db.query(
 			"SELECT contrasena FROM docente WHERE correo = ?", [correo]
 		);
-
+		const [result] = await db.query("SELECT * FROM docente WHERE correo = ?", correo);
 		bcrypt.compare(contrasena, dbcontrasena, async function(err, resultado) {
 			console.log("Logged in as: ", result[0]);
 			if (result.length != 1) {
