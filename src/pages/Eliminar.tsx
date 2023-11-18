@@ -1,86 +1,98 @@
-import React, { useState, useEffect } from 'react';
-import { IonButton, IonContent, IonList, IonItem, IonLabel } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonSearchbar, IonTitle, IonToolbar, IonButton, IonAlert } from '@ionic/react';
 import axios from 'axios';
 import './Eliminar.css';
 
 const Eliminar: React.FC = () => {
-  const [users, setUsers] = useState<null | any[]>(null);
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-    const [nombre, setNombre] = useState<string>("");
-    const [apellido, setApellido] = useState<string>("");
-    const [rut, setRut] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>(""); 
-    const [telefono, setTelefono] = useState<string>("");
-  const fetchUsers = async () => {
-    try {
-    const res = await fetch("http://localhost:4000/api/getDocentes", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            nombres: nombre,
-            apellidos: apellido,
-            rut: rut,
-            correo: email,
-            contrasena: password,
-            telefono: telefono,
-            }),
-        })
-        const data = await res.json();
-        console.log(data);
-    } catch (error) {
- 
-      console.log(error);
-    }
-  };
-
-  const handleDeleteUser = async (userId: number) => {
-    try {
-      await axios.delete(`/api/getUsers${userId}`);
-      fetchUsers();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [usuarios, setUsuarios] = useState([]);
+  const [filtroRut, setFiltroRut] = useState('');
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState<any>(null);
 
   useEffect(() => {
-    fetchUsers();
+    const fetchUsuarios = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/api/usuarios');
+        const usuariosData = response.data.filter((item: any) => Array.isArray(item));
+        setUsuarios(usuariosData[0]);
+        console.log(usuariosData[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUsuarios();
   }, []);
 
+  const handleFiltroRutChange = (e: CustomEvent) => {
+    setFiltroRut(e.detail.value!);
+  };
+
+  const handleEliminarUsuario = async (id: string) => {
+    const usuario = usuarios.find((usuario: any) => usuario.id === id);
+    setUsuarioSeleccionado(usuario);
+  };
+
+  const handleConfirmEliminar = async () => {
+    try {
+      await axios.get(`http://localhost:4000/api/eliminar/${usuarioSeleccionado?.id}`);
+      // Actualizar la lista de usuarios después de eliminar
+      const response = await axios.get('http://localhost:4000/api/usuarios');
+      const usuariosData = response.data.filter((item: any) => Array.isArray(item));
+      setUsuarios(usuariosData[0]);
+    } catch (error) {
+      console.log(error);
+    }
+    setUsuarioSeleccionado(null);
+  };
+
+  const handleCancelarEliminar = () => {
+    setUsuarioSeleccionado(null);
+  };
+
   return (
-    <>
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Eliminar Usuarios</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
-        {users === null ? (
-          <div>Cargando...</div>
-        ) : (
-          <IonList>
-            {users.map((user: any) => (
-              <IonItem key={user.id}>
-                <IonLabel>{user.nombres} {user.apellidos}</IonLabel>
-                <IonButton
-                  color='danger'
-                  onClick={() => setSelectedUserId(user.id)}
-                >
-                  Eliminar
-                </IonButton>
+        <IonSearchbar value={filtroRut} onIonChange={handleFiltroRutChange}></IonSearchbar>
+        <IonList>
+          {usuarios
+            .filter((usuario: any) => usuario.rut.includes(filtroRut))
+            .map((usuario: any, index: number) => (
+              <IonItem key={index}>
+                <IonLabel>
+                  <p>ID: {usuario.id}</p>
+                  <p>Nombres: {usuario.nombres} {usuario.apellidos}</p>
+                  <p>RUT: {usuario.rut}</p>
+                </IonLabel>
+                <IonButton color="danger" onClick={() => handleEliminarUsuario(usuario.id)}>Eliminar</IonButton>
               </IonItem>
             ))}
-          </IonList>
-        )}
-        {selectedUserId && (
-          <IonButton
-            onClick={() => {
-              handleDeleteUser(selectedUserId);
-              setSelectedUserId(null);
-            }}
-            expand='full'
-            color='danger'
-          >
-            Confirmar Eliminación
-          </IonButton>
-        )}
+        </IonList>
+
+        <IonAlert
+  isOpen={usuarioSeleccionado !== null}
+  onDidDismiss={handleCancelarEliminar}
+  header="Confirmar eliminación"
+  message={`¿Estás seguro de que quieres eliminar al usuario "${usuarioSeleccionado?.nombres}, ${usuarioSeleccionado?.apellidos}",
+  con el rut ${usuarioSeleccionado?.rut}"?`}
+  buttons={[
+    {
+      text: "Cancelar",
+      role: "cancel",
+      handler: handleCancelarEliminar,
+    },
+    {
+      text: "Eliminar",
+      handler: handleConfirmEliminar,
+    },
+  ]}
+/>
       </IonContent>
-    </>
+    </IonPage>
   );
 };
 

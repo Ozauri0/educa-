@@ -38,12 +38,12 @@ const Admin: React.FC = () => {
           </IonRow>
           <IonRow>
             <IonCol size="12">
-            <IonButton color="success" expand="block" href='/Recursos'>Agregar curso</IonButton>
+            <IonButton color="success" expand="block" href='/AgregarCurso'>Agregar curso</IonButton>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol size="12">
-            <IonButton color="danger" expand="block" href='/Recursos'>Eliminar curso</IonButton>
+            <IonButton color="danger" expand="block" href='/EliminarCurso'>Eliminar curso</IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

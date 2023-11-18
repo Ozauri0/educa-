@@ -20,6 +20,8 @@ import ForoPost from './pages/ForoPost';
 import ForoNuevo from './pages/ForoNuevo';
 import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
+import AgregarCurso from "./pages/AgregarCurso";
+import EliminarCurso from "./pages/EliminarCurso";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
@@ -115,6 +117,21 @@ const App = () => (
 						<Route exact path="/Eliminar">
 							<ProtectedRoute>
 								<Eliminar />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/AgregarCurso">
+							<ProtectedRoute>
+								<AgregarCurso />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/EliminarCurso">
+							<ProtectedRoute>
+								<EliminarCurso />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Header">
+							<ProtectedRoute>
+								<Header title={""} />
 							</ProtectedRoute>
 						</Route>
 					</IonRouterOutlet>

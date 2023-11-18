@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import React from "react";
 import {IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonCard,IonCardContent,IonCardHeader,IonCardTitle,IonInput,IonButton,IonRouterLink,} from "@ionic/react";
-import "./Inicio.css";
+import "./Cuenta.css";
 import { User } from "../types";
 
 interface FormData {
