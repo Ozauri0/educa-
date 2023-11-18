@@ -51,7 +51,7 @@ const EliminarCurso: React.FC = () => {
             </IonItem>
           ))}
         </IonList>
-        <IonAlert
+        <IonAlert color ="red"
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
           header="Eliminar Curso"

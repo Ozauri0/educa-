@@ -22,6 +22,7 @@ const Eliminar: React.FC = () => {
 
     fetchUsuarios();
   }, []);
+    
 
   const handleFiltroRutChange = (e: CustomEvent) => {
     setFiltroRut(e.detail.value!);
