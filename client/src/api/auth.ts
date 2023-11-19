@@ -18,6 +18,8 @@ export const registerCurso = async (curso: Curso) => instance.post(`/api/curso`,
 
 export const getCursos = async () => instance.get(`/api/curso`);
 
-// export const registerInscripcion = async (inscripcion: Inscripcion) => instance.post(`/api/inscripcion`, inscripcion);
+export const registerInscripcion = async (inscripcion: Inscripcion) => instance.post(`/api/inscripcion`, inscripcion);
 
-// export const getInscripciones = async () => instance.get(`/api/inscripcion/${id_docente}`);
+export const getInscripciones = async (id_docente: number | undefined) => instance.get(`/api/inscripcion/${id_docente}`);
+
+export const getCurso = async (id_curso: string) => instance.get(`/api/curso/${id_curso}`);

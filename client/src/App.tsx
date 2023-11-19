@@ -25,6 +25,7 @@ import Editar from "./pages/Editar";
 import Calendario from "./pages/Calendario";
 import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
+import Error from "./pages/Error";
 
 import ForoPost from './pages/ForoPost';
 import ForoNuevo from './pages/ForoNuevo';
@@ -50,6 +51,7 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import CursoNuevo from "./pages/CursoNuevo";
+import CursoData from './pages/CursoData';
 
 setupIonicReact();
 
@@ -67,6 +69,10 @@ const App = () => (
 								<Cursos />
 							</ProtectedRoute>
 						</Route>
+						<Route exact path="/Curso/:id" render={() =>
+							<ProtectedRoute>
+								<CursoData />
+							</ProtectedRoute>} />
 						<Route exact path="/Recursos">
 							<ProtectedRoute>
 								<Recursos />
@@ -113,6 +119,7 @@ const App = () => (
 								<Notif />
 							</ProtectedRoute>
 						</Route>
+						<Redirect exact from="/" to="/Inicio" />
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">
 						<IonTabButton tab="Inicio" href="/Inicio">

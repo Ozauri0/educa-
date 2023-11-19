@@ -60,16 +60,12 @@ function ForoPost() {
     }, []);
 
     useEffect(() => {
-        setTimeout(() => {
-            fetch('http://localhost:4000/api/comentarios/' + postId)
-                .then(response => response.json())
-                .then(data =>
-                    setDatosComentario(data));
-            setLoading(false);
-        }
-            , 3000);
-    }
-        , []);
+        fetch('http://localhost:4000/api/comentarios/' + postId)
+            .then(response => response.json())
+            .then(data =>
+                setDatosComentario(data));
+        setLoading(false);
+    }, []);
 
     return (
         <IonPage>

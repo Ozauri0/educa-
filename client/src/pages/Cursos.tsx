@@ -17,34 +17,28 @@ import {
   IonCol,
 } from '@ionic/react'; import './Cursos.css';
 import { getCursos } from '../api/auth';
-import { Curso } from '../types';
+import { Curso, Inscripcion } from '../types';
 import { useAuth } from '../context/AuthContext';
 import './Cursos.css';
-// import { registerInscripcion } from '../api/auth';
+import { registerInscripcion } from '../api/auth';
+import { getInscripciones } from '../api/auth';
 
 const Cursos: React.FC = () => {
   const [cursos, setCursos] = useState<Curso[]>([])
   const [inscritoCursos, setInscritoCursos] = useState<number[]>([]);
   const { currentUser } = useAuth()
 
-  const handleInscripcion = async (id_curso: any) => {
+  const handleInscripcion = async (id_curso: number) => {
 
     try {
-      const response = await fetch(`http://localhost:4000/api/inscripcion`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id_curso: id_curso,
-          id_docente: currentUser?.id,
-        }),
-      });
+      const inscripcion: Inscripcion = { id_curso: id_curso, id_docente: currentUser?.id }
+      const response = await registerInscripcion(inscripcion);
 
-      if (response.ok) {
+      if (response.status == 200) {
         // Manejar el éxito de la operación
         console.log('Inscripción exitosa');
         fetchInscripciones();
+        fetchCursos();
       } else {
         // Manejar errores
         console.error('Error al realizar la inscripción');
@@ -65,14 +59,15 @@ const Cursos: React.FC = () => {
 
   const fetchInscripciones = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/inscripcion/${currentUser?.id}`)
-      if (response.ok) {
-        const data = await response.json();
+      const response = await getInscripciones(currentUser?.id);
+
+      if (response.status === 200) {
+        const data = await response.data
 
         // Extraer las ID de los cursos en los que el usuario está inscrito
-        const inscripciones = data.map((inscripcion: any) => inscripcion.id_curso);
+        const inscripciones = data.map((inscripcion: Inscripcion) => inscripcion.id_curso);
         setInscritoCursos(inscripciones);
-        console.log('Inscripciones', inscripciones)
+        // console.log('Inscripciones', inscripciones)
       } else {
         // Manejar errores si la respuesta no es exitosa
         console.error('Error al obtener inscripciones:', response.statusText);
@@ -83,13 +78,12 @@ const Cursos: React.FC = () => {
   };
 
   useEffect(() => {
-
     fetchInscripciones();
     fetchCursos()
-    console.log('Inscrito curso', inscritoCursos)
   }, [])
 
-  console.log(cursos)
+  console.log('Inscrito curso', inscritoCursos)
+  console.log('Cursos', cursos)
 
   return (
     <IonPage>
@@ -117,8 +111,11 @@ const Cursos: React.FC = () => {
                   <IonCardContent>
                     <p>Inicio: {new Date(curso.fecha_inicio).toLocaleDateString()}</p>
                     <p>Fin: {new Date(curso.fecha_termino).toLocaleDateString()}</p>
+                    <p>Cupos: {curso.cupos_restantes} / {curso.limite_cupos}</p>
+                    {/* <p>Cupos restantes: {curso.cupos_restantes}</p> */}
                   </IonCardContent>
-                  {inscritoCursos.includes(curso.id) ? (
+                  <IonButton href={`/Curso/${curso.id}`}>Ir al curso</IonButton>
+                  {/* {inscritoCursos.includes(curso.id) ? (
                     <IonButton color='danger' expand="block" onClick={() => handleInscripcion(curso.id)}>
                       Desinscribirse
                     </IonButton>
@@ -126,7 +123,7 @@ const Cursos: React.FC = () => {
                     <IonButton expand="block" onClick={() => handleInscripcion(curso.id)}>
                       Inscribirse
                     </IonButton>
-                  )}
+                  )} */}
                 </IonCol>
               </IonRow>
             </IonGrid>

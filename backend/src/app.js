@@ -62,6 +62,8 @@ app.use(cookieParser());
 // Routes
 app.use("/api/", authRoutes);
 
+app.use(express.static("uploads"));
+
 server.listen(5000, () => {
   console.log("Socket.io: 5000");
 });

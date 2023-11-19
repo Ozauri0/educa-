@@ -27,9 +27,9 @@ const Perfil: React.FC = () => {
 	const history = useHistory();
 	console.log(currentUser);
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
 		logout();
-		history.push("/login");
+		history.push("/Cuenta");
 	};
 
 	return (

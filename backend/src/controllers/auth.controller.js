@@ -2,6 +2,33 @@ import { connect } from "../database/db.js";
 import transporter from "../helpers/mailer.cjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+export const getBanner = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM banner WHERE id_curso = ?", [
+			id,
+		]);
+		res.json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+}
+
+export const uploadFile = async (req, res) => {
+	// save the file on the server instead of saving it on database
+	try {
+		const file = req.file
+		console.log("File:",file);
+		res.status(200).json({ message: "File uploaded successfully" });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+}
 
 export async function getInscripciones(req, res) {
 	try {
@@ -32,24 +59,76 @@ export async function registerInscripcion(req, res) {
 			// Ya está inscrito, realizar la desinscripción eliminando la entrada existente
 			const [result] = await db.query("DELETE FROM inscripciones WHERE id_curso = ? AND id_docente = ?", [id_curso, id_docente]);
 			console.log("Desinscripción realizada!");
-			res.json(result);
-	} else {
+			return res.json(result);
+		}
+		
+		const [cursoInfo] = await db.query(
+      "SELECT limite_cupos, COUNT(id_inscripcion) AS inscripciones_actuales FROM cursos LEFT JOIN inscripciones ON cursos.id = inscripciones.id_curso WHERE cursos.id = ? GROUP BY cursos.id",
+      [id_curso]
+    );
+
+		const { limite_cupos, inscripciones_actuales } = cursoInfo[0];
+    const cupos_restantes = limite_cupos - inscripciones_actuales;
+
+		if (cupos_restantes > 0) {
 			// Si no está inscrito, realizar la inserción
 			const [result] = await db.query("INSERT INTO inscripciones (id_curso, id_docente) VALUES (?,?)", [id_curso, id_docente]);
 			console.log("Inscripción realizada!");
 			res.json(result);
-	}
-	} catch (error) {
+		}
+		else {
+			// No hay cupos restantes, devolver un mensaje indicando que no se puede inscribir
+      res.status(400).json({ message: "No quedan cupos disponibles para este curso" });
+		}
+		} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Error en la inscripcion" });
 	}
 }
 
+export async function getCurso(req, res) {
+	try {
+		const db = await connect();
+		const { id } = req.params;
+		// Obtener el curso con la cantidad de inscripciones actuales
+    const [result] = await db.query(`
+      SELECT cursos.*, COUNT(inscripciones.id_inscripcion) AS inscripciones_actuales
+      FROM cursos
+      LEFT JOIN inscripciones ON cursos.id = inscripciones.id_curso
+      WHERE cursos.id = ?
+      GROUP BY cursos.id
+    `, [id]);
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Curso no encontrado" });
+    }
+
+    const cursoConCuposRestantes = {
+      ...result[0],
+      cupos_restantes: result[0].limite_cupos - result[0].inscripciones_actuales,
+    };
+
+    return res.json(cursoConCuposRestantes);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 export async function getCursos(req, res) {
 	try {
 		const db = await connect();
-		const [result] = await db.query("SELECT * FROM cursos");
-		return res.json(result);
+		const [result] = await db.query(`
+			SELECT cursos.*, COUNT(inscripciones.id_inscripcion) AS inscripciones_actuales
+			FROM cursos
+			LEFT JOIN inscripciones ON cursos.id = inscripciones.id_curso
+			GROUP BY cursos.id
+	`	);
+		const cursosConCuposRestantes = result.map((curso) => {
+			const cupos_restantes = curso.limite_cupos - curso.inscripciones_actuales;
+			return { ...curso, cupos_restantes };
+	});
+		return res.json(cursosConCuposRestantes);
 	} catch (error) {
 		console.log(error)
 		res.status(500).json({message: "Internal server error"});
@@ -161,7 +240,8 @@ export const getDocente = async (req, res) => {
 
 export const register = async (req, res) => {
 	try {
-		const { nombres, apellidos, rut, correo, contrasena, telefono } = req.body;
+		const { nombres, apellidos, rut, correo, telefono } = req.body;
+		const {contrasena} = req.body;
 
 		if (!nombres || !apellidos || !rut || !correo || !contrasena || !telefono) {
 			return res.status(400).json({ message: "Must fill every field" });
@@ -178,14 +258,22 @@ export const register = async (req, res) => {
 			console.log(mailExists);
 			return res.status(400).json({ message: "Email already in use" });
 		}
-
+		
+		const saltRounds = 10;
 		const result = await db.query("INSERT INTO docente SET ?", [docente]);
+		bcrypt.genSalt(saltRounds, function(err, salt) {
+			bcrypt.hash(contrasena, salt, async function(err, hash) {
+				await db.query("UPDATE docente SET contrasena = ? WHERE correo = ?", [hash, correo]);
+			});
+		});
+		
 		res.json(result);
 	} catch (error) {
 		res.status(500).json({ message: "No se pudo realizar el registro" });
 		console.log(error);
 	}
 };
+
 
 export const login = async (req, res) => {
 	try {

@@ -13,12 +13,18 @@ import {
 	ncomment,
 	registerCurso,
 	getCursos,
+	getCurso,
 	registerInscripcion,
-	getInscripciones
+	getInscripciones,
+	uploadFile
 } from "../controllers/auth.controller.js";
+import { uploadBanner, uploadResource } from "../middlewares/storageConfigs.js";
 import { Router } from "express";
 
 const router = Router();
+
+const upload1 = uploadResource();
+const upload2 = uploadBanner();
 
 router.get("/", getDocentes);
 
@@ -51,5 +57,10 @@ router.get("/curso", getCursos)
 router.post("/inscripcion", registerInscripcion)
 
 router.get("/inscripcion/:id", getInscripciones)
+
+router.get("/curso/:id", getCurso)
+
+router.post("/upload/banner/:id", upload2.single('file'), uploadFile)
+router.post("/upload/:ruta*", upload1.single('file'), uploadFile)
 
 export default router;
