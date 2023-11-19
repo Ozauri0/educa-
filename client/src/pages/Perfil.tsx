@@ -117,6 +117,10 @@ const Perfil: React.FC = () => {
 								</IonItem>
 						))}
 					</IonList>
+					<IonButton color="primary" expand="block" href={'/Horarios/' + currentUser?.id}>
+							Horarios completos
+					</IonButton>
+
 					</IonCardContent>
 				</IonCard>
 				<IonCard>

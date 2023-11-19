@@ -25,6 +25,7 @@ import Editar from "./pages/Editar";
 import Calendario from "./pages/Calendario";
 import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
+import Horarios from "./pages/Horarios";
 
 import SocketContainer from "./components/SocketContainer";
 
@@ -88,6 +89,11 @@ const App = () => (
 						<Route exact path="/Calendario">
 							<ProtectedRoute>
 								<Calendario />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Horarios">
+							<ProtectedRoute>
+								<Horarios />
 							</ProtectedRoute>
 						</Route>
 						<Route exact path="/Asesoria">
