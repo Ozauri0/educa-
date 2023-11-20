@@ -49,7 +49,7 @@ export const uploadBanner = () => {
 		},
 		filename: function (req, file, cb) {
 			// Use the original file name + Date.now() to make it unique
-			cb(null, `banner${path.extname(file.originalname)}`);
+			cb(null, `banner`);
 		}
 	});
 	
@@ -57,7 +57,7 @@ export const uploadBanner = () => {
 		storage: storage, 
 		fileFilter: function (req, file, cb) {
 			// Accept image files only
-			if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+			if (!file.originalname.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
 				return cb(new Error('Only image files are allowed!'), false);
 			}
 			cb(null, true);

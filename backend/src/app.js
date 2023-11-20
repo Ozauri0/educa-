@@ -7,6 +7,7 @@ import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 //funcion para insertar notificaciones a la base de datos
+import path from "path";
 import {insNotificacion} from "./controllers/auth.notificaciones.js";
 
 dotenv.config();
@@ -62,7 +63,8 @@ app.use(cookieParser());
 // Routes
 app.use("/api/", authRoutes);
 
-app.use(express.static("uploads"));
+// app.use(express.static("uploads"));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 server.listen(5000, () => {
   console.log("Socket.io: 5000");

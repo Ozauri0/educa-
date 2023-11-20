@@ -26,6 +26,7 @@ import Calendario from "./pages/Calendario";
 import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
 import Error from "./pages/Error";
+import Cursos2 from "./pages/Cursos2";
 
 import ForoPost from './pages/ForoPost';
 import ForoNuevo from './pages/ForoNuevo';
@@ -72,7 +73,8 @@ const App = () => (
 						<Route exact path="/Curso/:id" render={() =>
 							<ProtectedRoute>
 								<CursoData />
-							</ProtectedRoute>} />
+							</ProtectedRoute>
+						} />
 						<Route exact path="/Recursos">
 							<ProtectedRoute>
 								<Recursos />
@@ -117,6 +119,11 @@ const App = () => (
 						<Route exact path="/Notif">
 							<ProtectedRoute>
 								<Notif />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Cursos2">
+							<ProtectedRoute>
+								<Cursos2 />
 							</ProtectedRoute>
 						</Route>
 						<Redirect exact from="/" to="/Inicio" />

@@ -28,26 +28,6 @@ const Cursos: React.FC = () => {
   const [inscritoCursos, setInscritoCursos] = useState<number[]>([]);
   const { currentUser } = useAuth()
 
-  const handleInscripcion = async (id_curso: number) => {
-
-    try {
-      const inscripcion: Inscripcion = { id_curso: id_curso, id_docente: currentUser?.id }
-      const response = await registerInscripcion(inscripcion);
-
-      if (response.status == 200) {
-        // Manejar el éxito de la operación
-        console.log('Inscripción exitosa');
-        fetchInscripciones();
-        fetchCursos();
-      } else {
-        // Manejar errores
-        console.error('Error al realizar la inscripción');
-      }
-    } catch (error) {
-      console.error('Error al realizar la inscripción', error);
-    }
-  };
-
   const fetchCursos = async () => {
     try {
       const response = await getCursos()
@@ -103,7 +83,7 @@ const Cursos: React.FC = () => {
             <IonGrid>
               <IonRow>
                 <IonCol size="12" size-md="6" offset-md="3">
-                  <IonImg src="https://prensa.uct.cl/wp-content/uploads/2014/10/csangre.jpg" />
+                  <IonImg src={`http://localhost:4000/uploads/cursos/${curso.id}/banner`} />
                   <IonCardHeader>
                     <IonCardTitle>{curso.nombre_curso}</IonCardTitle>
                     <IonCardSubtitle>{curso.descripcion}</IonCardSubtitle>
@@ -112,18 +92,8 @@ const Cursos: React.FC = () => {
                     <p>Inicio: {new Date(curso.fecha_inicio).toLocaleDateString()}</p>
                     <p>Fin: {new Date(curso.fecha_termino).toLocaleDateString()}</p>
                     <p>Cupos: {curso.cupos_restantes} / {curso.limite_cupos}</p>
-                    {/* <p>Cupos restantes: {curso.cupos_restantes}</p> */}
                   </IonCardContent>
                   <IonButton href={`/Curso/${curso.id}`}>Ir al curso</IonButton>
-                  {/* {inscritoCursos.includes(curso.id) ? (
-                    <IonButton color='danger' expand="block" onClick={() => handleInscripcion(curso.id)}>
-                      Desinscribirse
-                    </IonButton>
-                  ) : (
-                    <IonButton expand="block" onClick={() => handleInscripcion(curso.id)}>
-                      Inscribirse
-                    </IonButton>
-                  )} */}
                 </IonCol>
               </IonRow>
             </IonGrid>

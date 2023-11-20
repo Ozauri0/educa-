@@ -20,6 +20,8 @@ import {
 } from "../controllers/auth.controller.js";
 import { uploadBanner, uploadResource } from "../middlewares/storageConfigs.js";
 import { Router } from "express";
+import path from "path";
+import fs from 'fs';
 
 const router = Router();
 
@@ -62,5 +64,16 @@ router.get("/curso/:id", getCurso)
 
 router.post("/upload/banner/:id", upload2.single('file'), uploadFile)
 router.post("/upload/:ruta*", upload1.single('file'), uploadFile)
+
+router.get('/list-files/curso/:id', (req, res) => {
+  const directoryPath = path.join(process.cwd(), '/uploads/cursos/' + req.params.id + '/');
+  fs.readdir(directoryPath, function (err, files) {
+    if (err) {
+      return res.status(500).send('Unable to scan directory: ' + err);
+    } 
+    res.send(files);
+  });
+});
+
 
 export default router;

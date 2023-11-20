@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard,IonModal, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonModal, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton } from '@ionic/react';
 
 
 import './Cursos.css';
 
-const Cursos: React.FC = () => {
+const Cursos2: React.FC = () => {
 
   const modal = React.useRef<HTMLIonModalElement>(null);
   const modal2 = React.useRef<HTMLIonModalElement>(null);
@@ -34,19 +34,19 @@ const Cursos: React.FC = () => {
           <IonCardHeader>
             <IonCardSubtitle>Estudiantes UC Temuco ingreso 2020</IonCardSubtitle>
             <IonCardTitle>Perfil Tecnologico 2020</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
+          </IonCardHeader>
+          <IonCardContent>
             <IonButton id='modal1' expand='block'>Ver Recurso</IonButton>
             <IonModal ref={modal} trigger='modal1'>
               <iframe
-              id="inlineFrameExample"
-              title="Inline Frame Example"
-              width="100%"
-              height="100%"
-              src="https://dte.uct.cl/wp-content/uploads/2020/11/Informe-ejecutivo_Caracteri%CC%81sticas-del-perfil-tecnolo%CC%81gico-estudiantes-2020.pdf"></iframe>
+                id="inlineFrameExample"
+                title="Inline Frame Example"
+                width="100%"
+                height="100%"
+                src="http://localhost:4000/uploads/cursos/6/Formulario_de_Modificacion-2.pdf"></iframe>
               <IonButton onClick={() => dismiss()} >Cerrar</IonButton>
             </IonModal>
-            </IonCardContent>
+          </IonCardContent>
         </IonCard>
         <IonCard>
           <img alt="Curso 2" src="https://econtinua.uct.cl/wp-content/uploads/2022/09/dimensiones-personalizadas-720x500-px-6-3.jpeg" />
@@ -58,14 +58,14 @@ const Cursos: React.FC = () => {
             <IonButton id='modal2' expand='block'>Ver Recurso</IonButton>
             <IonModal ref={modal2} trigger='modal2'>
               <iframe
-              id="inlineFrameExample"
-              title="Inline Frame Example"
-              width="100%"
-              height="100%"
-              src="https://dte.uct.cl/wp-content/uploads/2022/12/Perfil-docente-2022.pdf"></iframe>
+                id="inlineFrameExample"
+                title="Inline Frame Example"
+                width="100%"
+                height="100%"
+                src="https://dte.uct.cl/wp-content/uploads/2022/12/Perfil-docente-2022.pdf"></iframe>
               <IonButton onClick={() => dismiss()} >Cerrar</IonButton>
             </IonModal>
-            </IonCardContent>
+          </IonCardContent>
         </IonCard>
         <IonCard>
           <img alt="Curso 3" src="https://impulso06.com/wp-content/uploads/2022/11/Las-Tic-en-Educacion.png" />
@@ -77,18 +77,18 @@ const Cursos: React.FC = () => {
             <IonButton id='modal3' expand='block'>Ver Recurso</IonButton>
             <IonModal ref={modal3} trigger='modal3'>
               <iframe
-              id="inlineFrameExample"
-              title="Inline Frame Example"
-              width="100%"
-              height="100%"
-              src="https://dte.uct.cl/wp-content/uploads/2018/08/Practicas-con-TIC.pdf"></iframe>
+                id="inlineFrameExample"
+                title="Inline Frame Example"
+                width="100%"
+                height="100%"
+                src="https://dte.uct.cl/wp-content/uploads/2018/08/Practicas-con-TIC.pdf"></iframe>
               <IonButton onClick={() => dismiss()} >Cerrar</IonButton>
             </IonModal>
-            </IonCardContent>
+          </IonCardContent>
         </IonCard>
       </IonContent>
     </IonPage>
   );
 };
 
-export default Cursos;
+export default Cursos2;
