@@ -20,7 +20,6 @@ import { getCursos } from '../api/auth';
 import { Curso, Inscripcion } from '../types';
 import { useAuth } from '../context/AuthContext';
 import './Cursos.css';
-import { registerInscripcion } from '../api/auth';
 import { getInscripciones } from '../api/auth';
 
 const Cursos: React.FC = () => {
@@ -79,7 +78,7 @@ const Cursos: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         {cursos.map((curso: Curso) => (
-          <IonCard key={curso.id}>
+          <IonCard key={curso.id} href={`/Curso/View/${curso.id}`}>
             <IonGrid>
               <IonRow>
                 <IonCol size="12" size-md="6" offset-md="3">
@@ -93,7 +92,7 @@ const Cursos: React.FC = () => {
                     <p>Fin: {new Date(curso.fecha_termino).toLocaleDateString()}</p>
                     <p>Cupos: {curso.cupos_restantes} / {curso.limite_cupos}</p>
                   </IonCardContent>
-                  <IonButton href={`/Curso/${curso.id}`}>Ir al curso</IonButton>
+                  <IonButton href={`/Curso/${curso.id}`}>Administrar</IonButton>
                 </IonCol>
               </IonRow>
             </IonGrid>

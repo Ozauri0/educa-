@@ -16,7 +16,9 @@ import {
 	getCurso,
 	registerInscripcion,
 	getInscripciones,
-	uploadFile
+	uploadFile,
+	deleteFile,
+	updateCurso
 } from "../controllers/auth.controller.js";
 import { uploadBanner, uploadResource } from "../middlewares/storageConfigs.js";
 import { Router } from "express";
@@ -62,6 +64,8 @@ router.get("/inscripcion/:id", getInscripciones)
 
 router.get("/curso/:id", getCurso)
 
+router.put("/curso/:id", updateCurso)
+
 router.post("/upload/banner/:id", upload2.single('file'), uploadFile)
 router.post("/upload/:ruta*", upload1.single('file'), uploadFile)
 
@@ -75,5 +79,6 @@ router.get('/list-files/curso/:id', (req, res) => {
   });
 });
 
+router.delete('/delete-file/curso/:id/:fileName', deleteFile)
 
 export default router;

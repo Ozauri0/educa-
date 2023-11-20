@@ -3,6 +3,50 @@ import transporter from "../helpers/mailer.cjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import fs from "fs";
+import path from "path";
+
+export const updateCurso = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino } = req.body;
+		const db = await connect();
+		const [result] = await db.query(
+			"UPDATE cursos SET nombre_curso = ?, descripcion = ?, limite_cupos = ?, fecha_inicio = ?, fecha_termino = ? WHERE id = ?",
+			[nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino, id]
+		);
+		console.log("Curso actualizado!")
+		res.json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Error en la actualización del curso" });
+	}
+}
+
+export const deleteFile = async (req, res) => {
+	try {
+		const { id, fileName } = req.params;
+		const filePath = path.join(process.cwd(), `uploads/cursos/${id}/${fileName}`)
+		// Verificar si el archivo existe
+		console.log("FILE PATH:",filePath)
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+			if (err) {
+					res.status(404).send('El archivo no existe');
+			} else {
+					// Eliminar el archivo
+					fs.unlink(filePath, (err) => {
+							if (err) {
+									res.status(500).send('Error al eliminar el archivo');
+							} else {
+									res.status(200).send('Archivo eliminado exitosamente');
+							}
+					});
+			}
+	});
+	} catch (error) {
+		res.status(500).json({ message: "Internal server error" });
+	}
+}
 
 export const getBanner = async (req, res) => {
 	try {
@@ -256,7 +300,7 @@ export const register = async (req, res) => {
 
 		if (mailExists.length > 0) {
 			console.log(mailExists);
-			return res.status(400).json({ message: "Email already in use" });
+			return res.status(401).json({ error: 'Correo ya se encuentra en uso' });
 		}
 		
 		const saltRounds = 10;
@@ -267,9 +311,9 @@ export const register = async (req, res) => {
 			});
 		});
 		
-		res.json(result);
+		return res.status(201).json({ message: "Usuario registrado" });
 	} catch (error) {
-		res.status(500).json({ message: "No se pudo realizar el registro" });
+		res.status(500).json({ error: "No se pudo realizar el registro" });
 		console.log(error);
 	}
 };
@@ -288,7 +332,7 @@ export const login = async (req, res) => {
 		);
 		console.log("Logged in as: ", result[0]);
 		if (result.length != 1) {
-			return res.status(400).json({ message: "Invalid credentials" });
+			return res.status(401).json({ error: 'Credenciales inválidas' });
 		}
 
 		const datos = await db.query(
@@ -296,43 +340,13 @@ export const login = async (req, res) => {
 			[correo]
 		);
 
-		// const user = datos[0][0].id;
-		// const token = jwt.sign({ user }, 'my_secret_token');
-
-		// console.log("logged in");
-		// res.status(200).json({ message: "Has iniciado Sesion", token });
 		const token = await createAccessToken({
 			result,
 		});
-		res.cookie("token", token, {
-			httpOnly: false,
-			sameSite: "none",
-			secure: true,
-		});
+		res.cookie("token", token);
 		res.status(200).json(result[0]);
-
-		console.log("logged in");
-		// const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
-		// const nombre = datos[0][0].nombres;
-		// const apellido = datos[0][0].apellidos;
-		// const fecha = new Date().toLocaleString();
-		// const mail = await transporter.sendMail({
-		// 	from: process.env.EMAIL,
-		// 	to: correo,
-		// 	subject: "Nuevo inicio de sesion en tu cuenta",
-		// 	html: `<p>Hola ${nombre} ${apellido}.</p>
-		// 	<p>Acabas de iniciar sesion en tu cuenta de Educa+</p>
-		// 	<ul>
-		// 		<li>Tu cuenta: ${correo}</li>
-		// 		<li>Fecha: ${fecha}</li>
-		//     	</ul>
-		// 	<p>Si fuiste tu, entonces no necesitas hacer nada.</p>
-		// 	<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`
-
-		// 	,});
-		// return
 	} catch (error) {
-		res.status(500).json({ message: "No se ha podido iniciar Sesion" });
+		res.status(500).json({ error: "Error del servidor" });
 		console.log(error);
 	}
 };

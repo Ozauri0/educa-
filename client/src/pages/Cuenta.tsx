@@ -14,6 +14,7 @@ import {
 	IonInput,
 	IonButton,
 	IonRouterLink,
+	IonAlert,
 } from "@ionic/react";
 import "./Inicio.css";
 import { User } from "../types";
@@ -29,14 +30,20 @@ const Cuenta: React.FC = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<FormData>();
-	const { signin } = useAuth();
 
-	const onSubmit: SubmitHandler<FormData> = (data) => {
+	const { signin } = useAuth();
+	const [error, setError] = React.useState<string>("");
+
+	const onSubmit: SubmitHandler<FormData> = async (data) => {
 		const user: User = {
 			correo: data.correo, // Usar el correo del formulario
 			contrasena: data.contrasena, // Usar la contraseña del formulario
 		};
-		signin(user);
+		try {
+			await signin(user);
+		} catch (error: any) {
+			setError(error.message)
+		}
 	};
 
 	return (
@@ -104,6 +111,7 @@ const Cuenta: React.FC = () => {
 						</form>
 					</IonCardContent>
 				</IonCard>
+				<IonAlert isOpen={!!error} message={error} buttons={[{ text: "Aceptar", handler: () => setError("") }]} />
 			</IonContent>
 		</IonPage>
 	);

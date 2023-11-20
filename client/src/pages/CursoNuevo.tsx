@@ -33,12 +33,12 @@ export default function CursoNuevo() {
 						<IonInput class='text-white'{...register("nombre_curso", { required: true })} placeholder="Nombre curso" />
 						<IonLabel class='text-white'>Descripción del curso:</IonLabel>
 						<IonInput class='text-white'{...register("descripcion", { required: true })} placeholder="Descripcion curso" />
-						<IonLabel class='text-white'>Número de cupos:</IonLabel>
-						<IonInput type='number' class='text-white'{...register("limite_cupos", { required: true })} placeholder="Numero cupos" />
 						<IonLabel class='text-white'>Fecha de inicio:</IonLabel>
 						<IonInput type='date' class='text-white'{...register("fecha_inicio", { required: true })} placeholder="Fecha inicio" />
 						<IonLabel class='text-white'>Fecha de término:</IonLabel>
 						<IonInput type='date' class='text-white'{...register("fecha_termino", { required: true })} placeholder="Fecha termino" />
+						<IonLabel class='text-white'>Número de cupos:</IonLabel>
+						<IonInput type='number' class='text-white'{...register("limite_cupos", { required: true })} placeholder="Numero cupos" />
 						<IonButton type='submit'>Crear curso</IonButton>
 					</form>
 				</IonCardContent>

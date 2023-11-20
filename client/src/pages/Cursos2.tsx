@@ -43,7 +43,7 @@ const Cursos2: React.FC = () => {
                 title="Inline Frame Example"
                 width="100%"
                 height="100%"
-                src="http://localhost:4000/uploads/cursos/6/Formulario_de_Modificacion-2.pdf"></iframe>
+                src="http://localhost:4000/uploads/cursos/6/Formulario_de_Posesion_Efectiva-2.pdf"></iframe>
               <IonButton onClick={() => dismiss()} >Cerrar</IonButton>
             </IonModal>
           </IonCardContent>

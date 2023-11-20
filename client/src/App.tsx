@@ -25,7 +25,6 @@ import Editar from "./pages/Editar";
 import Calendario from "./pages/Calendario";
 import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
-import Error from "./pages/Error";
 import Cursos2 from "./pages/Cursos2";
 
 import ForoPost from './pages/ForoPost';
@@ -53,6 +52,7 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import CursoNuevo from "./pages/CursoNuevo";
 import CursoData from './pages/CursoData';
+import CursoInfo from "./pages/CursoInfo";
 
 setupIonicReact();
 
@@ -73,6 +73,11 @@ const App = () => (
 						<Route exact path="/Curso/:id" render={() =>
 							<ProtectedRoute>
 								<CursoData />
+							</ProtectedRoute>
+						} />
+						<Route exact path="/Curso/View/:id" render={() =>
+							<ProtectedRoute>
+								<CursoInfo />
 							</ProtectedRoute>
 						} />
 						<Route exact path="/Recursos">
