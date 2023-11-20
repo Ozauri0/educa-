@@ -10,7 +10,7 @@ const Header: React.FC<{ title: string }> = ({ title }) => {
           <IonToolbar>
             <a href="/Inicio" style={{ textDecoration: 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <img alt="Logo" src="https://i.imgur.com/EyZIJxu.png/" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
                 <IonTitle className="educa-plus-title">{title}</IonTitle>
               </div>
             </a>

@@ -37,13 +37,17 @@ const Admin: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol size="12">
-            <IonButton color="success" expand="block" href='/AgregarCurso'>Agregar curso</IonButton>
+            <IonCol size="6">
+            <IonButton color="success" expand="block" href='/AgregarCurso'>Registrar curso</IonButton>
+            </IonCol>
+            <IonCol size="6">
+            <IonButton color="danger" expand="block" href='/EliminarCurso'>Eliminar curso</IonButton>
             </IonCol>
           </IonRow>
+          
           <IonRow>
             <IonCol size="12">
-            <IonButton color="danger" expand="block" href='/EliminarCurso'>Eliminar curso</IonButton>
+            <IonButton className='boton' expand="block" href='/Notif'>Enviar notificacion global</IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

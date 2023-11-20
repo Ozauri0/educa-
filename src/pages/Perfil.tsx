@@ -42,8 +42,13 @@ const getHorarios = () => {
 	return (
 		<IonPage>
 			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Perfil</IonTitle>
+			<IonToolbar>
+            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <IonTitle className="educa-plus-title">Perfil</IonTitle>
+              </div>
+            </a>
 					<IonButtons slot="end">
 						<IonButton href="/Editar">
 							<IonIcon slot="icon-only" icon={menu} />
@@ -59,7 +64,7 @@ const getHorarios = () => {
 							src="https://ionicframework.com/docs/img/demos/avatar.svg"
 						/>
 					</IonAvatar>
-					<IonLabel>
+					<IonLabel className="textolista">
 						{!currentUser ? (
 							<>
 								<h2>Nombre</h2>
@@ -68,10 +73,8 @@ const getHorarios = () => {
 							</>
 						) : (
 							<>
-								<h2>{currentUser.nombres}</h2>
-								<h3>{currentUser.apellidos}</h3>
+								<h2>{currentUser.nombres} {currentUser.apellidos}</h2>
 								<p>{currentUser.correo}</p>
-								<p>Otra info:</p>
 								<p>RUT: {currentUser.rut}</p>
 								<p>Teléfono: {currentUser.telefono}</p>
 							</>
@@ -83,6 +86,7 @@ const getHorarios = () => {
 						</IonButton>
 					</IonLabel>
 				</IonItem>
+				<IonButton color="danger" expand="block" href="/Admin">Panel de administración </IonButton>
 				<IonCard>
 					<IonCardHeader>
 						<IonCardTitle>Horarios</IonCardTitle>
@@ -99,6 +103,9 @@ const getHorarios = () => {
 								</IonItem>
 						))}
 					</IonList>
+					<IonButton color="primary" expand="block" href={'/Horarios'}>
+                            Horarios completos
+                    </IonButton>
 					</IonCardContent>
 				</IonCard>
 			</IonContent>

@@ -29,22 +29,24 @@ const Cuenta: React.FC = () => {
 	return (
 		<IonPage>
 			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Educa+</IonTitle>
-				</IonToolbar>
+			<IonToolbar>
+            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <IonTitle className="educa-plus-title"><b>Educa+</b></IonTitle>
+              </div>
+            </a>
+					</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
-					<IonToolbar>
-						<IonTitle size="large">Educa+</IonTitle>
-					</IonToolbar>
 				</IonHeader>
 				<IonCard>
 					<IonCardHeader>
 						<IonCardTitle>Iniciar Sesión</IonCardTitle>
 					</IonCardHeader>
 					<IonCardContent>
-						<form onSubmit={handleSubmit(onSubmit)}>
+						<form className="textologin" onSubmit={handleSubmit(onSubmit)} >
 							<p>
 								Para iniciar sesión en Educa +, debes ingresar tu correo
 								institucional y tu contraseña.
@@ -58,6 +60,7 @@ const Cuenta: React.FC = () => {
 							<IonInput
 								type="email"
 								placeholder="Ingrese su correo"
+								color="primary"
 								{...register("correo", {
 									required: true,
 									pattern: {
@@ -67,7 +70,7 @@ const Cuenta: React.FC = () => {
 								})}
 							/>
 							<p className="register-error">{errors.correo?.message}</p>
-							<IonInput
+							<IonInput 
 								type="password"
 								placeholder="Ingrese su contraseña"
 								{...register("contrasena", {
@@ -82,7 +85,7 @@ const Cuenta: React.FC = () => {
 								})}
 							/>
 							<p className="register-error">{errors.contrasena?.message}</p>
-							<IonButton type="submit" expand="full">
+							<IonButton className="boton" type="submit" expand="full">
 								Iniciar Sesión
 							</IonButton>
 						</form>

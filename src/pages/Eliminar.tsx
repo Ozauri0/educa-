@@ -59,7 +59,7 @@ const Eliminar: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonSearchbar value={filtroRut} onIonChange={handleFiltroRutChange}></IonSearchbar>
-        <IonList>
+        <IonList className='textolista'>
           {usuarios
             .filter((usuario: any) => usuario.rut.includes(filtroRut))
             .map((usuario: any, index: number) => (
@@ -74,11 +74,11 @@ const Eliminar: React.FC = () => {
             ))}
         </IonList>
 
-        <IonAlert
+        <IonAlert className='alerta'
   isOpen={usuarioSeleccionado !== null}
   onDidDismiss={handleCancelarEliminar}
   header="Confirmar eliminación"
-  message={`¿Estás seguro de que quieres eliminar al usuario "${usuarioSeleccionado?.nombres}, ${usuarioSeleccionado?.apellidos}",
+  message={`¿Estás seguro de que quieres eliminar al usuario "${usuarioSeleccionado?.nombres} ${usuarioSeleccionado?.apellidos}",
   con el rut ${usuarioSeleccionado?.rut}"?`}
   buttons={[
     {

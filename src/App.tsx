@@ -22,6 +22,8 @@ import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
 import AgregarCurso from "./pages/AgregarCurso";
 import EliminarCurso from "./pages/EliminarCurso";
+import CursoData from "./pages/CursoData";
+import Horarios from "./pages/Horarios";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
@@ -129,6 +131,20 @@ const App = () => (
 								<EliminarCurso />
 							</ProtectedRoute>
 						</Route>
+						<Route exact path="/CursoData">
+							<ProtectedRoute>
+								<CursoData />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Horarios">
+							<ProtectedRoute>
+								<Horarios />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Curso/:id" render={() =>
+                            <ProtectedRoute>
+                                <CursoData />
+                            </ProtectedRoute>} />
 						<Route exact path="/Header">
 							<ProtectedRoute>
 								<Header title={""} />
@@ -161,6 +177,11 @@ const App = () => (
 					</ProtectedLogin>
 				</Route>
 				<Route exact path="/Cuenta">
+					<ProtectedLogin>
+						<Cuenta />
+					</ProtectedLogin>
+				</Route>
+				<Route exact path="/">
 					<ProtectedLogin>
 						<Cuenta />
 					</ProtectedLogin>

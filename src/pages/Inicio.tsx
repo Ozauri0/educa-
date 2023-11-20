@@ -1,14 +1,14 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
 import './Inicio.css';
-import ChatbotLauncher from './ChatbotButton';
-import Header from './Header';
 const Tab1: React.FC = () => {
   return (
     <IonPage>
-      <IonToolbar>
-        <Header title='Inicio' />
-      </IonToolbar>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Educa +</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
@@ -16,27 +16,23 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonCard>
-          <img alt="Educa+" src="https://prensa.uct.cl/wp-content/uploads/2020/09/IMG_Educa-Blcakboard.png" />
+          <img alt="Educa +" src="https://prensa.uct.cl/wp-content/uploads/2020/09/IMG_Educa-Blcakboard.png" />
           <IonCardHeader>
             <IonCardSubtitle>Curso principantes Educa +</IonCardSubtitle>
             <IonCardTitle>Bienvenido a Educa +</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
+            <p>aqui podras encontrar cursos para poder utilizar educa+ de forma correcta</p>
           </IonCardContent>
         </IonCard>
-        <IonCard href='/tab4'>
+        <IonCard href='/Calendario'>
           <img alt="Ayduantias" src="https://www.pedagogiapucv.cl/wp-content/uploads/2018/03/ayudantia2.jpg" />
           <IonCardHeader>
-            <IonCardSubtitle>Revisa tus solicitudes de ayudantia</IonCardSubtitle>
-            <IonCardTitle>Solicitud Ayudantias</IonCardTitle>
+            <IonCardSubtitle>Puedes solicitar una ayudantia mucho mas facil ahora</IonCardSubtitle>
+            <IonCardTitle>Solicita una Ayudantia</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
+            <p>Solicita ayudantias utiles para tus cursos!</p>
           </IonCardContent>
         </IonCard>
         <IonCard href='/Foro'>
@@ -46,13 +42,10 @@ const Tab1: React.FC = () => {
             <IonCardTitle>Foro educa +</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <p>Principal</p>
-            <p>Principal1</p>
-            <p>Principal2</p>
+            <p>Bienvenido al foro principal de educa+!</p>
           </IonCardContent>
         </IonCard>
       </IonContent>
-      <ChatbotLauncher />
     </IonPage>
   );
 };

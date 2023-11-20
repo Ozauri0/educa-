@@ -5,14 +5,19 @@ const Login: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Educa +</IonTitle>
+      <IonToolbar>
+            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <IonTitle className="educa-plus-title"><b>Educa+</b></IonTitle>
+              </div>
+            </a>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Educa +</IonTitle>
+            <IonTitle size="large">Educa+</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonCard>

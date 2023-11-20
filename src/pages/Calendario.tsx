@@ -17,7 +17,12 @@ const Calendario: React.FC = () => {
   return (
     <IonPage>
       <IonToolbar>
-        <Header title='Asesorías' />
+            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <IonTitle className="educa-plus-title">Asesoría</IonTitle>
+              </div>
+            </a>
       </IonToolbar>
       <IonContent className="calendar-style" fullscreen>
         <div

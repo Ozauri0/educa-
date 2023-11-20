@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonAlert } from '@ionic/react';
 import { deleteCurso, getCursos } from '../api/auth';
+import './EliminarCurso.css';
 
 const EliminarCurso: React.FC = () => {
   const [cursos, setCursos] = useState([]);
@@ -51,7 +52,7 @@ const EliminarCurso: React.FC = () => {
             </IonItem>
           ))}
         </IonList>
-        <IonAlert color ="red"
+        <IonAlert className='alerta'
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
           header="Eliminar Curso"

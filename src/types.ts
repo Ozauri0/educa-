@@ -1,5 +1,5 @@
 export interface User {
-  id?: number;
+	id?: number;
 	nombres?: string;
 	apellidos?: string;
 	rut?: string;
@@ -9,11 +9,11 @@ export interface User {
 }
 
 export interface AuthContextType {
-  currentUser: User | null;
-  isAuthenticated: boolean;
-  signin: (user: User) => void;
-  logout: () => void;
-  loading: boolean;
+	currentUser: User | null;
+	isAuthenticated: boolean;
+	signin: (user: User) => void;
+	logout: () => void;
+	loading: boolean;
 }
 
 export type Notificacion = {
@@ -24,6 +24,7 @@ export type Notificacion = {
 	fecha: string;
 	accion: string;
 }
+
 export type Curso = {
 	id: any;
 	nombre_curso: string;
@@ -32,11 +33,12 @@ export type Curso = {
 	fecha_inicio: string;
 	fecha_termino: string;
 	id_asesor?: number;
-}
+	cupos_restantes?: number;
+};
 
 export type Inscripcion = {
-	id_inscripcion: number;
+	id_inscripcion?: number;
 	id_curso: number;
-	id_docente: number;
-	fecha_inscripcion: string;
+	id_docente: number | undefined;
+	fecha_inscripcion?: string;
 }

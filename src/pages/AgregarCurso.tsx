@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonContent, IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton } from '@ionic/react';
 import Header from './Header';
 import { registerNewCurso } from '../api/auth';
-
+import './AgregarCurso.css';
 interface Curso {
     id: string;
     nombre_curso: string;
@@ -71,7 +71,7 @@ const AgregarCurso: React.FC = () => {
                         <IonInput type="date" value={fechaTermino} onIonChange={e => setFechaTermino(e.detail.value!)}></IonInput>
                     </IonItem>
                 </IonList>
-                <IonButton expand="block" onClick={handleAgregarCurso}>Agregar Curso</IonButton>
+                <IonButton expand="block" color="success" onClick={handleAgregarCurso}>Agregar Curso</IonButton>
             </IonContent>
         </IonPage>
     );
