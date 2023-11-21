@@ -83,6 +83,11 @@ const App = () => (
 								<Foro />
 							</ProtectedRoute>
 						</Route>
+						<Route exact path="/Notificaciones">
+							<ProtectedRoute>
+								<Notificaciones />
+							</ProtectedRoute>
+						</Route>
 						<Route exact path="/Calendario">
 							<ProtectedRoute>
 								<Calendario />
@@ -114,6 +119,10 @@ const App = () => (
 						<IonTabButton tab="Inicio" href="/Inicio">
 							<IonIcon aria-hidden="true" icon={home} />
 							<IonLabel>Menu</IonLabel>
+						</IonTabButton>
+						<IonTabButton tab="Notificaciones" href="/Notificaciones">
+							<IonIcon aria-hidden="true" icon={alertCircle} />
+							<IonLabel>Notificaciones</IonLabel>
 						</IonTabButton>
 						<IonTabButton tab="Cursos" href="/Cursos">
 							<IonIcon aria-hidden="true" icon={journal} />

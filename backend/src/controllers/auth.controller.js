@@ -3,6 +3,33 @@ import transporter from "../helpers/mailer.cjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
 
+export const getNotif = async (req, res) => {
+	try {
+		const db = await connect();
+		const id_usuario = req.params.id;
+		const [result] = await db.query("SELECT * FROM notificacion WHERE id_usuario = ?", id_usuario);
+		res.json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+};
+export const postNotif = async (req, res) => {
+	try {
+		const { id_usuario, notificacion, visto, id_post } = req.body;
+		const db = await connect();
+		const [result] = await db.query(
+			"INSERT INTO notificacion (id_usuario, notificacion, visto, id_post) VALUES (?,?,?,?)",
+			[id_usuario, notificacion, visto, id_post]
+		);
+		res.json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+};
+
+
 export const getDocentes = async (req, res) => {
 	try {
 		const db = await connect();
@@ -258,22 +285,6 @@ export const verifyToken = async (req, res) => {
 export const logout = async (req, res) => {
 	res.clearCookie("token");
 	res.status(200).json({ message: "Has cerrado sesion" });
-};
-
-export const getNotificaciones = async (req, res) => {
-	const { correo } = req.body;
-	try {
-		const db = await connect();
-		console.log("Correo", correo);
-		const [result] = await db.query(
-			"SELECT * FROM notificaciones WHERE usuario = ?",
-			[correo]
-		);
-		res.status(200).json(result);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: "Internal server error" });
-	}
 };
 
 export const insNotificacion = async (req, res) => {

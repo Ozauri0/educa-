@@ -48,9 +48,23 @@ function ForoPost() {
             .then(response => response.json())
             .then(data => {
                 if (data) {
+                    postNotification();
                     window.location.reload();
                 }
             })
+    }
+    const postNotification = async () => {
+        fetch('http://localhost:4000/api/nnotificacion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id_usuario: currentUser?.id,
+                notificacion: 'Nuevo comentario en el foro',
+                visto: false,
+                id_post: postId,
+            })
+        })
+            .then(response => response.json())
     }
 
     useEffect(() => {

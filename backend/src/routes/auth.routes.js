@@ -4,14 +4,15 @@ import {
 	getDocentes,
 	getDocente,
 	verifyToken,
-	getNotificaciones,
 	getForum,
 	getPost,
 	npost,
 	logout,
 	getPostComments,
 	ncomment,
-	getHorario
+	getHorario,
+	getNotif,
+	postNotif,
 
 } from "../controllers/auth.controller.js";
 import { Router } from "express";
@@ -42,6 +43,8 @@ router.get("/verify", verifyToken);
 
 router.post("/logout", verifyToken, logout);
 
-router.post("/notificaciones", getNotificaciones);
+router.get("/notificaciones/:id", getNotif);
+
+router.post("/nnotificacion", postNotif);
 
 export default router;
