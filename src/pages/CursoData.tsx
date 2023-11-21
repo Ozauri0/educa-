@@ -34,6 +34,7 @@ const CursoData: React.FC = () => {
 	useEffect(() => {
 		fetchCurso()
 		fetchFiles();
+		fetchFiles();
 	}, [])
 
 	const handleFileUpload = async (e: any) => {
@@ -147,10 +148,14 @@ const CursoData: React.FC = () => {
 			<IonHeader>
 				<IonToolbar>
 					<IonTitle>Educa +</IonTitle>
+					<IonTitle>Educa +</IonTitle>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
+					<IonToolbar>
+						<IonTitle size="large">Cursos</IonTitle>
+					</IonToolbar>
 					<IonToolbar>
 						<IonTitle size="large">Cursos</IonTitle>
 					</IonToolbar>

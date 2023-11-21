@@ -15,13 +15,17 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonIcon,
+  IonBadge,
 } from '@ionic/react'; import './Cursos.css';
-import { getCursos } from '../api/auth';
+import { getCursos, getNotifRequest } from '../api/auth';
 import { Curso, Inscripcion } from '../types';
 import { useAuth } from '../context/AuthContext';
 import './Cursos.css';
 import { getInscripciones } from '../api/auth';
-
+import { chevronBack, notificationsSharp } from 'ionicons/icons';
+import {socket} from '../service/socket';
+import { set } from 'react-hook-form';
 const Cursos: React.FC = () => {
   const [cursos, setCursos] = useState<Curso[]>([])
   const [inscritoCursos, setInscritoCursos] = useState<number[]>([]);
@@ -61,15 +65,34 @@ const Cursos: React.FC = () => {
     fetchCursos()
   }, [])
 
+  useEffect(() => {
+    async function getNotifications() {
+        if (currentUser) {
+            try {
+                const response = await getNotifRequest({
+                    id: currentUser.id,
+                });
+                const data = response.data;
+                setNumNotif(data.length); // Actualiza el estado con los datos recibidos
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+    getNotifications();
+}, [currentUser]);
+
   console.log('Inscrito curso', inscritoCursos)
   console.log('Cursos', cursos)
 
   return (
     <IonPage>
+      <IonContent>
       <IonHeader>
       <IonToolbar>
+      <IonToolbar>
             <a href="/Inicio" style={{ textDecoration: 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
                 <IonTitle className="educa-plus-title">Cursos</IonTitle>
               </div>

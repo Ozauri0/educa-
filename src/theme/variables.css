@@ -264,6 +264,9 @@ http://ionicframework.com/docs/theming/ */
 .iconcolor{
   color: #f2f2f2;
 }
+.iconcolor{
+  color: #f2f2f2;
+}
 .banner{
   --ion-color-step-550: #000000;
   --ion-color-step-850: #000000;

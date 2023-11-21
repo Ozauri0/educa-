@@ -1,7 +1,40 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonIcon, IonBadge } from '@ionic/react';
 import './Inicio.css';
+import {socket} from '../service/socket';
+import { chevronBack, notificationsSharp } from 'ionicons/icons';
+import { useAuth } from '../context/AuthContext';
+import { getNotifRequest } from '../api/auth';
+
 const Tab1: React.FC = () => {
+  const [numNotif, setNumNotif] = useState(0);
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+          socket.on('new-comment', async(data: any) => {
+              window.location.reload();
+          }
+          );
+      }
+          , []);
+
+  useEffect(() => {
+          async function getNotifications() {
+              if (currentUser) {
+                  try {
+                      const response = await getNotifRequest({
+                          id: currentUser.id,
+                      });
+                      const data = response.data;
+                      setNumNotif(data.length); // Actualiza el estado con los datos recibidos
+                  } catch (error) {
+                      console.error(error);
+                  }
+              }
+          }
+          getNotifications();
+      }, [currentUser]);
+
   return (
     <IonPage>
       <IonHeader>
@@ -15,11 +48,6 @@ const Tab1: React.FC = () => {
           </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Educa +</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <IonCard>
           <img alt="Educa +" src="https://prensa.uct.cl/wp-content/uploads/2020/09/IMG_Educa-Blcakboard.png" />
           <IonCardHeader>

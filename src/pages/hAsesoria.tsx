@@ -26,6 +26,7 @@ const hAsesoria: React.FC = () => {
                     <IonItem>
                         <IonSelect label='Profesor' placeholder="Seleccione un Profesor">
                             <IonSelectOption value="1">Profesor 1</IonSelectOption>
+          
                             <IonSelectOption value="2">Profesor 2</IonSelectOption>
                             <IonSelectOption value="3">Profesor 3</IonSelectOption>
                             <IonSelectOption value="4">Profesor 4</IonSelectOption>

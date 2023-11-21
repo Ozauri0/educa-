@@ -88,9 +88,9 @@ const App = () => (
 							</ProtectedRoute>
 						</Route>
 						<Route exact path="/ForoNuevo">
-							<ProtectedRoute>
+							
 								<ForoNuevo />
-							</ProtectedRoute>
+							
 						</Route>
 						<Route exact path="/Calendario">
 							<ProtectedRoute>

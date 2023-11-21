@@ -21,28 +21,35 @@ import {
     IonList,
     IonLabel,
     IonThumbnail,
+    IonBadge,
 } from '@ionic/react';
-import { chevronBack } from 'ionicons/icons';
+import { chevronBack, notificationsSharp } from 'ionicons/icons';
 import { useAuth } from '../context/AuthContext';
-
+import {getNotifRequest} from '../api/auth';
 import './ForoPost.css';
+import { arrayOutputType } from 'zod';
+
+import {socket} from '../service/socket';
 
 function ForoPost() {
     const postId = useParams<{ postId: string }>().postId;
     const { currentUser } = useAuth();
-    const [datosForo, setDatosForo] = useState([]);
+    const [datosForo, setDatosForo] = useState<any>([]);
     const [datosComentario, setDatosComentario] = useState([]);
     const [comentario, setNuevoComentario] = useState('');
     const [loading, setLoading] = useState(true);
+    const [numNotif, setNumNotif] = useState(0);
 
     const handleNuevoComentario = async () => {
         fetch('http://localhost:4000/api/ncomentario', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                id_usuario: currentUser?.id,
                 nombre_usuario: currentUser?.correo,
                 comentario: comentario,
                 id_post: postId,
+                id_autor: datosForo[0].id_autor,
             })
         })
             .then(response => response.json())
@@ -85,18 +92,25 @@ function ForoPost() {
             , 300);
     }
         , []);
-
+    
     return (
         <IonPage>
             <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Foro</IonTitle>
-                    <IonButtons slot='end'>
+            <IonToolbar>
+                    <a href="/Inicio" style={{ textDecoration: 'none' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                        <IonTitle className="educa-plus-title">Foro numero {postId} </IonTitle>
+                        <IonButton href="/Notificaciones">
+                            <IonIcon slot="icon-only" icon={notificationsSharp}/>
+                            <IonBadge color="danger">{numNotif}</IonBadge>
+                        </IonButton>
                         <IonButton href='/Foro'>
                             <IonIcon slot="icon-only" icon={chevronBack} />
                         </IonButton>
-                    </IonButtons>
-                </IonToolbar>
+                    </div>
+                    </a> 
+            </IonToolbar> 
             </IonHeader>
             <IonContent color="Light">
                 {datosForo.map((item: any) => (
@@ -108,6 +122,12 @@ function ForoPost() {
                             </IonCardHeader>
                             <IonCardContent>
                                 <IonText color="light">{item.descripcion}</IonText>
+                            </IonCardContent>
+                            <IonCardContent>
+                                <IonText color="light">{item.autor}</IonText>
+                            </IonCardContent>
+                            <IonCardContent>
+                                <IonText color="light">{item.id_autor}</IonText>
                             </IonCardContent>
                         </IonCard>
                     </IonItem>
