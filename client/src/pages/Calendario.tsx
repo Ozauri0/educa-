@@ -51,7 +51,7 @@ const Calendario: React.FC = () => {
           <a href="/Inicio" style={{ textDecoration: 'none' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
               <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
-              <IonTitle className="educa-plus-title">hAsesoria </IonTitle>
+              <IonTitle className="educa-plus-title">Asesoría</IonTitle>
               <IonButton href="/Notificaciones">
                   <IonIcon slot="icon-only" icon={notificationsSharp}/>
                   <IonBadge color="danger">{numNotif}</IonBadge>

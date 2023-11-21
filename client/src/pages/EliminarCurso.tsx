@@ -49,10 +49,11 @@ const EliminarCurso: React.FC = () => {
               }}>
                 Eliminar
               </IonButton>
+              <IonButton className='boton' href={`/Curso/${curso.id}`}>Editar</IonButton>
             </IonItem>
           ))}
         </IonList>
-        <IonAlert className='alerta'
+        <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
           header="Eliminar Curso"

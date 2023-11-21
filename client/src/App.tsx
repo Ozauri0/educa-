@@ -24,6 +24,7 @@ import AgregarCurso from "./pages/AgregarCurso";
 import EliminarCurso from "./pages/EliminarCurso";
 import CursoData from "./pages/CursoData";
 import Horarios from "./pages/Horarios";
+import CursoInfo from "./pages/CursoInfo";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
@@ -145,6 +146,11 @@ const App = () => (
                             <ProtectedRoute>
                                 <CursoData />
                             </ProtectedRoute>} />
+						<Route exact path="/Curso/View/:id" render={() =>
+							<ProtectedRoute>
+								<CursoInfo />
+							</ProtectedRoute>
+						} />
 						<Route exact path="/Header">
 							<ProtectedRoute>
 								<Header title={""} />
@@ -174,7 +180,7 @@ const App = () => (
 				<Route exact path="/Registro">
 						<Registro />
 				</Route>
-				<Route exact path="/Cuenta">
+				<Route exact path="/">
 					<ProtectedLogin>
 						<Cuenta />
 					</ProtectedLogin>

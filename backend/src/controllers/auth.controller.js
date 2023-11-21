@@ -2,6 +2,8 @@ import { connect } from "../database/db.js";
 import transporter from "../helpers/mailer.cjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
+import fs from "fs";
+import path from "path";
 import bcrypt from "bcrypt";
 
 
@@ -79,7 +81,7 @@ export async function registerInscripcion(req, res) {
 		}
 		else {
 			// No hay cupos restantes, devolver un mensaje indicando que no se puede inscribir
-      res.status(400).json({ message: "No quedan cupos disponibles para este curso" });
+      res.status(400).json({ error: "No quedan cupos disponibles para este curso" });
 		}
 		} catch (error) {
 		console.log(error);
@@ -212,7 +214,7 @@ export const register = async (req, res) => {
 
 		if (mailExists.length > 0) {
 			console.log(mailExists);
-			return res.status(400).json({ message: "Email already in use" });
+			return res.status(401).json({ error: 'Correo ya se encuentra en uso' });
 		}
 		
 		const saltRounds = 10;
@@ -223,12 +225,14 @@ export const register = async (req, res) => {
 			});
 		});
 		
-		res.json(result);
+		return res.status(201).json({ message: "Usuario registrado" });
 	} catch (error) {
-		res.status(500).json({ message: "No se pudo realizar el registro" });
+		res.status(500).json({ error: "No se pudo realizar el registro" });
 		console.log(error);
 	}
 };
+
+
 export const login = async (req, res) => {
 	try {
 			const { correo, contrasena } = req.body;
@@ -264,7 +268,7 @@ export const login = async (req, res) => {
 					}
 			});
 	} catch (error) {
-			res.status(500).json({ message: "No se ha podido iniciar sesión" });
+			res.status(500).json({ error: "No se ha podido iniciar sesión" });
 			console.log(error);
 	}
 };
@@ -345,11 +349,7 @@ export const getNotificaciones = async (req, res) => {
 		res.status(500).json({ message: "Internal server error" });
 	}
 };
-//					id_usuario: currentUser?.id,
-//                 	nombre_usuario: currentUser?.correo,
-//                 	comentario: comentario,
-//                 	id_post: postId,
-//                 	id_autor: datosForo[0].id_autor,
+
 export const insNotificacion = async (req, res) => {
 	const {id_usuario, nombre_usuario, comentario, id_post, id_autor} = req.body;
     try {
@@ -362,7 +362,6 @@ export const insNotificacion = async (req, res) => {
         return error;
 }
  };
-
 
 export const getUsers = async (req, res) => {
 	try {
@@ -428,12 +427,6 @@ export const deleteCurso = async (req, res) => {
 	}
   };
 
-//					id_usuario: currentUser?.id,
-//                 	nombre_usuario: currentUser?.correo,
-//                 	comentario: comentario,
-//                 	id_post: postId,
-//                 	id_autor: datosForo[0].id_autor,
-
   export const ncomment = async (req, res, next) => {
 	try {
 		const {id_usuario, nombre_usuario, comentario, id_post, id_autor} = req.body;
@@ -456,5 +449,47 @@ export const getPostComments = async (req,res) => {
 	} catch (error) {
 		console.log(error)
 		res.status(500).json({message: "Internal server error"});
+	}
+}
+
+export const updateCurso = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino } = req.body;
+		const db = await connect();
+		const [result] = await db.query(
+			"UPDATE cursos SET nombre_curso = ?, descripcion = ?, limite_cupos = ?, fecha_inicio = ?, fecha_termino = ? WHERE id = ?",
+			[nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino, id]
+		);
+		console.log("Curso actualizado!")
+		res.json(result);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Error en la actualización del curso" });
+	}
+}
+
+export const deleteFile = async (req, res) => {
+	try {
+		const { id, fileName } = req.params;
+		const filePath = path.join(process.cwd(), `uploads/cursos/${id}/${fileName}`)
+		// Verificar si el archivo existe
+		console.log("FILE PATH:",filePath)
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+			if (err) {
+					res.status(404).send('El archivo no existe');
+			} else {
+					// Eliminar el archivo
+					fs.unlink(filePath, (err) => {
+							if (err) {
+									res.status(500).send('Error al eliminar el archivo');
+							} else {
+									res.status(200).send('Archivo eliminado exitosamente');
+							}
+					});
+			}
+	});
+	} catch (error) {
+		res.status(500).json({ message: "Internal server error" });
 	}
 }

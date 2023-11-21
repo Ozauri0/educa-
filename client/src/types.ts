@@ -11,19 +11,20 @@ export interface User {
 export interface AuthContextType {
 	currentUser: User | null;
 	isAuthenticated: boolean;
-	signin: (user: User) => void;
+	signin: (user: User) => Promise<boolean>; // Cambio a Promise<boolean>
+	signup: (user: User) => Promise<any>; // Cambio a Promise<boolean>
 	logout: () => void;
 	loading: boolean;
 }
 
 export type Notificacion = {
-	id: number;
-	mensaje: string;
-	usuario_id: number;
-	de_id: number;
-	de_autor: string;
-	fecha: string;
-	accion: string;
+    id: number;
+    mensaje: string;
+    usuario_id: number;
+    de_id: number;
+    de_autor: string;
+    fecha: string;
+    accion: string;
 }
 
 export type Curso = {

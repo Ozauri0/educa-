@@ -264,3 +264,39 @@ http://ionicframework.com/docs/theming/ */
 .iconcolor{
   color: #f2f2f2;
 }
+.iconcolor{
+  color: #f2f2f2;
+}
+.banner{
+  --ion-color-step-550: #000000;
+  --ion-color-step-850: #000000;
+  --ion-color-primary: #000000;
+}
+
+ion-alert:not(.select-alert) {
+  --background: #222428;
+  --ion-text-color: white;
+
+  button {
+      color: white !important;
+      font-size: 20px !important;
+  }
+
+  .alert-message {
+      color: #ddd;
+  }
+}
+.foro{
+  background-color: ffffff;
+}
+.comentario{
+  background-color: ffffff;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+}
+.nuevocom{
+  border-radius: 10px;
+  padding: 1px;
+  margin: 1px;
+}

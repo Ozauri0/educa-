@@ -22,7 +22,6 @@ import { getCursos, getNotifRequest } from '../api/auth';
 import { Curso, Inscripcion } from '../types';
 import { useAuth } from '../context/AuthContext';
 import './Cursos.css';
-import { registerInscripcion } from '../api/auth';
 import { getInscripciones } from '../api/auth';
 import { chevronBack, notificationsSharp } from 'ionicons/icons';
 import {socket} from '../service/socket';
@@ -33,13 +32,31 @@ const Cursos: React.FC = () => {
   const { currentUser } = useAuth()
   const [numNotif, setNumNotif] = useState(0);
 
- useEffect(() => {
-        socket.on('new-comment', async(data: any) => {
-            window.location.reload();
-        }
-        );
+
+  useEffect(() => {
+    socket.on('new-comment', async(data: any) => {
+        window.location.reload();
     }
-        , []);
+    );
+}
+    , []);
+
+    useEffect(() => {
+      async function getNotifications() {
+          if (currentUser) {
+              try {
+                  const response = await getNotifRequest({
+                      id: currentUser.id,
+                  });
+                  const data = response.data;
+                  setNumNotif(data.length); // Actualiza el estado con los datos recibidos
+              } catch (error) {
+                  console.error(error);
+              }
+          }
+      }
+      getNotifications();
+  }, [currentUser]);
 
   const fetchCursos = async () => {
     try {
@@ -75,29 +92,12 @@ const Cursos: React.FC = () => {
     fetchCursos()
   }, [])
 
-  useEffect(() => {
-    async function getNotifications() {
-        if (currentUser) {
-            try {
-                const response = await getNotifRequest({
-                    id: currentUser.id,
-                });
-                const data = response.data;
-                setNumNotif(data.length); // Actualiza el estado con los datos recibidos
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    }
-    getNotifications();
-}, [currentUser]);
 
   console.log('Inscrito curso', inscritoCursos)
   console.log('Cursos', cursos)
 
   return (
     <IonPage>
-      <IonContent>
       <IonHeader>
       <IonToolbar>
             <a href="/Inicio" style={{ textDecoration: 'none' }}>
@@ -114,23 +114,23 @@ const Cursos: React.FC = () => {
             </div>
             </a> 
             </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">Cursos</IonTitle>
+          </IonToolbar>
         </IonHeader>
         {cursos.map((curso: Curso) => (
-          <IonCard key={curso.id}>
+          <IonCard key={curso.id} href={`/Curso/View/${curso.id}`}>
             <IonGrid>
               <IonRow>
                 <IonCol size="12" size-md="6" offset-md="3">
-                  <IonImg src={`http://localhost:4000/uploads/cursos/${curso.id}/banner`} />
+                  <IonImg src={`http://192.168.1.167:4000/uploads/cursos/${curso.id}/banner`} />
                   <IonCardHeader>
                     <IonCardTitle>{curso.nombre_curso}</IonCardTitle>
                     <IonCardSubtitle>{curso.descripcion}</IonCardSubtitle>
                   </IonCardHeader>
-                  <IonCardContent>
-                    <p>Inicio: {new Date(curso.fecha_inicio).toLocaleDateString()}</p>
-                    <p>Fin: {new Date(curso.fecha_termino).toLocaleDateString()}</p>
-                    <p>Cupos: {curso.cupos_restantes} / {curso.limite_cupos}</p>
-                  </IonCardContent>
-                  <IonButton href={`/Curso/${curso.id}`}>Ir al curso</IonButton>
                 </IonCol>
               </IonRow>
             </IonGrid>
@@ -139,6 +139,6 @@ const Cursos: React.FC = () => {
       </IonContent>
     </IonPage>
   );
-}
+};
 
 export default Cursos;

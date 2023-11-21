@@ -13,7 +13,7 @@ const Perfil: React.FC = () => {
 	const [horarios, setHorarios] = useState([]);
 
 const getHorarios = () => {
-  fetch("http://localhost:4000/api/horario/" + currentUser?.id)
+  fetch("http://192.168.1.167:4000/api/horario/" + currentUser?.id)
     .then((response) => response.json())
     .then((data) => {
       // Obtener el día actual
@@ -36,7 +36,7 @@ const getHorarios = () => {
 
 	const handleLogout = () => {
 		logout();
-		history.push("/login");
+		history.push("/");
 	};
 
 	return (
@@ -81,7 +81,7 @@ const getHorarios = () => {
 						)}
 					</IonLabel>
 					<IonLabel slot="end">
-						<IonButton color="danger" expand="block" onClick={handleLogout}>
+						<IonButton href="/" color="danger" expand="block" onClick={handleLogout}>
 							Cerrar sesion
 						</IonButton>
 					</IonLabel>
@@ -103,7 +103,7 @@ const getHorarios = () => {
 								</IonItem>
 						))}
 					</IonList>
-					<IonButton color="primary" expand="block" href={'/Horarios'}>
+					<IonButton className="boton" expand="block" href={'/Horarios'}>
                             Horarios completos
                     </IonButton>
 					</IonCardContent>

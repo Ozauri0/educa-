@@ -1,11 +1,25 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import React from "react";
-import {IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonCard,IonCardContent,IonCardHeader,IonCardTitle,IonInput,IonButton,IonRouterLink,} from "@ionic/react";
-import "./Cuenta.css";
+import {
+	IonContent,
+	IonHeader,
+	IonPage,
+	IonTitle,
+	IonToolbar,
+	IonCard,
+	IonCardContent,
+	IonCardHeader,
+	IonCardTitle,
+	IonInput,
+	IonButton,
+	IonRouterLink,
+	IonAlert,
+} from "@ionic/react";
+import "./Inicio.css";
 import { User } from "../types";
 
-interface FormData {
+type FormData = {
 	correo: string;
 	contrasena: string;
 }
@@ -16,14 +30,20 @@ const Cuenta: React.FC = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<FormData>();
-	const { signin } = useAuth();
 
-	const onSubmit: SubmitHandler<FormData> = (data) => {
+	const { signin } = useAuth();
+	const [error, setError] = React.useState<string>("");
+
+	const onSubmit: SubmitHandler<FormData> = async (data) => {
 		const user: User = {
 			correo: data.correo, // Usar el correo del formulario
 			contrasena: data.contrasena, // Usar la contraseña del formulario
 		};
-		signin(user);
+		try {
+			await signin(user);
+		} catch (error: any) {
+			setError(error.message)
+		}
 	};
 
 	return (
@@ -33,34 +53,30 @@ const Cuenta: React.FC = () => {
             <a href="/Inicio" style={{ textDecoration: 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
-                <IonTitle className="educa-plus-title"><b>Educa+</b></IonTitle>
+                <IonTitle className="educa-plus-title">Iniciar sesion</IonTitle>
               </div>
             </a>
-					</IonToolbar>
+          </IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
+					<IonToolbar>
+						<IonTitle size="large">Educa +</IonTitle>
+					</IonToolbar>
 				</IonHeader>
 				<IonCard>
 					<IonCardHeader>
 						<IonCardTitle>Iniciar Sesión</IonCardTitle>
 					</IonCardHeader>
 					<IonCardContent>
-						<form className="textologin" onSubmit={handleSubmit(onSubmit)} >
+						<form onSubmit={handleSubmit(onSubmit)}>
 							<p>
 								Para iniciar sesión en Educa +, debes ingresar tu correo
 								institucional y tu contraseña.
 							</p>
-							<p>
-								Si no tienes una cuenta, puedes crear una en el siguiente
-								enlace:
-							</p>
-							<IonRouterLink routerLink="/registro">Registrarse</IonRouterLink>{" "}
-							{/* Enlace al formulario de registro */}
 							<IonInput
 								type="email"
 								placeholder="Ingrese su correo"
-								color="primary"
 								{...register("correo", {
 									required: true,
 									pattern: {
@@ -70,7 +86,7 @@ const Cuenta: React.FC = () => {
 								})}
 							/>
 							<p className="register-error">{errors.correo?.message}</p>
-							<IonInput 
+							<IonInput
 								type="password"
 								placeholder="Ingrese su contraseña"
 								{...register("contrasena", {
@@ -91,6 +107,7 @@ const Cuenta: React.FC = () => {
 						</form>
 					</IonCardContent>
 				</IonCard>
+				<IonAlert isOpen={!!error} message={error} buttons={[{ text: "Aceptar", handler: () => setError("") }]} />
 			</IonContent>
 		</IonPage>
 	);

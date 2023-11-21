@@ -2,7 +2,7 @@ import axios from "axios";
 import { Curso, Inscripcion, User } from "../types";
 
 const instance = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "http://192.168.1.167:4000",
   withCredentials: true,
 });
 

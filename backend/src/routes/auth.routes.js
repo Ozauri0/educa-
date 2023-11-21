@@ -22,6 +22,8 @@ import {
 	getCurso,
 	ncomment,
 	getPostComments,
+	updateCurso,
+	deleteFile,
 	insNotificacion
 } from "../controllers/auth.controller.js";
 
@@ -77,6 +79,8 @@ router.get("/deleteCurso/:cursoId", deleteCurso);
 
 router.get("/curso/:id", getCurso)
 
+router.put("/curso/:id", updateCurso)
+
 router.post("/upload/banner/:id", upload2.single('file'), uploadFile)
 
 router.post("/upload/:ruta*", upload1.single('file'), uploadFile)
@@ -96,5 +100,6 @@ router.get('/list-files/curso/:id', (req, res) => {
 	  res.send(files);
 	});
   });
+  router.delete('/delete-file/curso/:id/:fileName', deleteFile)
 
 export default router;

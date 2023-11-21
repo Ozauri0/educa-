@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonContent, IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonContent, IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonToast } from '@ionic/react';
+import { useHistory } from 'react-router-dom';
 import Header from './Header';
 import { registerNewCurso } from '../api/auth';
 import './AgregarCurso.css';
+
 interface Curso {
     id: string;
     nombre_curso: string;
@@ -18,6 +20,8 @@ const AgregarCurso: React.FC = () => {
     const [cupos, setCupos] = useState('');
     const [fechaInicio, setFechaInicio] = useState<string>('');
     const [fechaTermino, setFechaTermino] = useState<string>('');
+    const [showToast, setShowToast] = useState(false);
+    const history = useHistory();
 
     const handleAgregarCurso = async () => {
         const curso: Curso = {
@@ -31,7 +35,11 @@ const AgregarCurso: React.FC = () => {
 
         try {
             await registerNewCurso(curso);
-            // Sin función de error, ya que no se espera que falle.
+            setShowToast(true);
+            setTimeout(() => {
+                setShowToast(false);
+                history.push('/cursos');
+            }, 2000);
         } catch (error) {
             // sin función de error.
         }
@@ -56,11 +64,12 @@ const AgregarCurso: React.FC = () => {
                     </IonItem>
                     <IonItem>
                         <IonLabel>Límite de cupos</IonLabel>
-                        <IonSelect value={cupos} onIonChange={e => setCupos(e.detail.value)}>
-                            {Array.from({ length: 51 }, (_, index) => (
-                                <IonSelectOption key={index} value={index}>{index}</IonSelectOption>
-                            ))}
-                        </IonSelect>
+                        <IonInput
+                            min={0}
+                            value={cupos || ''}
+                            type='number'
+                            onIonChange={e => setCupos(e.detail.value || '')}
+                        ></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Fecha de inicio</IonLabel>
@@ -72,6 +81,13 @@ const AgregarCurso: React.FC = () => {
                     </IonItem>
                 </IonList>
                 <IonButton expand="block" color="success" onClick={handleAgregarCurso}>Agregar Curso</IonButton>
+                <IonToast
+                    isOpen={showToast}
+                    message="Curso agregado exitosamente"
+                    duration={2000}
+                    position='top'
+                    color={'success'}
+                />
             </IonContent>
         </IonPage>
     );

@@ -8,7 +8,6 @@ import http from "http";
 import { Server } from "socket.io";
 //funcion para insertar notificaciones a la base de datos
 import path from "path";
-// import {insNotificacion} from "./controllers/auth.notificaciones.js";
 
 dotenv.config();
 
@@ -49,7 +48,6 @@ io.on("connection", (socket) => {
     console.log("SOCKETIO OFF");
   });
 });
-
 // Settings
 app.set("port", 4000);
 
