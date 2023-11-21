@@ -261,3 +261,6 @@ http://ionicframework.com/docs/theming/ */
 .textolista{
   --ion-color-step-600: #ffffff;
 }
+.iconcolor{
+  color: #f2f2f2;
+}

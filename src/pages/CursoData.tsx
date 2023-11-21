@@ -12,7 +12,18 @@ const CursoData: React.FC = () => {
 	const [cursoDataa, setCursoDataa] = useState<Curso>();
 	const [cursosInscritos, setCursosInscritos] = useState<number[]>([]);
 	const [bannerUrl, setBannerUrl] = useState<string>("")
-	// Realizar lógica para obtener detalles del curso usando la ID recibida
+	const [files, setFiles] = useState<string[]>([]);
+
+	const fetchFiles = async () => {
+		try {
+			const response = await fetch(`http://localhost:4000/api/list-files/curso/${id}`);
+			const data = await response.json();
+			setFiles(data);
+		} catch (error) {
+			console.error('Error al obtener la lista de archivos:', error);
+		}
+	};
+
 
 	const handleInscripcion = async (id_curso: number) => {
 
@@ -65,6 +76,7 @@ const CursoData: React.FC = () => {
 	useEffect(() => {
 		fetchInscripciones();
 		fetchCurso()
+		fetchFiles();
 	}, [])
 
 	console.log('Inscrito curso', cursosInscritos)
@@ -110,7 +122,7 @@ const CursoData: React.FC = () => {
 			});
 
 			if (response.status === 200) {
-				const newBannerUrl = `http://localhost:4000/cursos/${id}/banner?${Date.now()}`;
+				const newBannerUrl = `http://localhost:4000/uploads/cursos/${id}/banner?${Date.now()}`;
 				setBannerUrl(newBannerUrl); // Actualiza el estado con la nueva URL del banner
 			}
 			// Maneja la respuesta del servidor
@@ -120,29 +132,27 @@ const CursoData: React.FC = () => {
 		}
 	};
 
-
+	const filteredFiles = files.filter(file => file !== 'banner');
 
 	return (
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<a href="/Inicio" style={{ textDecoration: 'none' }}>
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-							<img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
-							<IonTitle className="educa-plus-title">Cursos</IonTitle>
-						</div>
-					</a>
+					<IonTitle>Educa +</IonTitle>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
+					<IonToolbar>
+						<IonTitle size="large">Cursos</IonTitle>
+					</IonToolbar>
 				</IonHeader>
 				{cursoDataa && (
 					<IonCard key={cursoDataa.id}>
 						<IonGrid>
 							<IonRow>
 								<IonCol size="12" size-md="6" offset-md="3">
-									<IonImg src={bannerUrl || `http://localhost:4000/cursos/${id}/banner`} /> {/* Usa el estado bannerUrl */}
+									<IonImg src={bannerUrl || `http://localhost:4000/uploads/cursos/${id}/banner`} /> {/* Usa el estado bannerUrl */}
 									<IonCardHeader>
 										<IonCardTitle>{cursoDataa.nombre_curso}</IonCardTitle>
 										<IonCardSubtitle>{cursoDataa.descripcion}</IonCardSubtitle>
@@ -159,7 +169,7 @@ const CursoData: React.FC = () => {
 											Desinscribirse
 										</IonButton>
 									) : (
-										<IonButton className='boton' expand="block" onClick={() => handleInscripcion(cursoDataa.id)}>
+										<IonButton expand="block" onClick={() => handleInscripcion(cursoDataa.id)}>
 											Inscribirse
 										</IonButton>
 									)}
@@ -168,34 +178,36 @@ const CursoData: React.FC = () => {
 						</IonGrid>
 					</IonCard>
 				)}
-				<IonGrid color='red'>
-					Recursos:
-					<IonRow>
-						<IonCol>
-							{/* <IonCard>
-								<IonCardHeader color='white'>
-									<IonCardTitle>Recurso 1</IonCardTitle>
-								</IonCardHeader>
-								<IonCardContent color='white'>
-									<p>Descripción del recurso 1</p>
-								</IonCardContent>
-							</IonCard> */}
-						</IonCol>
-					</IonRow>
-					{/* Create an input so the user can upload files 	 */}
-					<IonRow>
-						<IonCol>
-							<p>Subir archivo</p>
-							<input type='file' onChange={handleFileUpload} />
-						</IonCol>
-					</IonRow>
-					<IonRow>
-						<IonCol>
-							<p>Subir banner</p>
-							<input type='file' onChange={handleBannerUpload} />
-						</IonCol>
-					</IonRow>
-				</IonGrid>
+				<IonCard>
+					<IonGrid color='white'>
+						<IonRow>
+							<IonCol>
+								<p>Subir archivo</p>
+								<input type='file' onChange={handleFileUpload} />
+							</IonCol>
+						</IonRow>
+						<IonRow>
+							<IonCol>
+								<p>Subir banner</p>
+								<input type='file' onChange={handleBannerUpload} />
+							</IonCol>
+						</IonRow>
+					</IonGrid>
+				</IonCard>
+				<IonCard>
+					<IonCardHeader>
+						<IonCardTitle>Recursos</IonCardTitle>
+					</IonCardHeader>
+					<IonCardContent>
+						{filteredFiles.map((file, index) => (
+							<p key={index}>
+								<a href={`http://localhost:4000/uploads/cursos/${id}/${file}`} target="_blank" rel="noopener noreferrer">
+									{file}
+								</a>
+							</p>
+						))}
+					</IonCardContent>
+				</IonCard>
 			</IonContent>
 		</IonPage>
 	);

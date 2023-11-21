@@ -19,8 +19,9 @@ export interface AuthContextType {
 export type Notificacion = {
 	id: number;
 	mensaje: string;
-	usuario: string;
-	de: string;
+	usuario_id: number;
+	de_id: number;
+	de_autor: string;
 	fecha: string;
 	accion: string;
 }
