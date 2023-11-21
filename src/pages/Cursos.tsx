@@ -20,33 +20,12 @@ import { getCursos } from '../api/auth';
 import { Curso, Inscripcion } from '../types';
 import { useAuth } from '../context/AuthContext';
 import './Cursos.css';
-import { registerInscripcion } from '../api/auth';
 import { getInscripciones } from '../api/auth';
 
 const Cursos: React.FC = () => {
   const [cursos, setCursos] = useState<Curso[]>([])
   const [inscritoCursos, setInscritoCursos] = useState<number[]>([]);
   const { currentUser } = useAuth()
-
-  const handleInscripcion = async (id_curso: number) => {
-
-    try {
-      const inscripcion: Inscripcion = { id_curso: id_curso, id_docente: currentUser?.id }
-      const response = await registerInscripcion(inscripcion);
-
-      if (response.status == 200) {
-        // Manejar el éxito de la operación
-        console.log('Inscripción exitosa');
-        fetchInscripciones();
-        fetchCursos();
-      } else {
-        // Manejar errores
-        console.error('Error al realizar la inscripción');
-      }
-    } catch (error) {
-      console.error('Error al realizar la inscripción', error);
-    }
-  };
 
   const fetchCursos = async () => {
     try {
@@ -88,44 +67,31 @@ const Cursos: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-          <IonToolbar>
+      <IonToolbar>
             <a href="/Inicio" style={{ textDecoration: 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
                 <IonTitle className="educa-plus-title">Cursos</IonTitle>
               </div>
             </a>
-        </IonToolbar>
+          </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">Cursos</IonTitle>
+          </IonToolbar>
         </IonHeader>
         {cursos.map((curso: Curso) => (
-          <IonCard key={curso.id}>
+          <IonCard key={curso.id} href={`/Curso/View/${curso.id}`}>
             <IonGrid>
               <IonRow>
                 <IonCol size="12" size-md="6" offset-md="3">
-                  <IonImg src="https://prensa.uct.cl/wp-content/uploads/2014/10/csangre.jpg" />
+                  <IonImg src={`http://192.168.1.167:4000/uploads/cursos/${curso.id}/banner`} />
                   <IonCardHeader>
                     <IonCardTitle>{curso.nombre_curso}</IonCardTitle>
                     <IonCardSubtitle>{curso.descripcion}</IonCardSubtitle>
                   </IonCardHeader>
-                  <IonCardContent>
-                    <p>Inicio: {new Date(curso.fecha_inicio).toLocaleDateString()}</p>
-                    <p>Fin: {new Date(curso.fecha_termino).toLocaleDateString()}</p>
-                    <p>Cupos: {curso.cupos_restantes} / {curso.limite_cupos}</p>
-                    {/* <p>Cupos restantes: {curso.cupos_restantes}</p> */}
-                  </IonCardContent>
-                  <IonButton className='boton' href={`/Curso/${curso.id}`}>Administrar</IonButton>
-                  {/* {inscritoCursos.includes(curso.id) ? (
-                    <IonButton color='danger' expand="block" onClick={() => handleInscripcion(curso.id)}>
-                      Desinscribirse
-                    </IonButton>
-                  ) : (
-                    <IonButton expand="block" onClick={() => handleInscripcion(curso.id)}>
-                      Inscribirse
-                    </IonButton>
-                  )} */}
                 </IonCol>
               </IonRow>
             </IonGrid>

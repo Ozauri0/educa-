@@ -35,7 +35,7 @@ const Eliminar: React.FC = () => {
 
   const handleConfirmEliminar = async () => {
     try {
-      await axios.get(`http://localhost:4000/api/eliminar/${usuarioSeleccionado?.id}`);
+      await axios.get(`http://192.168.1.167:4000/api/eliminar/${usuarioSeleccionado?.id}`);
       // Actualizar la lista de usuarios después de eliminar
       const response = await axios.get('http://localhost:4000/api/usuarios');
       const usuariosData = response.data.filter((item: any) => Array.isArray(item));

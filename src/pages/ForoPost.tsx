@@ -48,9 +48,23 @@ function ForoPost() {
             .then(response => response.json())
             .then(data => {
                 if (data) {
+                    postNotification();
                     window.location.reload();
                 }
             })
+    }
+    const postNotification = async () => {
+        fetch('http://localhost:4000/api/nnotificacion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id_usuario: currentUser?.id,
+                notificacion: 'Nuevo comentario en el foro',
+                visto: false,
+                id_post: postId,
+            })
+        })
+            .then(response => response.json())
     }
 
     useEffect(() => {
@@ -68,7 +82,7 @@ function ForoPost() {
                     setDatosComentario(data));
             setLoading(false);
         }
-            , 3000);
+            , 300);
     }
         , []);
 
@@ -86,7 +100,7 @@ function ForoPost() {
             </IonHeader>
             <IonContent color="Light">
                 {datosForo.map((item: any) => (
-                    <IonItem key={item.id}>
+                    <IonItem color={'#14253d'} className='foro' key={item.id}>
                         <IonCard>
                             <img src="https://econtinua.uct.cl/wp-content/uploads/2023/09/dimensiones-personalizadas-720x500-px-99.jpeg" alt="foro" />
                             <IonCardHeader>
@@ -100,10 +114,10 @@ function ForoPost() {
                 ))}
                     <IonCard>
                         <IonCardHeader>
-                            <IonCardTitle color="primary">Comentarios</IonCardTitle>
+                            <IonCardTitle color="light">Comentarios</IonCardTitle>
                         </IonCardHeader>
                         <IonCardContent>
-                            <IonList>
+                            <IonList className='comentario'>
                                 {loading ? (
                                     <IonLabel color="light">Cargando...</IonLabel>
                                 ) : (
@@ -127,13 +141,12 @@ function ForoPost() {
                             <IonCardTitle>Nuevo Comentario</IonCardTitle>
                         </IonCardHeader>
                         <IonCardContent>
-                            <IonItem>
+                            <IonItem className='nuevocom'>
                                 <IonInput placeholder="Escribe tu comentario" onIonChange={e => setNuevoComentario(e.detail.value!)}></IonInput>
                             </IonItem>
                             <IonButton expand='block' onClick={handleNuevoComentario}>Publicar</IonButton>
                         </IonCardContent>
                     </IonCard>
-
             </IonContent >
         </IonPage >
     );

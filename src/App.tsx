@@ -24,6 +24,7 @@ import AgregarCurso from "./pages/AgregarCurso";
 import EliminarCurso from "./pages/EliminarCurso";
 import CursoData from "./pages/CursoData";
 import Horarios from "./pages/Horarios";
+import CursoInfo from "./pages/CursoInfo";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
@@ -145,6 +146,11 @@ const App = () => (
                             <ProtectedRoute>
                                 <CursoData />
                             </ProtectedRoute>} />
+						<Route exact path="/Curso/View/:id" render={() =>
+							<ProtectedRoute>
+								<CursoInfo />
+							</ProtectedRoute>
+						} />
 						<Route exact path="/Header">
 							<ProtectedRoute>
 								<Header title={""} />
@@ -153,30 +159,28 @@ const App = () => (
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">
 						<IonTabButton tab="Inicio" href="/Inicio">
-							<IonIcon aria-hidden="true" icon={home} />
+							<IonIcon className="iconcolor" aria-hidden="true" icon={home} />
 							<IonLabel>Menu</IonLabel>
 						</IonTabButton>
 						<IonTabButton tab="Cursos" href="/Cursos">
-							<IonIcon aria-hidden="true" icon={journal} />
+							<IonIcon className="iconcolor" aria-hidden="true" icon={journal} />
 							<IonLabel>Cursos</IonLabel>
 						</IonTabButton>
 						<IonTabButton tab="Calendario" href="/Calendario">
-							<IonIcon aria-hidden="true" icon={calendar} />
+							<IonIcon className="iconcolor" aria-hidden="true" icon={calendar} />
 							<IonLabel>Asesoria</IonLabel>
 						</IonTabButton>
 						<IonTabButton tab="Perfil" href="/Perfil">
-							<IonIcon aria-hidden="true" icon={person} />
+							<IonIcon className="iconcolor" aria-hidden="true" icon={person} />
 							<IonLabel>Perfil</IonLabel>
 						</IonTabButton>
 					</IonTabBar>
 				</IonTabs>
 				{/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
 				<Route exact path="/Registro">
-					<ProtectedLogin>
 						<Registro />
-					</ProtectedLogin>
 				</Route>
-				<Route exact path="/Cuenta">
+				<Route exact path="/">
 					<ProtectedLogin>
 						<Cuenta />
 					</ProtectedLogin>

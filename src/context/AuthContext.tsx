@@ -5,7 +5,7 @@ import React, {
 	useEffect,
 	ReactNode,
 } from "react";
-import { loginRequest } from "../api/auth";
+import { loginRequest, registerRequest } from "../api/auth";
 import { verifyTokenRequest } from "../api/auth";
 import { User, AuthContextType } from "../types";
 import Cookies from "js-cookie";
@@ -14,9 +14,7 @@ interface AuthProviderProps {
 	children: ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(
-	undefined
-);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = (): AuthContextType => {
 	const context = useContext(AuthContext);
@@ -33,19 +31,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	const signin = async (user: User) => {
 		try {
-			const res = await loginRequest(user);
-			setCurrentUser(res.data);
+			const response = await loginRequest(user);
+			setCurrentUser(response.data);
 			setIsAuthenticated(true);
-		} catch (error) {
-			console.log(error);
+			return true
+		} catch (error: any) {
+			if (error.response && error.response.data) {
+				throw new Error(error.response.data.error); // Relanzar el error específico del backend
+			} else {
+				throw new Error("Error al iniciar sesión");
+			}
 		}
 	};
+
+	const signup = async (user: User) => {
+		try {
+			const response = await registerRequest(user);
+			if (response.status === 201) {
+				return response
+			}
+		} catch (error: any) {
+			if (error.response && error.response.data) {
+				throw new Error(error.response.data.error); // Relanzar el error específico del backend
+			} else {
+				throw new Error("Error al crear la cuenta");
+			}
+		}
+	}
 
 	const logout = () => {
 		Cookies.remove("token");
 		setCurrentUser(null);
 		setIsAuthenticated(false);
 	};
+
 
 	useEffect(() => {
 		const checkLogin = async () => {
@@ -74,7 +93,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ currentUser, isAuthenticated, signin, logout, loading }}
+			value={{ currentUser, isAuthenticated, signin, signup, logout, loading }}
 		>
 			{children}
 		</AuthContext.Provider>

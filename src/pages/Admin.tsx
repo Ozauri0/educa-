@@ -41,7 +41,7 @@ const Admin: React.FC = () => {
             <IonButton color="success" expand="block" href='/AgregarCurso'>Registrar curso</IonButton>
             </IonCol>
             <IonCol size="6">
-            <IonButton color="danger" expand="block" href='/EliminarCurso'>Eliminar curso</IonButton>
+            <IonButton color="danger" expand="block" href='/EliminarCurso'>Editar curso</IonButton>
             </IonCol>
           </IonRow>
           
