@@ -65,31 +65,13 @@ const Cursos: React.FC = () => {
     fetchCursos()
   }, [])
 
-  useEffect(() => {
-    async function getNotifications() {
-        if (currentUser) {
-            try {
-                const response = await getNotifRequest({
-                    id: currentUser.id,
-                });
-                const data = response.data;
-                setNumNotif(data.length); // Actualiza el estado con los datos recibidos
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    }
-    getNotifications();
-}, [currentUser]);
 
   console.log('Inscrito curso', inscritoCursos)
   console.log('Cursos', cursos)
 
   return (
     <IonPage>
-      <IonContent>
       <IonHeader>
-      <IonToolbar>
       <IonToolbar>
             <a href="/Inicio" style={{ textDecoration: 'none' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -123,6 +105,6 @@ const Cursos: React.FC = () => {
       </IonContent>
     </IonPage>
   );
-}
+};
 
 export default Cursos;
