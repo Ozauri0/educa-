@@ -25,6 +25,9 @@ import Editar from "./pages/Editar";
 import Calendario from "./pages/Calendario";
 import Notif from "./pages/Notif";
 import Notificaciones from "./pages/Notificaciones";
+import Horarios from "./pages/Horarios";
+
+import SocketContainer from "./components/SocketContainer";
 
 import ForoPost from './pages/ForoPost';
 import ForoNuevo from './pages/ForoNuevo';
@@ -54,7 +57,7 @@ setupIonicReact();
 
 const App = () => (
 	<IonApp>
-		<AuthProvider>
+		<AuthProvider><SocketContainer>
 			<IonReactRouter>
 				<IonTabs>
 					<IonRouterOutlet>
@@ -93,17 +96,25 @@ const App = () => (
 								<Calendario />
 							</ProtectedRoute>
 						</Route>
+						<Route exact path="/Horarios">
+							<ProtectedRoute>
+								<Horarios />
+							</ProtectedRoute>
+						</Route>
 						<Route exact path="/Asesoria">
 							<ProtectedRoute>
 								<Asesoria />
 							</ProtectedRoute>
 						</Route>
-            <Route exact path="/ForoNuevo">
-              <ForoNuevo />
-            </Route>
-            <Route path="/ForoPost/:postId" component={ForoPost}>
-              <ForoPost />
-            </Route>
+						<Route exact path="/ForoNuevo">
+							<ForoNuevo />
+						</Route>
+						<Route exact path="/ForoNuevo">
+							<ForoNuevo />
+						</Route>
+						<Route path="/ForoPost/:postId" component={ForoPost}>
+							<ForoPost />
+						</Route>
 						<Route exact path="/Editar">
 							<ProtectedRoute>
 								<Editar />
@@ -112,6 +123,11 @@ const App = () => (
 						<Route exact path="/Notif">
 							<ProtectedRoute>
 								<Notif />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Notificaciones">
+							<ProtectedRoute>
+								<Notificaciones />
 							</ProtectedRoute>
 						</Route>
 					</IonRouterOutlet>
@@ -136,6 +152,10 @@ const App = () => (
 							<IonIcon aria-hidden="true" icon={person} />
 							<IonLabel>Perfil</IonLabel>
 						</IonTabButton>
+						<IonTabButton tab="Notificaciones" href="/Notificaciones">
+							<IonIcon aria-hidden="true" icon={person} />
+							<IonLabel>Notificaciones</IonLabel>
+						</IonTabButton>
 					</IonTabBar>
 				</IonTabs>
 				{/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
@@ -149,9 +169,10 @@ const App = () => (
 						<Cuenta />
 					</ProtectedLogin>
 				</Route>
-			</IonReactRouter>
+			</IonReactRouter></SocketContainer>
 		</AuthProvider>
 	</IonApp>
+	
 );
 
 export default App;

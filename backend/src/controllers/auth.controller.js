@@ -2,6 +2,7 @@ import { connect } from "../database/db.js";
 import transporter from "../helpers/mailer.cjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export const getNotif = async (req, res) => {
 	try {
@@ -131,7 +132,8 @@ export const getDocente = async (req, res) => {
 
 export const register = async (req, res) => {
 	try {
-		const { nombres, apellidos, rut, correo, contrasena, telefono } = req.body;
+		const { nombres, apellidos, rut, correo, telefono } = req.body;
+		const {contrasena} = req.body;
 
 		if (!nombres || !apellidos || !rut || !correo || !contrasena || !telefono) {
 			return res.status(400).json({ message: "Must fill every field" });
@@ -148,8 +150,15 @@ export const register = async (req, res) => {
 			console.log(mailExists);
 			return res.status(400).json({ message: "Email already in use" });
 		}
-
+		
+		const saltRounds = 10;
 		const result = await db.query("INSERT INTO docente SET ?", [docente]);
+		bcrypt.genSalt(saltRounds, function(err, salt) {
+			bcrypt.hash(contrasena, salt, async function(err, hash) {
+				await db.query("UPDATE docente SET contrasena = ? WHERE correo = ?", [hash, correo]);
+			});
+		});
+		
 		res.json(result);
 	} catch (error) {
 		res.status(500).json({ message: "No se pudo realizar el registro" });
@@ -164,36 +173,32 @@ export const login = async (req, res) => {
 			return res.status(400).json({ message: "Must fill every field" });
 		}
 		const db = await connect();
-		const [result] = await db.query(
-			"SELECT * FROM docente WHERE correo = ? AND contrasena = ?",
-			[correo, contrasena]
+		const dbcontrasena = await db.query(
+			"SELECT contrasena FROM docente WHERE correo = ?", [correo]
 		);
-		console.log("Logged in as: ", result[0]);
-		if (result.length != 1) {
-			return res.status(400).json({ message: "Invalid credentials" });
-		}
+		const [result] = await db.query("SELECT * FROM docente WHERE correo = ?", correo);
+		bcrypt.compare(contrasena, dbcontrasena, async function(err, resultado) {
+			console.log("Logged in as: ", result[0]);
+			if (result.length != 1) {
+				return res.status(400).json({ message: "Invalid credentials" });
+			}
+			const datos = await db.query(
+				"SELECT nombres, apellidos FROM docente WHERE correo = ?",
+				[correo]
+			);
+			const token = await createAccessToken({
+				result,
+			});
+			res.cookie("token", token, {
+				httpOnly: false,
+				sameSite: "none",
+				secure: true,
+			});
+			res.status(200).json(result[0]);
+	
+			console.log("logged in");
+		  });
 
-		const datos = await db.query(
-			"SELECT nombres, apellidos FROM docente WHERE correo = ?",
-			[correo]
-		);
-
-		// const user = datos[0][0].id;
-		// const token = jwt.sign({ user }, 'my_secret_token');
-
-		// console.log("logged in");
-		// res.status(200).json({ message: "Has iniciado Sesion", token });
-		const token = await createAccessToken({
-			result,
-		});
-		res.cookie("token", token, {
-			httpOnly: false,
-			sameSite: "none",
-			secure: true,
-		});
-		res.status(200).json(result[0]);
-
-		console.log("logged in");
 		// const datos = await db.query("SELECT nombres, apellidos FROM docente WHERE correo = ?", [correo]);
 		// const nombre = datos[0][0].nombres;
 		// const apellido = datos[0][0].apellidos;

@@ -24,17 +24,57 @@ import {
 } from '@ionic/react';
 import { chevronBack } from 'ionicons/icons';
 import { useAuth } from '../context/AuthContext';
+import { socket } from '../service/socket';
+import SocketContainer from '../components/SocketContainer';
+import { ToastContainer, toast } from 'react-toastify';
+
+import {getForo,
+        getForoCom
+        } 
+from '../api/auth';
+
 
 import './ForoPost.css';
 
 function ForoPost() {
     const postId = useParams<{ postId: string }>().postId;
-    const { currentUser } = useAuth();
     const [datosForo, setDatosForo] = useState([]);
     const [datosComentario, setDatosComentario] = useState([]);
-    const [comentario, setNuevoComentario] = useState('');
-    const [loading, setLoading] = useState(true);
 
+    const [comentario, setNuevoComentario] = useState('');
+
+    const [loading, setLoading] = useState(true);
+    const { currentUser } = useAuth();
+
+    const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState<string[]>([]);
+
+    const notify = (msg : string, msg2 : string, msg3 : string) => {
+        toast.success(currentUser?.nombres + ' ' + currentUser?.apellidos + ' te envio un mensaje: ' + msg3, {position: toast.POSITION.TOP_CENTER});
+    };
+
+    const emitNotif = (tipo : string) => {
+        if (tipo === "chat") {
+        socket.emit('chat message', currentUser?.correo, "Te envio un mensaje:", message);
+        }
+        if (tipo === "foro") {
+        socket.emit('foro message', currentUser?.correo, "Te envio un mensaje:", message);
+        }
+        setMessage('');
+    };
+
+    useEffect(() => {
+        socket.on("chat message", (msg1, msg2, msg3) => {
+        setMessages([...messages, msg3]);
+        });
+    }, [messages]);
+    
+    useEffect(() => {
+        socket.on('notificacion', (msg1, msg2, msg3) => {
+        notify(msg1, msg2, msg3);
+        });
+    }, []);
+    
     const handleNuevoComentario = async () => {
         fetch('http://localhost:4000/api/ncomentario', {
             method: 'POST',
@@ -68,25 +108,41 @@ function ForoPost() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/foropost/' + postId)
-            .then(response => response.json())
-            .then(data =>
-                setDatosForo(data));
-    }, []);
+        async function getForoF() {
+			if (currentUser) {
+				try {
+					const response = await getForo({
+						correo: currentUser.correo,
+					}); // Llama a la función con el correo del usuario actual
+					const data = response.data;
+					setMessages(data); // Actualiza el estado con los datos recibidos
+				} catch (error) {
+					console.error(error);
+				}
+			}
+		}
+		getForoF();
+    }, [currentUser]);
 
     useEffect(() => {
-        setTimeout(() => {
-            fetch('http://localhost:4000/api/comentarios/' + postId)
-                .then(response => response.json())
-                .then(data =>
-                    setDatosComentario(data));
-            setLoading(false);
-        }
-            , 3000);
-    }
-        , []);
+        async function getForoComF() {
+			if (currentUser) {
+				try {
+					const response = await getForoCom({
+						correo: currentUser.correo,
+					}); // Llama a la función con el correo del usuario actual
+					const data = response.data;
+					setMessages(data); // Actualiza el estado con los datos recibidos
+				} catch (error) {
+					console.error(error);
+				}
+			}
+		}
+		getForoComF();
+    }, [currentUser]);
 
     return (
+        <SocketContainer> 
         <IonPage>
             <IonHeader>
                 <IonToolbar>
@@ -144,11 +200,12 @@ function ForoPost() {
                             <IonItem>
                                 <IonInput placeholder="Escribe tu comentario" onIonChange={e => setNuevoComentario(e.detail.value!)}></IonInput>
                             </IonItem>
-                            <IonButton expand='block' onClick={handleNuevoComentario}>Publicar</IonButton>
+                            <IonButton expand='block' onClick={() => {emitNotif("chat")}}>Publicar</IonButton>
                         </IonCardContent>
                     </IonCard>
             </IonContent >
         </IonPage >
+        </SocketContainer>
     );
 }
 export default ForoPost;
