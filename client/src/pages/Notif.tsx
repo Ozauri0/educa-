@@ -3,21 +3,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../context/AuthContext';
 import { socket } from '../service/socket';
-import { IonPage } from '@ionic/react';
 
 const NotificationComponent: React.FC = () => {
   const { currentUser } = useAuth();
-
+  
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<string[]>([]);
 
-  const notify = (msg: string, msg2: string, msg3: string) => {
+  const notify = (msg : string, msg2 : string, msg3 : string) => {
 
-    toast.success(currentUser?.nombres + ' ' + currentUser?.apellidos + ' te envio un mensaje: ' + msg3, { position: toast.POSITION.TOP_CENTER });
-
+    toast.success(currentUser?.nombres + ' ' + currentUser?.apellidos + ' te envio un mensaje: ' + msg3, {position: toast.POSITION.TOP_CENTER});
+    return;
   };
 
-  const emitNotif = (tipo: string) => {
+  const emitNotif = (tipo : string) => {
     if (tipo === "chat") {
       socket.emit('foro message', currentUser?.correo, "Te envio un mensaje:", message);
       socket.emit('notificacion', currentUser?.correo, "Te envio un mensaje:", message);
@@ -41,22 +40,20 @@ const NotificationComponent: React.FC = () => {
   }, []);
 
   return (
-    <IonPage>
-      <div>
-        <ToastContainer />
+    <div>
+      <ToastContainer /> 
         <ul>
           {messages.map((msg, index) => (
             <li key={index}>{msg}</li>
           ))}
         </ul>
-        <input
+        <input 
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-        />
-        <button onClick={() => { emitNotif("chat") }}>Enviar</button>
-      </div>
-    </IonPage>
+              />
+        <button onClick={() => {emitNotif("chat")}}>Enviar</button>   
+        </div>
   );
 };
 export default NotificationComponent;

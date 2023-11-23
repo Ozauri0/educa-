@@ -14,7 +14,7 @@ const CursoData: React.FC = () => {
 
 	const fetchFiles = async () => {
 		try {
-			const response = await fetch(`http://localhost:4000/api/list-files/curso/${id}`);
+			const response = await fetch(`http://192.168.1.167:4000/api/list-files/curso/${id}`);
 			const data = await response.json();
 			setFiles(data);
 		} catch (error) {
@@ -34,6 +34,7 @@ const CursoData: React.FC = () => {
 	useEffect(() => {
 		fetchCurso()
 		fetchFiles();
+		fetchFiles();
 	}, [])
 
 	const handleFileUpload = async (e: any) => {
@@ -48,7 +49,7 @@ const CursoData: React.FC = () => {
 
 		// Usa Axios para enviar una solicitud POST al servidor
 		try {
-			const response = await fetch(`http://localhost:4000/api/upload/${ruta}`, {
+			const response = await fetch(`http://192.168.1.167:4000/api/upload/${ruta}`, {
 				method: 'POST',
 				body: formData,
 			});
@@ -71,13 +72,13 @@ const CursoData: React.FC = () => {
 		formData.append('file', file);
 
 		try {
-			const response = await fetch(`http://localhost:4000/api/upload/banner/${id}`, {
+			const response = await fetch(`http://192.168.1.167:4000/api/upload/banner/${id}`, {
 				method: 'POST',
 				body: formData,
 			});
 
 			if (response.status === 200) {
-				const newBannerUrl = `http://localhost:4000/uploads/cursos/${id}/banner?${Date.now()}`;
+				const newBannerUrl = `http://192.168.1.167:4000/uploads/cursos/${id}/banner?${Date.now()}`;
 				setBannerUrl(newBannerUrl); // Actualiza el estado con la nueva URL del banner
 			}
 			// Maneja la respuesta del servidor
@@ -89,7 +90,7 @@ const CursoData: React.FC = () => {
 
 	const handleDeleteResource = async (fileName: string) => {
 		try {
-			const response = await fetch(`http://192.168.1.4:4000/api/delete-file/curso/${id}/${fileName}`, {
+			const response = await fetch(`http://192.168.1.167:4000/api/delete-file/curso/${id}/${fileName}`, {
 				method: 'DELETE',
 			});
 
@@ -123,7 +124,7 @@ const CursoData: React.FC = () => {
 		};
 
 		try {
-			const response = await fetch(`http://localhost:4000/api/curso/${id}`, {
+			const response = await fetch(`http://192.168.1.167:4000/api/curso/${id}`, {
 				method: 'PUT', // Asegúrate de que tu backend soporte el método PUT
 				headers: {
 					'Content-Type': 'application/json',
@@ -145,12 +146,20 @@ const CursoData: React.FC = () => {
 	return (
 		<IonPage>
 			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Educa +</IonTitle>
-				</IonToolbar>
+			<IonToolbar>
+            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <IonTitle className="educa-plus-title">Editar curso</IonTitle>
+              </div>
+            </a>
+          </IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
+					<IonToolbar>
+						<IonTitle size="large">Cursos</IonTitle>
+					</IonToolbar>
 					<IonToolbar>
 						<IonTitle size="large">Cursos</IonTitle>
 					</IonToolbar>
@@ -168,7 +177,7 @@ const CursoData: React.FC = () => {
 											<IonInput name="fecha_inicio" type="date" value={new Date(cursoData.fecha_inicio).toISOString().slice(0, 10)} />
 											<IonInput name="fecha_termino" type='date' value={new Date(cursoData.fecha_termino).toISOString().slice(0, 10)} />
 											<IonInput name="limite_cupos" type='number' value={cursoData.limite_cupos} />
-											<IonButton type="submit">Guardar</IonButton>
+											<IonButton color={"danger"} type="submit">Guardar</IonButton>
 										</form>
 									) : (
 										<>
@@ -181,7 +190,7 @@ const CursoData: React.FC = () => {
 												<p>Fin: {new Date(cursoData.fecha_termino).toLocaleDateString()}</p>
 												<p>Cupos: {cursoData.cupos_restantes} / {cursoData.limite_cupos}</p>
 											</IonCardContent>
-											<IonButton onClick={handleEdit}>Editar Curso</IonButton>
+											<IonButton className='boton' onClick={handleEdit}>Editar Curso</IonButton>
 										</>
 									)}
 								</IonCol>
@@ -213,16 +222,17 @@ const CursoData: React.FC = () => {
 						{filteredFiles.map((file, index) => (
 							<div key={index}>
 								<p>
-									<a href={`http://192.168.1.4:4000/uploads/cursos/${id}/${file}`} target="_blank" rel="noopener noreferrer">
+									<a href={`http://192.168.1.167:4000/uploads/cursos/${id}/${file}`} target="_blank" rel="noopener noreferrer">
 										{file}
 									</a>
 								</p>
-								<IonButton onClick={() => handleDeleteResource(file)}>Eliminar</IonButton>
+								<IonButton color={"danger"} onClick={() => handleDeleteResource(file)}>Eliminar</IonButton>
 							</div>
 						))}
 					</IonCardContent>
 
 				</IonCard>
+				
 			</IonContent>
 		</IonPage>
 	);

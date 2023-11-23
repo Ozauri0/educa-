@@ -49,9 +49,14 @@ const Cuenta: React.FC = () => {
 	return (
 		<IonPage>
 			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Educa +</IonTitle>
-				</IonToolbar>
+			<IonToolbar>
+            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <IonTitle className="educa-plus-title">Iniciar sesion</IonTitle>
+              </div>
+            </a>
+          </IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
@@ -69,12 +74,6 @@ const Cuenta: React.FC = () => {
 								Para iniciar sesión en Educa +, debes ingresar tu correo
 								institucional y tu contraseña.
 							</p>
-							<p>
-								Si no tienes una cuenta, puedes crear una en el siguiente
-								enlace:
-							</p>
-							<IonRouterLink routerLink="/registro">Registrarse</IonRouterLink>{" "}
-							{/* Enlace al formulario de registro */}
 							<IonInput
 								type="email"
 								placeholder="Ingrese su correo"
@@ -102,11 +101,8 @@ const Cuenta: React.FC = () => {
 								})}
 							/>
 							<p className="register-error">{errors.contrasena?.message}</p>
-							<IonButton type="submit" expand="full">
+							<IonButton className="boton" type="submit" expand="full">
 								Iniciar Sesión
-							</IonButton>
-							<IonButton expand="full" routerLink="/Registro">
-								Registrarse
 							</IonButton>
 						</form>
 					</IonCardContent>

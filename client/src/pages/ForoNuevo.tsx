@@ -20,19 +20,22 @@ import { chevronBack} from 'ionicons/icons';
 
 
 import './ForoPost.css';
+import { useAuth } from '../context/AuthContext';
 
 function ForoNuevo() {
+    const {currentUser} = useAuth();
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
 
     const handleNuevo = async () => {
-        const res = await fetch('http://localhost:4000/api/foronuevo', {
+        const res = await fetch('http://192.168.1.167:4000/api/foronuevo', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 titulo: titulo,
                 descripcion: descripcion,
-                instancia_form_id: 2,
+                id_autor: currentUser?.id,
+                autor: currentUser?.correo,
             })
         })
         const data = await res.json();

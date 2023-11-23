@@ -1,4 +1,4 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonGrid, IonRow, IonCol, IonImg, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonGrid, IonRow, IonCol, IonImg, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonAlert } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Curso, Inscripcion } from "../types";
@@ -12,10 +12,11 @@ const CursoInfo: React.FC = () => {
 	const [cursoData, setCursoData] = useState<Curso>();
 	const [cursosInscritos, setCursosInscritos] = useState<number[]>([]);
 	const [files, setFiles] = useState<string[]>([]);
+	const [error, setError] = useState<string>("");
 
 	const fetchFiles = async () => {
 		try {
-			const response = await fetch(`http://localhost:4000/api/list-files/curso/${id}`);
+			const response = await fetch(`http://192.168.1.167:4000/api/list-files/curso/${id}`);
 			const data = await response.json();
 			setFiles(data);
 		} catch (error) {
@@ -66,8 +67,9 @@ const CursoInfo: React.FC = () => {
 				// Manejar errores
 				console.error('Error al realizar la inscripción');
 			}
-		} catch (error) {
+		} catch (error: any) {
 			console.error('Error al realizar la inscripción', error);
+			setError(error.response.data.error)
 		}
 	};
 
@@ -82,9 +84,14 @@ const CursoInfo: React.FC = () => {
 	return (
 		<IonPage>
 			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Educa +</IonTitle>
-				</IonToolbar>
+			<IonToolbar>
+            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <IonTitle className="educa-plus-title">Curso</IonTitle>
+              </div>
+            </a>
+          </IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
@@ -97,20 +104,22 @@ const CursoInfo: React.FC = () => {
 						<IonGrid>
 							<IonRow>
 								<IonCol size="12" size-md="6" offset-md="3">
-									<IonImg src={`http://localhost:4000/uploads/cursos/${id}/banner`} />
+									<IonImg src={`http://192.168.1.167:4000/uploads/cursos/${id}/banner`} />
 									<IonCardHeader>
 										<IonCardTitle>{cursoData.nombre_curso}</IonCardTitle>
-										<IonCardSubtitle>{cursoData.descripcion}</IonCardSubtitle>
+										<IonCardSubtitle color={"primary"}>{cursoData.descripcion}</IonCardSubtitle>
 									</IonCardHeader>
 									<IonCardContent>
-										<p>Cupos: {cursoData.cupos_restantes} / {cursoData.limite_cupos}</p>
+										<p className="boton">Cupos: {cursoData.cupos_restantes} / {cursoData.limite_cupos}</p>
+										<p>Inicio: {new Date(cursoData.fecha_inicio).toLocaleDateString()}</p>
+										<p>Fin: {new Date(cursoData.fecha_termino).toLocaleDateString()}</p>
 									</IonCardContent>
 									{cursosInscritos.includes(cursoData.id) ? (
 										<IonButton color='danger' expand="block" onClick={() => handleInscripcion(cursoData.id)}>
 											Desinscribirse
 										</IonButton>
 									) : (
-										<IonButton expand="block" onClick={() => handleInscripcion(cursoData.id)}>
+										<IonButton expand="block" className="boton" onClick={() => handleInscripcion(cursoData.id)}>
 											Inscribirse
 										</IonButton>
 									)}
@@ -126,13 +135,14 @@ const CursoInfo: React.FC = () => {
 					<IonCardContent>
 						{filteredFiles.map((file, index) => (
 							<p key={index}>
-								<a href={`http://localhost:4000/uploads/cursos/${id}/${file}`} target="_blank" rel="noopener noreferrer">
+								<a href={`http://192.168.1.167:4000/uploads/cursos/${id}/${file}`} target="_blank" rel="noopener noreferrer">
 									{file}
 								</a>
 							</p>
 						))}
 					</IonCardContent>
 				</IonCard>
+				<IonAlert isOpen={!!error} message={error} buttons={[{ text: "Aceptar", handler: () => setError("") }]} />
 			</IonContent>
 		</IonPage>
 	);

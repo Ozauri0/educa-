@@ -15,7 +15,7 @@ const NotificacionesComponent: React.FC = () => {
 			if (currentUser) {
 				try {
 					const response = await getNotifRequest({
-						correo: currentUser.correo,
+						id: currentUser.id,
 					}); // Llama a la función con el correo del usuario actual
 					const data = response.data;
 					setNotificaciones(data); // Actualiza el estado con los datos recibidos
@@ -33,9 +33,11 @@ const NotificacionesComponent: React.FC = () => {
 				{notificaciones.map((notificacion: Notificacion) => (
 					<IonItem key={notificacion.id}>
 						<div>
-							<h1>Para: {notificacion.usuario}</h1>
-              <p>De: {notificacion.de}</p><p>Fecha: {notificacion.fecha}</p>
-							<p> {notificacion.accion} {notificacion.mensaje}</p>
+							<p>De: {notificacion.de_autor}</p>
+
+							<p>Fecha: {notificacion.fecha}</p>
+							<p>{notificacion.accion}</p>
+							<p>{notificacion.mensaje}</p>
 						</div>
 					</IonItem>
 				))}

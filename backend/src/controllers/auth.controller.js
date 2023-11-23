@@ -2,51 +2,10 @@ import { connect } from "../database/db.js";
 import transporter from "../helpers/mailer.cjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import fs from "fs";
 import path from "path";
+import bcrypt from "bcrypt";
 
-export const updateCurso = async (req, res) => {
-	try {
-		const { id } = req.params;
-		const { nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino } = req.body;
-		const db = await connect();
-		const [result] = await db.query(
-			"UPDATE cursos SET nombre_curso = ?, descripcion = ?, limite_cupos = ?, fecha_inicio = ?, fecha_termino = ? WHERE id = ?",
-			[nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino, id]
-		);
-		console.log("Curso actualizado!")
-		res.json(result);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: "Error en la actualización del curso" });
-	}
-}
-
-export const deleteFile = async (req, res) => {
-	try {
-		const { id, fileName } = req.params;
-		const filePath = path.join(process.cwd(), `uploads/cursos/${id}/${fileName}`)
-		// Verificar si el archivo existe
-		console.log("FILE PATH:",filePath)
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-			if (err) {
-					res.status(404).send('El archivo no existe');
-			} else {
-					// Eliminar el archivo
-					fs.unlink(filePath, (err) => {
-							if (err) {
-									res.status(500).send('Error al eliminar el archivo');
-							} else {
-									res.status(200).send('Archivo eliminado exitosamente');
-							}
-					});
-			}
-	});
-	} catch (error) {
-		res.status(500).json({ message: "Internal server error" });
-	}
-}
 
 export const getBanner = async (req, res) => {
 	try {
@@ -122,7 +81,7 @@ export async function registerInscripcion(req, res) {
 		}
 		else {
 			// No hay cupos restantes, devolver un mensaje indicando que no se puede inscribir
-      res.status(400).json({ message: "No quedan cupos disponibles para este curso" });
+      res.status(400).json({ error: "No quedan cupos disponibles para este curso" });
 		}
 		} catch (error) {
 		console.log(error);
@@ -195,6 +154,9 @@ export const registerCurso = async (req, res) => {
 	}
 }
 
+
+
+
 export const getDocentes = async (req, res) => {
 	try {
 		const db = await connect();
@@ -204,69 +166,21 @@ export const getDocentes = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Hola Mundo" });
+		console.log(error);
 	}
 };
 
-export const getForum = async (req,res) => {
+export const getForumPosts = async (req, res) => {
 	try {
 		const db = await connect();
-		const [result] = await db.query("SELECT * FROM foro ORDER BY id DESC;");
+		const [result] = await db.query("SELECT * FROM foro");
+		console.log(result);
 		res.json(result);
 	} catch (error) {
-		console.log(error)
-		res.status(500).json({message: "Internal server error"});
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
 	}
 };
-
-export const npost = async (req,res) => {
-	try {
-		const {titulo, descripcion, instancia_form_id} = req.body;
-		const db = await connect();
-		const [result] = await db.query("INSERT INTO foro (titulo, descripcion, instancia_form_id) VALUES (?,?,?)", [titulo, descripcion, instancia_form_id]);
-		res.json(result);
-	} catch (error) {
-		console.log(error)
-		res.status(500).json({message: "Internal server error"});
-	}
-}
-
-export const getPost = async (req,res) => {
-	try {
-		const postId = req.params.id;
-		console.log(postId);
-		const db = await connect();
-		const [result] = await db.query("SELECT * FROM foro WHERE id = ?", postId);
-		res.json(result);
-	} catch (error) {
-		console.log(error)
-		res.status(500).json({message: "Internal server error"});
-	}
-}
-
-export const ncomment = async (req,res) => {
-	try {
-		const {nombre_usuario, comentario, id_post} = req.body;
-		const db = await connect();
-		const [result] = await db.query("INSERT INTO comentarios (nombre_usuario, comentario, id_post) VALUES (?,?,?)", [nombre_usuario, comentario, id_post]);
-		res.json(result);
-	} catch (error) {
-		console.log(error)
-		res.status(500).json({message: "Internal server error"});
-	}
-}
-
-export const getPostComments = async (req,res) => {
-	try {
-		const postId = req.params.id;
-		const db = await connect();
-		const [result] = await db.query("SELECT * FROM comentarios WHERE id_post = ?", postId);
-		res.json(result);
-	} catch (error) {
-		console.log(error)
-		res.status(500).json({message: "Internal server error"});
-	}
-}
-
 
 export const getDocente = async (req, res) => {
 	try {
@@ -321,77 +235,44 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
 	try {
-		const { correo, contrasena } = req.body;
-		if (!correo || !contrasena) {
-			return res.status(400).json({ message: "Must fill every field" });
-		}
-		const db = await connect();
-		const [result] = await db.query(
-			"SELECT * FROM docente WHERE correo = ? AND contrasena = ?",
-			[correo, contrasena]
-		);
-		console.log("Logged in as: ", result[0]);
-		if (result.length != 1) {
-			return res.status(401).json({ error: 'Credenciales inválidas' });
-		}
-
-		const datos = await db.query(
-			"SELECT nombres, apellidos FROM docente WHERE correo = ?",
-			[correo]
-		);
-
-		const token = await createAccessToken({
-			result,
-		});
-		res.cookie("token", token);
-		res.status(200).json(result[0]);
+			const { correo, contrasena } = req.body;
+			if (!correo || !contrasena) {
+					return res.status(401).json({ error: "Debe completar todos los campos" });
+			}
+			
+			const db = await connect();
+			const [result] = await db.query("SELECT * FROM docente WHERE correo = ?", correo);
+			
+			if (!result || result.length !== 1) {
+					return res.status(401).json({ error: "Credenciales inválidas" });
+			}
+			
+			const storedHash = result[0].contrasena;
+			
+			bcrypt.compare(contrasena, storedHash, async function(err, resultado) {
+					if (err) {
+							return res.status(401).json({ error: "Error al comparar contraseñas" });
+					}
+					
+					if (resultado) {
+							// Contraseña válida, se puede autenticar al usuario
+							const { nombres, apellidos } = result[0];
+							const token = await createAccessToken({ result });
+							
+							res.cookie("token", token);
+							
+							res.status(200).json({ nombres, apellidos, correo });
+					} else {
+							// Contraseña inválida
+							res.status(401).json({ error: "Credenciales inválidas" });
+					}
+			});
 	} catch (error) {
-		res.status(500).json({ error: "Error del servidor" });
-		console.log(error);
+			res.status(500).json({ error: "No se ha podido iniciar sesión" });
+			console.log(error);
 	}
 };
 
-// export const ensureToken = (req, res, next) => {
-// 	const bearerHeader = req.headers["authorization"];
-// 	console.log(bearerHeader);
-// 	if (typeof bearerHeader !== "undefined") {
-// 		const bearerToken = bearerHeader.split(" ")[1];
-// 		req.token = bearerToken;
-// 		next();
-// 	} else {
-// 		res.sendStatus(403);
-// 	}
-// };
-
-export const sendEmail = async (req, res) => {
-	const { correo } = req.body;
-
-	const db = await connect();
-	const datos = await db.query(
-		"SELECT nombres, apellidos FROM docente WHERE correo = ?",
-		[correo]
-	);
-
-	const nombre = datos[0][0].nombres;
-	const apellido = datos[0][0].apellidos;
-
-	const fecha = new Date().toLocaleString();
-
-	const mail = await transporter.sendMail({
-		from: process.env.EMAIL,
-		to: correo,
-		subject: "Nuevo inicio de sesion en tu cuenta",
-		html: `<p>Hola ${nombre} ${apellido}.</p>
-			<p>Acabas de iniciar sesion en tu cuenta de Educa+</p>
-			<ul>
-				<li>Tu cuenta: ${correo}</li>
-				<li>Fecha: ${fecha}</li>
-        	</ul>
-			<p>Si fuiste tu, entonces no necesitas hacer nada.</p>
-			<p>Si no reconoces esta solicitud porfavor contacta al equipo</p>`,
-	});
-	return;
-};
 export const verifyToken = async (req, res) => {
 	const { token } = req.cookies;
 	if (!token) {
@@ -418,15 +299,49 @@ export const logout = async (req, res) => {
 	res.clearCookie("token");
 	res.status(200).json({ message: "Has cerrado sesion" });
 };
-
-export const getNotificaciones = async (req, res) => {
-	const { correo } = req.body;
+export const getForum = async (req,res) => {
 	try {
 		const db = await connect();
-		console.log("Correo", correo);
+		const [result] = await db.query("SELECT * FROM foro ORDER BY id DESC;");
+		res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+};
+
+export const npost = async (req,res) => {
+	try {
+		const {titulo, descripcion, id_autor, autor} = req.body;
+		const db = await connect();
+		const [result] = await db.query("INSERT INTO foro (titulo, descripcion, id_autor, autor) VALUES (?,?,?,?)", [titulo, descripcion, id_autor, autor]);
+		res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+
+export const getPost = async (req,res) => {
+	try {
+		const postId = req.params.id;
+		console.log(postId);
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM foro WHERE id = ?", postId);
+		res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+export const getNotificaciones = async (req, res) => {
+	const { id } = req.body;
+	try {
+		const db = await connect();
+		console.log("Correo", id);
 		const [result] = await db.query(
-			"SELECT * FROM notificaciones WHERE usuario = ?",
-			[correo]
+			"SELECT * FROM notificaciones WHERE usuario_id = ?",
+			[id]
 		);
 		res.status(200).json(result);
 	} catch (error) {
@@ -436,18 +351,145 @@ export const getNotificaciones = async (req, res) => {
 };
 
 export const insNotificacion = async (req, res) => {
-	
-	console.log(req.body);
-	const { usuario, mensaje } = req.body;
+	const {id_usuario, nombre_usuario, comentario, id_post, id_autor} = req.body;
+    try {
+        const db = await connect();
+        const [result] = await db.query("INSERT INTO notificaciones (usuario_id, de_id, accion, mensaje) VALUES (?,?,?,?)", [id_autor, id_usuario, "Comento en tu post con el siguiente mensaje:", comentario ]);
+        console.log("Notificación insertada correctamente");
+        return result;
+    } catch (error) {
+        console.log(error);
+        return error;
+}
+ };
+
+export const getUsers = async (req, res) => {
+	try {
+	  const db = await connect();
+	  const result = await db.query('SELECT id,nombres, apellidos, rut FROM docente');
+	  res.json(result);
+	} catch (error) {
+	  console.log(error);
+	  res.status(500).json({ message: 'Internal server error' });
+	}
+  };
+
+  export const deleteUser = async (req, res) => {
+	const { id } = req.params;
+  
+	try {
+	  const db = await connect();
+	  await db.query('DELETE FROM docente WHERE id = ?', [id]);
+	  res.json({ message: 'Usuario eliminado correctamente' });
+	} catch (error) {
+	  console.log(error);
+	  res.status(500).json({ message: 'Internal server error' });
+	}
+  };
+
+  export const getHorario = async (req,res) => {
 	try {
 		const db = await connect();
-		const result = await db.query(
-			"INSERT INTO notificaciones (usuario, de, accion, mensaje) VALUES (?, ?, ?)",
-			[usuario, mensaje, fecha]
+		const id_docente = req.params.id;
+		const [result] = await db.query("SELECT * FROM horarios_clase WHERE id_docente = ?", id_docente);
+		res.json(result);
+	}catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Error DB"});
+	}
+}
+
+
+export const registerNewCurso = async (req, res) => {
+  const { nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino } = req.body;
+  const id_asesor = 0; // De momento, asumimos que el id del asesor es siempre 0
+
+  try {
+    const db = await connect();
+    await db.query('INSERT INTO cursos (nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino, id_asesor) VALUES (?, ?, ?, ?, ?, ?)', [nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino, id_asesor]);
+    res.json({ message: 'Curso agregado correctamente' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
+
+export const deleteCurso = async (req, res) => {
+	const { cursoId } = req.params;
+  
+	try {
+	  const db = await connect();
+	  await db.query('DELETE FROM cursos WHERE id = ?', [cursoId]);
+	  res.json({ message: 'Curso eliminado correctamente' });
+	} catch (error) {
+	  console.log(error);
+	  res.status(500).json({ message: 'Error interno del servidor' });
+	}
+  };
+
+  export const ncomment = async (req, res, next) => {
+	try {
+		const {id_usuario, nombre_usuario, comentario, id_post, id_autor} = req.body;
+		const db = await connect();
+		const [result] = await db.query("INSERT INTO comentarios (id_usuario, nombre_usuario, comentario, id_post, id_autor) VALUES (?,?,?,?,?)", [id_usuario, nombre_usuario, comentario, id_post, id_autor]);
+		res.json(result);
+		next();
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+
+export const getPostComments = async (req,res) => {
+	try {
+		const postId = req.params.id;
+		const db = await connect();
+		const [result] = await db.query("SELECT * FROM comentarios WHERE id_post = ?", postId);
+		res.json(result);
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({message: "Internal server error"});
+	}
+}
+
+export const updateCurso = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino } = req.body;
+		const db = await connect();
+		const [result] = await db.query(
+			"UPDATE cursos SET nombre_curso = ?, descripcion = ?, limite_cupos = ?, fecha_inicio = ?, fecha_termino = ? WHERE id = ?",
+			[nombre_curso, descripcion, limite_cupos, fecha_inicio, fecha_termino, id]
 		);
-		res.status(200).json(result);
+		console.log("Curso actualizado!")
+		res.json(result);
 	} catch (error) {
 		console.log(error);
+		res.status(500).json({ message: "Error en la actualización del curso" });
+	}
+}
+
+export const deleteFile = async (req, res) => {
+	try {
+		const { id, fileName } = req.params;
+		const filePath = path.join(process.cwd(), `uploads/cursos/${id}/${fileName}`)
+		// Verificar si el archivo existe
+		console.log("FILE PATH:",filePath)
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+			if (err) {
+					res.status(404).send('El archivo no existe');
+			} else {
+					// Eliminar el archivo
+					fs.unlink(filePath, (err) => {
+							if (err) {
+									res.status(500).send('Error al eliminar el archivo');
+							} else {
+									res.status(200).send('Archivo eliminado exitosamente');
+							}
+					});
+			}
+	});
+	} catch (error) {
 		res.status(500).json({ message: "Internal server error" });
 	}
-};
+}

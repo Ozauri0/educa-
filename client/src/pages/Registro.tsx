@@ -170,7 +170,7 @@ const Registro: React.FC = () => {
 								})}
 							/>
 							<p className="register-error">{errors.confirmar_contrasena?.message}</p>
-							<IonButton type="submit">Enviar</IonButton>
+							<IonButton className="boton" type="submit">Enviar</IonButton>
 						</form>
 					</IonCardContent>
 				</IonCard>

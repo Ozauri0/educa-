@@ -9,6 +9,7 @@ import {
   IonList,
   IonNote,
   IonPage,
+  IonText,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
@@ -24,7 +25,7 @@ function Foro() {
   useEffect(() => {
     fetch('http://localhost:4000/api/foro')
       .then(response => response.json())
-      .then(data =>
+      .then(data => 
         setDatosForo(data.slice(0, 10)));
 
   }, []);
@@ -34,7 +35,7 @@ function Foro() {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Bienvenido al Foro</IonTitle>
-          <IonButton routerDirection='forward' slot="end" href="/ForoNuevo">
+          <IonButton slot="end" href="/ForoNuevo">
             <IonIcon slot="icon-only" icon={add} />
           </IonButton>
         </IonToolbar>
