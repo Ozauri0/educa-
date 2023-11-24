@@ -8,6 +8,10 @@ import {
 	IonCard,
 	IonCardContent,
 	IonCardHeader,
+<<<<<<< HEAD
+=======
+	IonCardSubtitle,
+>>>>>>> Main
 	IonCardTitle,
 	IonInput,
 	IonButton,

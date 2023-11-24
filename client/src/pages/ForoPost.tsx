@@ -21,6 +21,7 @@ import {
     IonList,
     IonLabel,
     IonThumbnail,
+<<<<<<< HEAD
 } from '@ionic/react';
 import { chevronBack } from 'ionicons/icons';
 import { useAuth } from '../context/AuthContext';
@@ -75,19 +76,49 @@ function ForoPost() {
         });
     }, []);
     
+=======
+    IonBadge,
+} from '@ionic/react';
+import { chevronBack, notificationsSharp } from 'ionicons/icons';
+import { useAuth } from '../context/AuthContext';
+import {getNotifRequest} from '../api/auth';
+import './ForoPost.css';
+import { arrayOutputType } from 'zod';
+
+import {socket} from '../service/socket';
+
+function ForoPost() {
+    const postId = useParams<{ postId: string }>().postId;
+    const { currentUser } = useAuth();
+    const [datosForo, setDatosForo] = useState<any>([]);
+    const [datosComentario, setDatosComentario] = useState([]);
+    const [comentario, setNuevoComentario] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [numNotif, setNumNotif] = useState(0);
+
+>>>>>>> Main
     const handleNuevoComentario = async () => {
         fetch('http://localhost:4000/api/ncomentario', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+<<<<<<< HEAD
                 nombre_usuario: currentUser?.correo,
                 comentario: comentario,
                 id_post: postId,
+=======
+                id_usuario: currentUser?.id,
+                nombre_usuario: currentUser?.correo,
+                comentario: comentario,
+                id_post: postId,
+                id_autor: datosForo[0].id_autor,
+>>>>>>> Main
             })
         })
             .then(response => response.json())
             .then(data => {
                 if (data) {
+<<<<<<< HEAD
                     postNotification();
                     window.location.reload();
                 }
@@ -153,6 +184,98 @@ function ForoPost() {
                         </IonButton>
                     </IonButtons>
                 </IonToolbar>
+=======
+                    socket.emit('new-comment', "hola");
+                }
+            })
+    }
+    useEffect(() => {
+        fetch('http://localhost:4000/api/foropost/' + postId)
+            .then(response => response.json())
+            .then(data =>
+                setDatosForo(data));
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            fetch('http://localhost:4000/api/comentarios/' + postId)
+                .then(response => response.json())
+                .then(data =>
+                    setDatosComentario(data));
+            setLoading(false);
+        }
+            , 500);
+    }
+        , []);
+
+    useEffect(() => {
+        async function getNotifications() {
+            if (currentUser) {
+                try {
+                    const response = await getNotifRequest({
+                        id: currentUser.id,
+                    });
+                    const data = response.data;
+                    setNumNotif(data.length); // Actualiza el estado con los datos recibidos
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+        getNotifications();
+    }, [currentUser]);
+
+    useEffect(() => {
+        async function handleNotif() {
+            if (currentUser?.id === datosForo.id_autor) {
+                try {
+                    const response = await getNotifRequest({
+                        id: currentUser?.id,
+                    });
+                    
+                    const data = response.data;
+
+                    console.log(data.length);
+                    console.log(numNotif);
+                    if (data.length > numNotif) {
+                        setNumNotif(data.length);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+        handleNotif();
+    }
+        , [currentUser]);
+
+    useEffect(() => {
+        socket.on('new-comment', async(data: any) => {
+            window.location.reload();
+        }
+        );
+    }
+        , []);
+    
+    return (
+        <IonPage>
+            <IonHeader>
+            <IonToolbar>
+                    <a href="/Inicio" style={{ textDecoration: 'none' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                        <IonTitle className="educa-plus-title">Foro numero {postId} </IonTitle>
+                        <IonButton href="/Notificaciones">
+                            <IonIcon slot="icon-only" icon={notificationsSharp}/>
+                            <IonBadge color="danger">{numNotif}</IonBadge>
+                        </IonButton>
+                        <IonButton href='/Foro'>
+                            <IonIcon slot="icon-only" icon={chevronBack} />
+                        </IonButton>
+                    </div>
+                    </a> 
+            </IonToolbar> 
+>>>>>>> Main
             </IonHeader>
             <IonContent color="Light">
                 {datosForo.map((item: any) => (
@@ -165,12 +288,25 @@ function ForoPost() {
                             <IonCardContent>
                                 <IonText color="light">{item.descripcion}</IonText>
                             </IonCardContent>
+<<<<<<< HEAD
+=======
+                            <IonCardContent>
+                                <IonText color="light">{item.autor}</IonText>
+                            </IonCardContent>
+                            <IonCardContent>
+                                <IonText color="light">{item.id_autor}</IonText>
+                            </IonCardContent>
+>>>>>>> Main
                         </IonCard>
                     </IonItem>
                 ))}
                     <IonCard>
                         <IonCardHeader>
+<<<<<<< HEAD
                             <IonCardTitle color="light">Comentarios</IonCardTitle>
+=======
+                            <IonCardTitle color="primary">Comentarios</IonCardTitle>
+>>>>>>> Main
                         </IonCardHeader>
                         <IonCardContent>
                             <IonList>
@@ -200,12 +336,21 @@ function ForoPost() {
                             <IonItem>
                                 <IonInput placeholder="Escribe tu comentario" onIonChange={e => setNuevoComentario(e.detail.value!)}></IonInput>
                             </IonItem>
+<<<<<<< HEAD
                             <IonButton expand='block' onClick={() => {emitNotif("chat")}}>Publicar</IonButton>
                         </IonCardContent>
                     </IonCard>
             </IonContent >
         </IonPage >
         </SocketContainer>
+=======
+                            <IonButton expand='block' onClick={handleNuevoComentario}>Publicar</IonButton>
+                        </IonCardContent>
+                    </IonCard>
+
+            </IonContent >
+        </IonPage >
+>>>>>>> Main
     );
 }
 export default ForoPost;

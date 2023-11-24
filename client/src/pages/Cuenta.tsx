@@ -14,11 +14,19 @@ import {
 	IonInput,
 	IonButton,
 	IonRouterLink,
+<<<<<<< HEAD
+=======
+	IonAlert,
+>>>>>>> Main
 } from "@ionic/react";
 import "./Inicio.css";
 import { User } from "../types";
 
+<<<<<<< HEAD
 interface FormData {
+=======
+type FormData = {
+>>>>>>> Main
 	correo: string;
 	contrasena: string;
 }
@@ -29,22 +37,49 @@ const Cuenta: React.FC = () => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<FormData>();
+<<<<<<< HEAD
 	const { signin } = useAuth();
 
 	const onSubmit: SubmitHandler<FormData> = (data) => {
+=======
+
+	const { signin } = useAuth();
+	const [error, setError] = React.useState<string>("");
+
+	const onSubmit: SubmitHandler<FormData> = async (data) => {
+>>>>>>> Main
 		const user: User = {
 			correo: data.correo, // Usar el correo del formulario
 			contrasena: data.contrasena, // Usar la contraseña del formulario
 		};
+<<<<<<< HEAD
 		signin(user);
+=======
+		try {
+			await signin(user);
+		} catch (error: any) {
+			setError(error.message)
+		}
+>>>>>>> Main
 	};
 
 	return (
 		<IonPage>
 			<IonHeader>
+<<<<<<< HEAD
 				<IonToolbar>
 					<IonTitle>Educa +</IonTitle>
 				</IonToolbar>
+=======
+			<IonToolbar>
+            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                <IonTitle className="educa-plus-title">Iniciar sesion</IonTitle>
+              </div>
+            </a>
+          </IonToolbar>
+>>>>>>> Main
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
@@ -62,12 +97,15 @@ const Cuenta: React.FC = () => {
 								Para iniciar sesión en Educa +, debes ingresar tu correo
 								institucional y tu contraseña.
 							</p>
+<<<<<<< HEAD
 							<p>
 								Si no tienes una cuenta, puedes crear una en el siguiente
 								enlace:
 							</p>
 							<IonRouterLink routerLink="/registro">Registrarse</IonRouterLink>{" "}
 							{/* Enlace al formulario de registro */}
+=======
+>>>>>>> Main
 							<IonInput
 								type="email"
 								placeholder="Ingrese su correo"
@@ -95,6 +133,7 @@ const Cuenta: React.FC = () => {
 								})}
 							/>
 							<p className="register-error">{errors.contrasena?.message}</p>
+<<<<<<< HEAD
 							<IonButton type="submit" expand="full">
 								Iniciar Sesión
 							</IonButton>
@@ -104,9 +143,22 @@ const Cuenta: React.FC = () => {
 						</form>
 					</IonCardContent>
 				</IonCard>
+=======
+							<IonButton className="boton" type="submit" expand="full">
+								Iniciar Sesión
+							</IonButton>
+						</form>
+					</IonCardContent>
+				</IonCard>
+				<IonAlert isOpen={!!error} message={error} buttons={[{ text: "Aceptar", handler: () => setError("") }]} />
+>>>>>>> Main
 			</IonContent>
 		</IonPage>
 	);
 };
 
+<<<<<<< HEAD
 export default Cuenta;
+=======
+export default Cuenta;
+>>>>>>> Main

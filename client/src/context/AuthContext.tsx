@@ -5,7 +5,11 @@ import React, {
 	useEffect,
 	ReactNode,
 } from "react";
+<<<<<<< HEAD
 import { loginRequest } from "../api/auth";
+=======
+import { loginRequest, registerRequest } from "../api/auth";
+>>>>>>> Main
 import { verifyTokenRequest } from "../api/auth";
 import { User, AuthContextType } from "../types";
 import Cookies from "js-cookie";
@@ -14,9 +18,13 @@ interface AuthProviderProps {
 	children: ReactNode;
 }
 
+<<<<<<< HEAD
 export const AuthContext = createContext<AuthContextType | undefined>(
 	undefined
 );
+=======
+export const AuthContext = createContext<AuthContextType | null>(null);
+>>>>>>> Main
 
 export const useAuth = (): AuthContextType => {
 	const context = useContext(AuthContext);
@@ -33,6 +41,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	const signin = async (user: User) => {
 		try {
+<<<<<<< HEAD
 			const res = await loginRequest(user);
 			setCurrentUser(res.data);
 			setIsAuthenticated(true);
@@ -41,6 +50,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		}
 	};
 
+=======
+			const response = await loginRequest(user);
+			setCurrentUser(response.data);
+			setIsAuthenticated(true);
+			return true
+		} catch (error: any) {
+			if (error.response && error.response.data) {
+				throw new Error(error.response.data.error); // Relanzar el error específico del backend
+			} else {
+				throw new Error("Error al iniciar sesión");
+			}
+		}
+	};
+
+	const signup = async (user: User) => {
+		try {
+			const response = await registerRequest(user);
+			if (response.status === 201) {
+				return response
+			}
+		} catch (error: any) {
+			if (error.response && error.response.data) {
+				throw new Error(error.response.data.error); // Relanzar el error específico del backend
+			} else {
+				throw new Error("Error al crear la cuenta");
+			}
+		}
+	}
+
+>>>>>>> Main
 	const logout = () => {
 		Cookies.remove("token");
 		setCurrentUser(null);
@@ -75,7 +114,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	return (
 		<AuthContext.Provider
+<<<<<<< HEAD
 			value={{ currentUser, isAuthenticated, signin, logout, loading }}
+=======
+			value={{ currentUser, isAuthenticated, signin, signup, logout, loading }}
+>>>>>>> Main
 		>
 			{children}
 		</AuthContext.Provider>

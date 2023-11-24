@@ -20,8 +20,15 @@ import { chevronBack} from 'ionicons/icons';
 
 
 import './ForoPost.css';
+<<<<<<< HEAD
 
 function ForoNuevo() {
+=======
+import { useAuth } from '../context/AuthContext';
+
+function ForoNuevo() {
+    const {currentUser} = useAuth();
+>>>>>>> Main
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
 
@@ -32,7 +39,12 @@ function ForoNuevo() {
             body: JSON.stringify({
                 titulo: titulo,
                 descripcion: descripcion,
+<<<<<<< HEAD
                 instancia_form_id: 2,
+=======
+                id_autor: currentUser?.id,
+                autor: currentUser?.correo,
+>>>>>>> Main
             })
         })
         const data = await res.json();
