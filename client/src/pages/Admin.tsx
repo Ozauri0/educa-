@@ -22,32 +22,31 @@ const Admin: React.FC = () => {
 
   return (
     <IonPage>
- 
+
       <IonContent>
-      <IonToolbar>
-        <Header title='Panel administrativo Educa+' />
-      </IonToolbar>
+        <IonToolbar>
+          <Header title='Panel administrativo Educa+' />
+        </IonToolbar>
         <IonGrid>
           <IonRow>
             <IonCol size="6">
-            <IonButton color="success" expand="block" href='/Registro'>Registrar usuario</IonButton>
+              <IonButton color="success" expand="block" href='/Registro'>Registrar usuario</IonButton>
             </IonCol>
             <IonCol size="6">
-            <IonButton color="danger" expand="block" href='/Eliminar'>Eliminar usuario</IonButton>
+              <IonButton color="danger" expand="block" href='/Eliminar'>Eliminar usuario</IonButton>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol size="6">
-            <IonButton color="success" expand="block" href='/AgregarCurso'>Registrar curso</IonButton>
+              <IonButton color="success" expand="block" href='/AgregarCurso'>Registrar curso</IonButton>
             </IonCol>
             <IonCol size="6">
-            <IonButton color="danger" expand="block" href='/EliminarCurso'>Editar curso</IonButton>
+              <IonButton color="danger" expand="block" href='/EliminarCurso'>Editar curso</IonButton>
             </IonCol>
           </IonRow>
-          
           <IonRow>
             <IonCol size="12">
-            <IonButton className='boton' expand="block" href='/Notif'>Enviar notificacion global</IonButton>
+              <IonButton className='boton' expand="block" href='/Notif'>Enviar notificacion global</IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

@@ -2,8 +2,9 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonGrid,
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Curso, Inscripcion } from "../types";
-import { getCurso, getInscripciones, registerInscripcion } from "../api/auth";
+import { getCurso, getInscripciones, registerInscripcion } from "../api/cursos";
 import { useAuth } from "../context/AuthContext";
+import { getFiles } from "../api/api";
 
 const CursoInfo: React.FC = () => {
 
@@ -16,9 +17,8 @@ const CursoInfo: React.FC = () => {
 
 	const fetchFiles = async () => {
 		try {
-			const response = await fetch(`http://192.168.1.167:4000/api/list-files/curso/${id}`);
-			const data = await response.json();
-			setFiles(data);
+			const response = await getFiles(id);
+			setFiles(response.data);
 		} catch (error) {
 			console.error('Error al obtener la lista de archivos:', error);
 		}
@@ -84,14 +84,14 @@ const CursoInfo: React.FC = () => {
 	return (
 		<IonPage>
 			<IonHeader>
-			<IonToolbar>
-            <a href="/Inicio" style={{ textDecoration: 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
-                <IonTitle className="educa-plus-title">Curso</IonTitle>
-              </div>
-            </a>
-          </IonToolbar>
+				<IonToolbar>
+					<a href="/Inicio" style={{ textDecoration: 'none' }}>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+							<img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+							<IonTitle className="educa-plus-title">Curso</IonTitle>
+						</div>
+					</a>
+				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
@@ -104,7 +104,7 @@ const CursoInfo: React.FC = () => {
 						<IonGrid>
 							<IonRow>
 								<IonCol size="12" size-md="6" offset-md="3">
-									<IonImg src={`http://192.168.1.167:4000/uploads/cursos/${id}/banner`} />
+									<IonImg src={`${process.env.REACT_APP_BACKEND_URL}/uploads/cursos/${id}/banner`} />
 									<IonCardHeader>
 										<IonCardTitle>{cursoData.nombre_curso}</IonCardTitle>
 										<IonCardSubtitle color={"primary"}>{cursoData.descripcion}</IonCardSubtitle>
@@ -135,7 +135,7 @@ const CursoInfo: React.FC = () => {
 					<IonCardContent>
 						{filteredFiles.map((file, index) => (
 							<p key={index}>
-								<a href={`http://192.168.1.167:4000/uploads/cursos/${id}/${file}`} target="_blank" rel="noopener noreferrer">
+								<a href={`${process.env.REACT_APP_BACKEND_URL}/uploads/cursos/${id}/${file}`} target="_blank" rel="noopener noreferrer">
 									{file}
 								</a>
 							</p>

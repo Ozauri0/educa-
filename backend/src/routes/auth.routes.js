@@ -24,7 +24,8 @@ import {
 	getPostComments,
 	updateCurso,
 	deleteFile,
-	insNotificacion
+	insNotificacion,
+	getFiles
 } from "../controllers/auth.controller.js";
 
 import { uploadBanner, uploadResource } from "../middlewares/storageConfigs.js";
@@ -91,15 +92,8 @@ router.post("/ncomentario", ncomment, insNotificacion);
 
 router.get("/horario/:id", getHorario);
 
-router.get('/list-files/curso/:id', (req, res) => {
-	const directoryPath = path.join(process.cwd(), '/uploads/cursos/' + req.params.id + '/');
-	fs.readdir(directoryPath, function (err, files) {
-	  if (err) {
-		return res.status(500).send('Unable to scan directory: ' + err);
-	  } 
-	  res.send(files);
-	});
-  });
-  router.delete('/delete-file/curso/:id/:fileName', deleteFile)
+router.get('/list-files/curso/:id', getFiles);
+
+router.delete('/delete-file/curso/:id/:fileName', deleteFile)
 
 export default router;

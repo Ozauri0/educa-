@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { IonBadge, IonButton, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBadge, IonButton, IonContent, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ChatbotLauncher from './ChatbotButton';
-import Header from './Header';
 import './Calendario.css';
 import { chevronBack, notificationsSharp } from 'ionicons/icons';
-import {socket} from '../service/socket';
+import { socket } from '../service/socket';
 import { useAuth } from '../context/AuthContext';
-import { getNotifRequest } from '../api/auth';
+import { getNotifRequest } from '../api/api';
 
 
 const Calendario: React.FC = () => {
   const [numNotif, setNumNotif] = useState(0);
   const { currentUser } = useAuth();
 
- useEffect(() => {
-        socket.on('new-comment', async(data: any) => {
-            window.location.reload();
-        }
-        );
+  useEffect(() => {
+    socket.on('new-comment', async (data: any) => {
+      window.location.reload();
     }
-        , []);
+    );
+  }
+    , []);
   useEffect(() => {
     const script = document.createElement('script');
     script.type = 'text/javascript';
@@ -29,39 +28,39 @@ const Calendario: React.FC = () => {
   }, []);
   useEffect(() => {
     async function getNotifications() {
-        if (currentUser) {
-            try {
-                const response = await getNotifRequest({
-                    id: currentUser.id,
-                });
-                const data = response.data;
-                setNumNotif(data.length); // Actualiza el estado con los datos recibidos
-            } catch (error) {
-                console.error(error);
-            }
+      if (currentUser) {
+        try {
+          const response = await getNotifRequest({
+            id: currentUser.id,
+          });
+          const data = response.data;
+          setNumNotif(data.length); // Actualiza el estado con los datos recibidos
+        } catch (error) {
+          console.error(error);
         }
+      }
     }
     getNotifications();
-}, [currentUser]);
+  }, [currentUser]);
 
 
   return (
     <IonPage>
       <IonToolbar>
-          <a href="/Inicio" style={{ textDecoration: 'none' }}>
+        <a href="/Inicio" style={{ textDecoration: 'none' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
-              <IonTitle className="educa-plus-title">Asesoría</IonTitle>
-              <IonButton href="/Notificaciones">
-                  <IonIcon slot="icon-only" icon={notificationsSharp}/>
-                  <IonBadge color="danger">{numNotif}</IonBadge>
-              </IonButton>
-              <IonButton href='/Foro'>
-                  <IonIcon slot="icon-only" icon={chevronBack} />
-              </IonButton>
+            <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+            <IonTitle className="educa-plus-title">Asesoría</IonTitle>
+            <IonButton href="/Notificaciones">
+              <IonIcon slot="icon-only" icon={notificationsSharp} />
+              <IonBadge color="danger">{numNotif}</IonBadge>
+            </IonButton>
+            <IonButton href='/Foro'>
+              <IonIcon slot="icon-only" icon={chevronBack} />
+            </IonButton>
           </div>
-          </a> 
-          </IonToolbar>
+        </a>
+      </IonToolbar>
       <IonContent className="calendar-style" fullscreen>
         <div
           className="calendly-inline-widget"

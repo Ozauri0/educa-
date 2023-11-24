@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonAvatar, IonItem, IonLabel, IonDatetime, IonGrid, IonCard, IonBadge, IonButton, IonButtons, IonCardTitle, IonCardHeader } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel, IonDatetime, IonGrid, IonCard, IonBadge, IonButton, IonCardTitle, IonCardHeader } from '@ionic/react';
 import './Recursos.css';
 
 const Recursos: React.FC = () => {
@@ -34,7 +34,7 @@ const Recursos: React.FC = () => {
                                 textColor: '#09721b',
                                 backgroundColor: '#c8e5d0',
                             },
-                            
+
                         ]}
                     ></IonDatetime>
                 </IonItem>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonAlert } from '@ionic/react';
-import { deleteCurso, getCursos } from '../api/auth';
+import { getCursos, deleteCurso } from '../api/cursos';
 import './EliminarCurso.css';
 
 const EliminarCurso: React.FC = () => {

@@ -11,7 +11,7 @@ const Eliminar: React.FC = () => {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/usuarios');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/usuarios`);
         const usuariosData = response.data.filter((item: any) => Array.isArray(item));
         setUsuarios(usuariosData[0]);
         console.log(usuariosData[0]);
@@ -22,7 +22,7 @@ const Eliminar: React.FC = () => {
 
     fetchUsuarios();
   }, []);
-    
+
 
   const handleFiltroRutChange = (e: CustomEvent) => {
     setFiltroRut(e.detail.value!);
@@ -35,9 +35,9 @@ const Eliminar: React.FC = () => {
 
   const handleConfirmEliminar = async () => {
     try {
-      await axios.get(`http://192.168.1.167:4000/api/eliminar/${usuarioSeleccionado?.id}`);
+      await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/eliminar/${usuarioSeleccionado?.id}`);
       // Actualizar la lista de usuarios después de eliminar
-      const response = await axios.get('http://localhost:4000/api/usuarios');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/usuarios`);
       const usuariosData = response.data.filter((item: any) => Array.isArray(item));
       setUsuarios(usuariosData[0]);
     } catch (error) {
@@ -75,23 +75,23 @@ const Eliminar: React.FC = () => {
         </IonList>
 
         <IonAlert className='alerta'
-  isOpen={usuarioSeleccionado !== null}
-  onDidDismiss={handleCancelarEliminar}
-  header="Confirmar eliminación"
-  message={`¿Estás seguro de que quieres eliminar al usuario "${usuarioSeleccionado?.nombres} ${usuarioSeleccionado?.apellidos}",
+          isOpen={usuarioSeleccionado !== null}
+          onDidDismiss={handleCancelarEliminar}
+          header="Confirmar eliminación"
+          message={`¿Estás seguro de que quieres eliminar al usuario "${usuarioSeleccionado?.nombres} ${usuarioSeleccionado?.apellidos}",
   con el rut ${usuarioSeleccionado?.rut}"?`}
-  buttons={[
-    {
-      text: "Cancelar",
-      role: "cancel",
-      handler: handleCancelarEliminar,
-    },
-    {
-      text: "Eliminar",
-      handler: handleConfirmEliminar,
-    },
-  ]}
-/>
+          buttons={[
+            {
+              text: "Cancelar",
+              role: "cancel",
+              handler: handleCancelarEliminar,
+            },
+            {
+              text: "Eliminar",
+              handler: handleConfirmEliminar,
+            },
+          ]}
+        />
       </IonContent>
     </IonPage>
   );

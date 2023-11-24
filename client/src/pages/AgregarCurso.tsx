@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonContent, IonList, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonButton, IonToast } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonContent, IonList, IonItem, IonLabel, IonInput, IonButton, IonToast } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import Header from './Header';
-import { registerNewCurso } from '../api/auth';
+import { registerNewCurso } from '../api/cursos';
 import './AgregarCurso.css';
 
 interface Curso {

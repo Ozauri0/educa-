@@ -12,7 +12,7 @@ import {
 } from '@ionic/react';
 import './CursoNuevo.css'
 import { Curso } from '../types';
-import { registerCurso } from '../api/auth';
+import { registerCurso } from '../api/cursos';
 
 export default function CursoNuevo() {
 

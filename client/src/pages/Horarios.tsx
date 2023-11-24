@@ -1,31 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { lazy } from 'react';
-import { useParams } from 'react-router';
 import {
     IonButton,
     IonContent,
     IonHeader,
-    IonAvatar,
     IonIcon,
     IonItem,
-    IonCardTitle,
     IonTitle,
     IonButtons,
     IonToolbar,
-    IonCard,
-    IonCardHeader,
-    IonCardContent,
     IonPage,
-    IonInput,
-    IonText,
     IonList,
     IonLabel,
-    IonThumbnail,
 } from '@ionic/react';
 import { chevronBack } from 'ionicons/icons';
 import { useAuth } from '../context/AuthContext';
 //import SocketContainer from '../components/SocketContainer';
 import { useHistory } from 'react-router-dom';
+import { getHorarios } from '../api/api';
 
 
 function Horarios() {
@@ -33,19 +24,19 @@ function Horarios() {
     const history = useHistory();
     const [horarios, setHorarios] = useState([]);
 
-    const getHorarios = () => {
-    fetch("http://localhost:4000/api/horario/" + currentUser?.id)
-            .then((response) => response.json())
-            .then((data) => {
-                setHorarios(data);
-            });
+    const fetchHorarios = async () => {
+        try {
+            const response = await getHorarios(currentUser!.id!);
+            setHorarios(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
-        getHorarios();
-    }
-        , []);
-    
+        fetchHorarios();
+    }, []);
+
     return (
         //<SocketContainer> 
         <IonPage>
@@ -60,17 +51,17 @@ function Horarios() {
                 </IonToolbar>
             </IonHeader>
             <IonContent color="Light">
-            <IonList>
-                        {horarios.map((item: any) => (
-                                <IonItem key={item.id}>
-                                    <IonLabel>
-                                        <h2>{item.dia}</h2>
-                                        <h3>{item.hora}</h3>
-                                        <p>{item.curso}</p>
-                                    </IonLabel>
-                                </IonItem>
-                        ))}
-                    </IonList>
+                <IonList>
+                    {!!horarios && horarios.map((item: any) => (
+                        <IonItem key={item.id}>
+                            <IonLabel>
+                                <h2>{item.dia}</h2>
+                                <h3>{item.hora}</h3>
+                                <p>{item.curso}</p>
+                            </IonLabel>
+                        </IonItem>
+                    ))}
+                </IonList>
             </IonContent >
         </IonPage >
         //</SocketContainer>

@@ -6,6 +6,21 @@ import fs from "fs";
 import path from "path";
 import bcrypt from "bcrypt";
 
+export const getFiles = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const directoryPath = path.join(process.cwd(), `/uploads/cursos/${id}/`);
+		fs.readdir(directoryPath, function (err, files) {
+		  if (err) {
+			return res.status(500).send('Unable to scan directory: ' + err);
+		  } 
+		  res.send(files);
+		});
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+}
 
 export const getBanner = async (req, res) => {
 	try {

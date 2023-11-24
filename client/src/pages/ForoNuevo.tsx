@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { useState } from 'react';
 import {
   IonButton,
   IonContent,
   IonHeader,
   IonIcon,
-  IonItem,
   IonCardTitle,
   IonTitle,
   IonButtons,
@@ -14,37 +12,34 @@ import {
   IonCardHeader,
   IonCardContent,
   IonInput,
-  IonCheckbox,
 } from '@ionic/react';
-import { chevronBack} from 'ionicons/icons';
+import { chevronBack } from 'ionicons/icons';
 
 
 import './ForoPost.css';
 import { useAuth } from '../context/AuthContext';
 
 function ForoNuevo() {
-    const {currentUser} = useAuth();
-    const [titulo, setTitulo] = useState('');
-    const [descripcion, setDescripcion] = useState('');
+  const { currentUser } = useAuth();
+  const [titulo, setTitulo] = useState('');
+  const [descripcion, setDescripcion] = useState('');
 
-    const handleNuevo = async () => {
-        const res = await fetch('http://192.168.1.167:4000/api/foronuevo', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                titulo: titulo,
-                descripcion: descripcion,
-                id_autor: currentUser?.id,
-                autor: currentUser?.correo,
-            })
-        })
-        const data = await res.json();
-        if (res.status === 200) {
-            window.location.href = '/Foro';
-        }
-        
-       
-    }  
+  const handleNuevo = async () => {
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/foronuevo`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        titulo: titulo,
+        descripcion: descripcion,
+        id_autor: currentUser?.id,
+        autor: currentUser?.correo,
+      })
+    })
+    const data = await res.json();
+    if (res.status === 200) {
+      window.location.href = '/Foro';
+    }
+  }
 
   return (
     <>
@@ -60,22 +55,22 @@ function ForoNuevo() {
       </IonHeader>
       <IonContent>
         <IonCard>
-            <IonCardHeader>
-                <IonCardTitle>Titulo</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-                <IonInput
-                    value={titulo}
-                    placeholder="Titulo"
-                    onIonChange={(e) => setTitulo(e.detail.value!)}
-                />
-                <IonInput 
-                    value={descripcion}
-                    placeholder="Descripcion"
-                    onIonChange={(e) => setDescripcion(e.detail.value!)}
-                />
-                <IonButton onClick={handleNuevo}>Publicar</IonButton>
-            </IonCardContent>            
+          <IonCardHeader>
+            <IonCardTitle>Titulo</IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonInput
+              value={titulo}
+              placeholder="Titulo"
+              onIonChange={(e) => setTitulo(e.detail.value!)}
+            />
+            <IonInput
+              value={descripcion}
+              placeholder="Descripcion"
+              onIonChange={(e) => setDescripcion(e.detail.value!)}
+            />
+            <IonButton onClick={handleNuevo}>Publicar</IonButton>
+          </IonCardContent>
         </IonCard>
       </IonContent>
     </>

@@ -1,20 +1,12 @@
-import mysql from "mysql2/promise.js";
+import { createPool } from "mysql2/promise.js";
 import config from "../config.js";
 import "dotenv/config";
-import { configDotenv } from "dotenv";
-configDotenv();
 
-// export const db = createPool(config);
+let pool;
 
-// Creo que no es necesario que sea una función asíncrona
-
-export const connect = async () => {
-	return await mysql.createConnection(config);
+export const connect = () => {
+  if (!pool) {
+    pool = createPool(config);
+  }
+  return pool;
 };
-
-// export const db = createPool({
-// 	host: config.host,
-// 	database: config.database,
-// 	user: config.user,
-// 	password: config.password,
-// });

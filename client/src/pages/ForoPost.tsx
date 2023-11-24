@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { lazy } from 'react';
 import { useParams } from 'react-router';
 import {
     IonButton,
@@ -10,7 +9,6 @@ import {
     IonItem,
     IonCardTitle,
     IonTitle,
-    IonButtons,
     IonToolbar,
     IonCard,
     IonCardHeader,
@@ -20,16 +18,14 @@ import {
     IonText,
     IonList,
     IonLabel,
-    IonThumbnail,
     IonBadge,
 } from '@ionic/react';
 import { chevronBack, notificationsSharp } from 'ionicons/icons';
 import { useAuth } from '../context/AuthContext';
-import {getNotifRequest} from '../api/auth';
+import { getNotifRequest } from '../api/api';
 import './ForoPost.css';
-import { arrayOutputType } from 'zod';
 
-import {socket} from '../service/socket';
+import { socket } from '../service/socket';
 
 function ForoPost() {
     const postId = useParams<{ postId: string }>().postId;
@@ -41,7 +37,7 @@ function ForoPost() {
     const [numNotif, setNumNotif] = useState(0);
 
     const handleNuevoComentario = async () => {
-        fetch('http://localhost:4000/api/ncomentario', {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/ncomentario`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -60,7 +56,7 @@ function ForoPost() {
             })
     }
     useEffect(() => {
-        fetch('http://localhost:4000/api/foropost/' + postId)
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/foropost/${postId}`)
             .then(response => response.json())
             .then(data =>
                 setDatosForo(data));
@@ -68,7 +64,7 @@ function ForoPost() {
 
     useEffect(() => {
         setTimeout(() => {
-            fetch('http://localhost:4000/api/comentarios/' + postId)
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/comentarios/${postId}`)
                 .then(response => response.json())
                 .then(data =>
                     setDatosComentario(data));
@@ -102,7 +98,7 @@ function ForoPost() {
                     const response = await getNotifRequest({
                         id: currentUser?.id,
                     });
-                    
+
                     const data = response.data;
 
                     console.log(data.length);
@@ -120,31 +116,31 @@ function ForoPost() {
         , [currentUser]);
 
     useEffect(() => {
-        socket.on('new-comment', async(data: any) => {
+        socket.on('new-comment', async (data: any) => {
             window.location.reload();
         }
         );
     }
         , []);
-    
+
     return (
         <IonPage>
             <IonHeader>
-            <IonToolbar>
+                <IonToolbar>
                     <a href="/Inicio" style={{ textDecoration: 'none' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
-                        <IonTitle className="educa-plus-title">Foro numero {postId} </IonTitle>
-                        <IonButton href="/Notificaciones">
-                            <IonIcon slot="icon-only" icon={notificationsSharp}/>
-                            <IonBadge color="danger">{numNotif}</IonBadge>
-                        </IonButton>
-                        <IonButton href='/Foro'>
-                            <IonIcon slot="icon-only" icon={chevronBack} />
-                        </IonButton>
-                    </div>
-                    </a> 
-            </IonToolbar> 
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+                            <IonTitle className="educa-plus-title">Foro numero {postId} </IonTitle>
+                            <IonButton href="/Notificaciones">
+                                <IonIcon slot="icon-only" icon={notificationsSharp} />
+                                <IonBadge color="danger">{numNotif}</IonBadge>
+                            </IonButton>
+                            <IonButton href='/Foro'>
+                                <IonIcon slot="icon-only" icon={chevronBack} />
+                            </IonButton>
+                        </div>
+                    </a>
+                </IonToolbar>
             </IonHeader>
             <IonContent color="Light">
                 {datosForo.map((item: any) => (
@@ -166,41 +162,41 @@ function ForoPost() {
                         </IonCard>
                     </IonItem>
                 ))}
-                    <IonCard>
-                        <IonCardHeader>
-                            <IonCardTitle color="primary">Comentarios</IonCardTitle>
-                        </IonCardHeader>
-                        <IonCardContent>
-                            <IonList>
-                                {loading ? (
-                                    <IonLabel color="light">Cargando...</IonLabel>
-                                ) : (
-                                    datosComentario.map((item: any) => (
-                                        <IonItem key={item.id}>
-                                            <IonAvatar slot="start">
-                                                <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                                            </IonAvatar>
-                                            <IonLabel>
-                                                <h2>{item.nombre_usuario}</h2>
-                                                <p>{item.comentario}</p>
-                                            </IonLabel>
-                                        </IonItem>
-                                    ))
-                                )}
-                            </IonList>
-                        </IonCardContent>
-                    </IonCard>
-                    <IonCard>
-                        <IonCardHeader>
-                            <IonCardTitle>Nuevo Comentario</IonCardTitle>
-                        </IonCardHeader>
-                        <IonCardContent>
-                            <IonItem>
-                                <IonInput placeholder="Escribe tu comentario" onIonChange={e => setNuevoComentario(e.detail.value!)}></IonInput>
-                            </IonItem>
-                            <IonButton expand='block' onClick={handleNuevoComentario}>Publicar</IonButton>
-                        </IonCardContent>
-                    </IonCard>
+                <IonCard>
+                    <IonCardHeader>
+                        <IonCardTitle color="primary">Comentarios</IonCardTitle>
+                    </IonCardHeader>
+                    <IonCardContent>
+                        <IonList>
+                            {loading ? (
+                                <IonLabel color="light">Cargando...</IonLabel>
+                            ) : (
+                                datosComentario.map((item: any) => (
+                                    <IonItem key={item.id}>
+                                        <IonAvatar slot="start">
+                                            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                        </IonAvatar>
+                                        <IonLabel>
+                                            <h2>{item.nombre_usuario}</h2>
+                                            <p>{item.comentario}</p>
+                                        </IonLabel>
+                                    </IonItem>
+                                ))
+                            )}
+                        </IonList>
+                    </IonCardContent>
+                </IonCard>
+                <IonCard>
+                    <IonCardHeader>
+                        <IonCardTitle>Nuevo Comentario</IonCardTitle>
+                    </IonCardHeader>
+                    <IonCardContent>
+                        <IonItem>
+                            <IonInput placeholder="Escribe tu comentario" onIonChange={e => setNuevoComentario(e.detail.value!)}></IonInput>
+                        </IonItem>
+                        <IonButton expand='block' onClick={handleNuevoComentario}>Publicar</IonButton>
+                    </IonCardContent>
+                </IonCard>
 
             </IonContent >
         </IonPage >

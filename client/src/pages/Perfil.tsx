@@ -1,38 +1,35 @@
 import React, { useEffect, useState } from "react";
-import {IonContent,IonIcon,IonHeader,IonPage,IonTitle,IonToolbar,IonAvatar,IonItem,IonLabel,IonGrid,IonCard,IonBadge,IonButton,IonButtons,IonCardTitle,IonCardHeader,IonCardContent,IonList,
+import {
+	IonContent, IonIcon, IonHeader, IonPage, IonTitle, IonToolbar, IonAvatar, IonItem, IonLabel, IonCard, IonButton, IonButtons, IonCardTitle, IonCardHeader, IonCardContent, IonList,
 } from "@ionic/react";
 import { menu } from "ionicons/icons";
 import "./Perfil.css";
 import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
-import { get } from "http";
+import { getHorarios } from "../api/api";
 
 const Perfil: React.FC = () => {
 	const { currentUser, logout } = useAuth();
 	const history = useHistory();
-	const [horarios, setHorarios] = useState([]);
+	const [horarios, setHorarios] = useState([])
 
-const getHorarios = () => {
-  fetch("http://192.168.1.167:4000/api/horario/" + currentUser?.id)
-    .then((response) => response.json())
-    .then((data) => {
-      // Obtener el día actual
-      const today = new Date().toLocaleDateString("es-CL", { weekday: "long" });
-      console.log(today);
-      // Filtrar la data para obtener solo los horarios del día actual
-      const horariosDelDiaActual = data.filter((horario: any) => horario.dia === today);
-      // Guardar la data filtrada en el estado
-      setHorarios(horariosDelDiaActual);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+	const fetchHorarios = async () => {
+		try {
+			const response = await getHorarios(currentUser!.id!);
+			// Obtener el día actual
+			const today = new Date().toLocaleDateString("es-CL", { weekday: "long" });
+			// Filtrar la data para obtener solo los horarios del día actual
+			const horariosDelDiaActual = response.data.filter((horario: any) => horario.dia === today);
+			// Guardar la data filtrada en el estado
+			setHorarios(horariosDelDiaActual);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	useEffect(() => {
-		getHorarios();
-	}
-		, []);
+		fetchHorarios();
+	}, []);
 
 	const handleLogout = () => {
 		logout();
@@ -42,13 +39,13 @@ const getHorarios = () => {
 	return (
 		<IonPage>
 			<IonHeader>
-			<IonToolbar>
-            <a href="/Inicio" style={{ textDecoration: 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
-                <IonTitle className="educa-plus-title">Perfil</IonTitle>
-              </div>
-            </a>
+				<IonToolbar>
+					<a href="/Inicio" style={{ textDecoration: 'none' }}>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+							<img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+							<IonTitle className="educa-plus-title">Perfil</IonTitle>
+						</div>
+					</a>
 					<IonButtons slot="end">
 						<IonButton href="/Editar">
 							<IonIcon slot="icon-only" icon={menu} />
@@ -92,8 +89,8 @@ const getHorarios = () => {
 						<IonCardTitle>Horarios</IonCardTitle>
 					</IonCardHeader>
 					<IonCardContent>
-					<IonList>
-						{horarios.map((item: any) => (
+						<IonList>
+							{Array.isArray(horarios) ? (horarios.map((item: any) => (
 								<IonItem key={item.id}>
 									<IonLabel>
 										<h2>{item.dia}</h2>
@@ -101,11 +98,11 @@ const getHorarios = () => {
 										<p>{item.curso}</p>
 									</IonLabel>
 								</IonItem>
-						))}
-					</IonList>
-					<IonButton className="boton" expand="block" href={'/Horarios'}>
-                            Horarios completos
-                    </IonButton>
+							))) : <p>No hay horarios disponibles</p>}
+						</IonList>
+						<IonButton className="boton" expand="block" href={'/Horarios'}>
+							Horarios completos
+						</IonButton>
 					</IonCardContent>
 				</IonCard>
 			</IonContent>

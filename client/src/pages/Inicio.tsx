@@ -1,58 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonIcon, IonBadge } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonIcon, IonBadge } from '@ionic/react';
 import './Inicio.css';
-import {socket} from '../service/socket';
+import { socket } from '../service/socket';
 import { chevronBack, notificationsSharp } from 'ionicons/icons';
 import { useAuth } from '../context/AuthContext';
-import { getNotifRequest } from '../api/auth';
+import { getNotifRequest } from '../api/api';
 
 const Tab1: React.FC = () => {
   const [numNotif, setNumNotif] = useState(0);
   const { currentUser } = useAuth();
 
   useEffect(() => {
-          socket.on('new-comment', async(data: any) => {
-              window.location.reload();
-          }
-          );
-      }
-          , []);
+    socket.on('new-comment', async (data: any) => {
+      window.location.reload();
+    }
+    );
+  }
+    , []);
 
   useEffect(() => {
-          async function getNotifications() {
-              if (currentUser) {
-                  try {
-                      const response = await getNotifRequest({
-                          id: currentUser.id,
-                      });
-                      const data = response.data;
-                      setNumNotif(data.length); // Actualiza el estado con los datos recibidos
-                  } catch (error) {
-                      console.error(error);
-                  }
-              }
-          }
-          getNotifications();
-      }, [currentUser]);
+    async function getNotifications() {
+      if (currentUser) {
+        try {
+          const response = await getNotifRequest({
+            id: currentUser.id,
+          });
+          const data = response.data;
+          setNumNotif(data.length); // Actualiza el estado con los datos recibidos
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+    getNotifications();
+  }, [currentUser]);
 
   return (
     <IonPage>
       <IonHeader>
-      <IonToolbar>
-            <a href="/Inicio" style={{ textDecoration: 'none' }}>
+        <IonToolbar>
+          <a href="/Inicio" style={{ textDecoration: 'none' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
-                <IonTitle className="educa-plus-title">Inicio </IonTitle>
-                <IonButton href="/Notificaciones">
-                    <IonIcon slot="icon-only" icon={notificationsSharp}/>
-                    <IonBadge color="danger">{numNotif}</IonBadge>
-                </IonButton>
-                <IonButton href="javascript:history.back()">
-                    <IonIcon slot="icon-only" icon={chevronBack} />
-                </IonButton>
+              <img alt="Logo" src="https://i.imgur.com/bwPtm5M.png" style={{ maxWidth: '40px', height: 'auto', marginLeft: '10px', marginRight: '-3px' }} />
+              <IonTitle className="educa-plus-title">Inicio </IonTitle>
+              <IonButton href="/Notificaciones">
+                <IonIcon slot="icon-only" icon={notificationsSharp} />
+                <IonBadge color="danger">{numNotif}</IonBadge>
+              </IonButton>
+              <IonButton href="javascript:history.back()">
+                <IonIcon slot="icon-only" icon={chevronBack} />
+              </IonButton>
             </div>
-            </a> 
-      </IonToolbar>
+          </a>
+        </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonCard>

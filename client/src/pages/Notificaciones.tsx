@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./Notificaciones.css";
 import { useAuth } from "../context/AuthContext";
 import { Notificacion } from "../types";
-import { getNotifRequest } from "../api/auth";
+import { getNotifRequest } from "../api/api";
 import { IonContent, IonItem, IonPage } from "@ionic/react";
 
 const NotificacionesComponent: React.FC = () => {
