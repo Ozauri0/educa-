@@ -51,10 +51,10 @@ export const uploadFile = async (req, res) => {
 export async function getInscripciones(req, res) {
 	try {
 		const db = await connect();
-		console.log(req.params)
-		const id_docente = req.params.id;
+		console.log("AAAAAA",req.params)
+		const { id } = req.params
 		const [result] = await db.query('SELECT * FROM inscripciones WHERE id_docente = ?',
-		[id_docente]);
+		[id]);
 		res.json(result)
 	} catch (error) {
 		console.error(error);
@@ -299,7 +299,6 @@ export const verifyToken = async (req, res) => {
 			return res.status(401).json({ message: "Unauthorized" });
 		}
 		const db = await connect();
-		console.log("User id:", user.result[0].id);
 		const [userFound] = await db.query("SELECT * FROM docente WHERE id = ?", [
 			user.result[0].id,
 		]);
@@ -314,6 +313,7 @@ export const logout = async (req, res) => {
 	res.clearCookie("token");
 	res.status(200).json({ message: "Has cerrado sesion" });
 };
+
 export const getForum = async (req,res) => {
 	try {
 		const db = await connect();

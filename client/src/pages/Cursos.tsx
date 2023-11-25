@@ -27,7 +27,6 @@ import './Cursos.css';
 
 const Cursos: React.FC = () => {
   const [cursos, setCursos] = useState<Curso[]>([])
-  const [inscritoCursos, setInscritoCursos] = useState<number[]>([]);
   const { currentUser } = useAuth()
   const [numNotif, setNumNotif] = useState(0);
 
@@ -64,34 +63,9 @@ const Cursos: React.FC = () => {
     }
   }
 
-  const fetchInscripciones = async () => {
-    try {
-      const response = await getInscripciones(currentUser?.id);
-
-      if (response.status === 200) {
-        const data = await response.data
-
-        // Extraer las ID de los cursos en los que el usuario está inscrito
-        const inscripciones = data.map((inscripcion: Inscripcion) => inscripcion.id_curso);
-        setInscritoCursos(inscripciones);
-        // console.log('Inscripciones', inscripciones)
-      } else {
-        // Manejar errores si la respuesta no es exitosa
-        console.error('Error al obtener inscripciones:', response.statusText);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    fetchInscripciones();
     fetchCursos()
   }, [])
-
-
-  console.log('Inscrito curso', inscritoCursos)
-  console.log('Cursos', cursos)
 
   return (
     <IonPage>

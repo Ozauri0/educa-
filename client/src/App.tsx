@@ -1,6 +1,6 @@
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
-import { IonApp,IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from "@ionic/react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { calendar, person, home, journal } from "ionicons/icons";
 
@@ -25,6 +25,7 @@ import EliminarCurso from "./pages/EliminarCurso";
 import CursoData from "./pages/CursoData";
 import Horarios from "./pages/Horarios";
 import CursoInfo from "./pages/CursoInfo";
+import Error from "./pages/Error";
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute, ProtectedLogin } from "./ProtectedRoute";
@@ -57,7 +58,7 @@ const App = () => (
 			<IonReactRouter>
 				<IonTabs>
 					<IonRouterOutlet>
-						<Route exact path="/Cursos">
+						<Route path="/Cursos">
 							<ProtectedRoute>
 								<Cursos />
 							</ProtectedRoute>
@@ -88,35 +89,33 @@ const App = () => (
 							</ProtectedRoute>
 						</Route>
 						<Route exact path="/ForoNuevo">
-							
-								<ForoNuevo />
-							
+							<ForoNuevo />
 						</Route>
 						<Route exact path="/Calendario">
 							<ProtectedRoute>
 								<Calendario />
 							</ProtectedRoute>
 						</Route>
-            <Route exact path="/ChatbotButton">
+						<Route exact path="/ChatbotButton">
 							<ProtectedRoute>
 								<Chatbotbutton />
 							</ProtectedRoute>
 						</Route>
-            <Route exact path="/Admin">
+						<Route exact path="/Admin">
 							<ProtectedRoute>
 								<Admin />
 							</ProtectedRoute>
 						</Route>
 						<Route exact path="/Notif">
-								<ProtectedRoute>
-									<Notif />
-								</ProtectedRoute>
-							</Route>
-							<Route exact path="/Notificaciones">
-								<ProtectedRoute>
-									<Notificaciones />
-								</ProtectedRoute>
-							</Route>
+							<ProtectedRoute>
+								<Notif />
+							</ProtectedRoute>
+						</Route>
+						<Route exact path="/Notificaciones">
+							<ProtectedRoute>
+								<Notificaciones />
+							</ProtectedRoute>
+						</Route>
 						<Route exact path="/Eliminar">
 							<ProtectedRoute>
 								<Eliminar />
@@ -143,19 +142,18 @@ const App = () => (
 							</ProtectedRoute>
 						</Route>
 						<Route exact path="/Curso/:id" render={() =>
-                            <ProtectedRoute>
-                                <CursoData />
-                            </ProtectedRoute>} />
+							<ProtectedRoute>
+								<CursoData />
+							</ProtectedRoute>} />
 						<Route exact path="/Curso/View/:id" render={() =>
 							<ProtectedRoute>
 								<CursoInfo />
 							</ProtectedRoute>
 						} />
 						<Route exact path="/Header">
-							<ProtectedRoute>
-								<Header title={""} />
-							</ProtectedRoute>
+							<Header title={""} />
 						</Route>
+						<Route component={Error} />
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">
 						<IonTabButton tab="Inicio" href="/Inicio">
@@ -178,17 +176,17 @@ const App = () => (
 				</IonTabs>
 				{/* Aquí se movio Cuenta a fuera de IonTabs para que al estar en esta pagina no se pueda acceder al menú */}
 				<Route exact path="/Registro">
-						<Registro />
+					<Registro />
 				</Route>
 				<Route exact path="/">
 					<ProtectedLogin>
 						<Cuenta />
 					</ProtectedLogin>
 				</Route>
-				<Route exact path="/">
-					<ProtectedLogin>
-						<Cuenta />
-					</ProtectedLogin>
+				<Route>
+					<div>
+						<h1>ERROR XD</h1>
+					</div>
 				</Route>
 			</IonReactRouter>
 		</AuthProvider>

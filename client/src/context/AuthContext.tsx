@@ -78,7 +78,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 			try {
 				const res = await verifyTokenRequest();
-				console.log("Respuesta de verifyTokenRequest:", res);
 				if (!res.data) return setIsAuthenticated(false);
 				setIsAuthenticated(true);
 				setCurrentUser(res.data);

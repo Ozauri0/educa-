@@ -71,7 +71,7 @@ const Registro: React.FC = () => {
 								Si ya tienes una cuenta, puedes iniciar sesión en el siguiente
 								enlace:
 							</p>
-							<IonRouterLink routerLink="/cuenta">Iniciar Sesión</IonRouterLink>{" "}
+							<IonRouterLink routerLink="/">Iniciar Sesión</IonRouterLink>{" "}
 							<br></br>
 							<br></br>
 							<IonLabel>Nombre</IonLabel>

@@ -2,7 +2,7 @@ import axios from "axios";
 import { Curso, Inscripcion } from "../types";
 
 const instance = axios.create({
-	baseURL: "http://localhost:4000",
+	baseURL: "http://192.168.1.4:4000",
 	withCredentials: true,
 });
 
@@ -17,7 +17,7 @@ export const getCurso = async (id: string) => instance.get(`/api/curso/${id}`)
 
 export const getCursos = async () => instance.get(`/api/curso`);
 
-export const getInscripciones = async (id_docente: number | undefined) => instance.get(`/api/inscripcion/${id_docente}`);
+export const getInscripciones = async (id_docente: string | number) => instance.get(`/api/inscripcion/${id_docente}`);
 
 export const updateCurso = async (id: string, cursoData: any) => instance.put(`/api/curso/${id}`, cursoData);
 

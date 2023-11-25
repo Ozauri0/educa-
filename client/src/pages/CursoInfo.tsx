@@ -35,17 +35,16 @@ const CursoInfo: React.FC = () => {
 
 	const fetchInscripciones = async () => {
 		try {
-			const response = await getInscripciones(currentUser?.id);
+			if (currentUser && currentUser.id) {
+				const response = await getInscripciones(currentUser.id);
+				if (response.status === 200) {
+					const data = await response.data
 
-			if (response.status === 200) {
-				const data = await response.data
-
-				// Extraer las ID de los cursos en los que el usuario está inscrito
-				const inscripciones = data.map((inscripcion: Inscripcion) => inscripcion.id_curso)
-				setCursosInscritos(inscripciones);
-			} else {
-				// Manejar errores si la respuesta no es exitosa
-				console.error('Error al obtener inscripciones:', response.statusText);
+					const inscripciones = data.map((inscripcion: Inscripcion) => inscripcion.id_curso)
+					setCursosInscritos(inscripciones);
+				} else {
+					console.error('Error al obtener inscripciones:', response.statusText);
+				}
 			}
 		} catch (error) {
 			console.log(error);
@@ -59,12 +58,11 @@ const CursoInfo: React.FC = () => {
 			const response = await registerInscripcion(inscripcion);
 
 			if (response.status == 200) {
-				// Manejar el éxito de la operación
 				console.log('Inscripción exitosa');
 				fetchInscripciones();
 				fetchCurso();
+				console.log("CURSO DATA", cursoData?.id)
 			} else {
-				// Manejar errores
 				console.error('Error al realizar la inscripción');
 			}
 		} catch (error: any) {
@@ -76,8 +74,8 @@ const CursoInfo: React.FC = () => {
 	const filteredFiles = files.filter(file => file !== 'banner');
 
 	useEffect(() => {
-		fetchInscripciones();
 		fetchCurso()
+		fetchInscripciones();
 		fetchFiles();
 	}, [])
 

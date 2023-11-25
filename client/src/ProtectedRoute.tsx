@@ -1,8 +1,6 @@
-/* eslint-disable react/prop-types */
 import { useAuth } from "./context/AuthContext";
 import { Redirect } from "react-router-dom";
 import React, { ReactNode } from "react";
-import { useHistory } from "react-router-dom";
 
 interface ProtectedRouteProps {
 	children: ReactNode;
@@ -18,7 +16,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 		return <h2>Loading...</h2>;
 	}
 	if (!loading && !isAuthenticated) {
-		return <Redirect to={{ pathname: "/Cuenta", state: { replace: true } }} />;
+		return <Redirect to={{ pathname: "/", state: { replace: true } }} />;
 	}
 	return <>{children}</>;
 }
